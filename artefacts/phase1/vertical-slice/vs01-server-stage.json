@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "checks_executed": 30,
+  "failures": 0,
+  "checks": {
+    "template-version-draft-to-validated": true,
+    "template-version-validated-to-published": true,
+    "deployment-draft-to-active": true,
+    "assignment-planned-to-assigned": true,
+    "assignment-submitted-to-completed": true,
+    "published-template-version-identity": true,
+    "cross-tenant-assignment-lookup-denied": true,
+    "device-server-evidence-hash-parity": true,
+    "evidence-finalize-sha256": true,
+    "required-evidence-bound-before-accept": true,
+    "cross-tenant-evidence-denied": true,
+    "submission-accepted-after-evidence": true,
+    "lost-ack-retry-replays": true,
+    "duplicate-retry-no-second-submission": true,
+    "accepted-event-exactly-once": true,
+    "corrupted-evidence-quarantined": true,
+    "corrupted-evidence-cannot-accept": true,
+    "offline-cancel-reconciliation": true,
+    "offline-reassign-revision-reconciliation": true,
+    "duplicate-accepted-event-no-double-count": true,
+    "yield-projected": true,
+    "irrigation-false-preserved": true,
+    "accepted-submission-metric-reconciles": true,
+    "assignment-completion-metric-reconciles": true,
+    "evidence-completion-metric-reconciles": true,
+    "analytics-only-no-raw-drilldown": true,
+    "manager-drilldown-authorised": true,
+    "evidence-download-separate-permission": true,
+    "foreign-drilldown-denied": true,
+    "foreign-tenant-metric-zero": true
+  },
+  "submissionId": "sub-2700c3c7e4b7fc2ebcd0ae07",
+  "attemptId": "77777777-7777-4777-8777-777777777777",
+  "blueprintHash": "fcb4a124dec4003acdf49cbe2e31bb17001f1394f50f15672c3c2401d979fe2b",
+  "evidenceSha256": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460",
+  "processingEvents": [
+    {
+      "eventId": "evt-received-f2da1f9533d46ea37e5dc22b",
+      "eventType": "SubmissionReceived",
+      "organizationId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "aggregateId": "77777777-7777-4777-8777-777777777777",
+      "aggregateRevision": 1,
+      "occurredAt": "2026-10-22T08:05:02Z",
+      "payload": {
+        "assignmentId": "33333333-3333-4333-8333-333333333333"
+      }
+    },
+    {
+      "eventId": "evt-accepted-31bfe4a49c6ebac0604d5525",
+      "eventType": "SubmissionAccepted",
+      "organizationId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "aggregateId": "sub-2700c3c7e4b7fc2ebcd0ae07",
+      "aggregateRevision": 1,
+      "occurredAt": "2026-10-22T08:05:02Z",
+      "payload": {
+        "assignmentId": "33333333-3333-4333-8333-333333333333",
+        "attemptId": "77777777-7777-4777-8777-777777777777"
+      }
+    },
+    {
+      "eventId": "evt-assignment-f6222a1106eefe4f6b25302a",
+      "eventType": "AssignmentCompleted",
+      "organizationId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "aggregateId": "33333333-3333-4333-8333-333333333333",
+      "aggregateRevision": 4,
+      "occurredAt": "2026-10-22T08:05:02Z",
+      "payload": {
+        "submissionId": "sub-2700c3c7e4b7fc2ebcd0ae07"
+      }
+    }
+  ],
+  "projectionFactCount": 7,
+  "metrics": {
+    "accepted_submissions": 1,
+    "assignment_completion_rate": 100,
+    "evidence_completion_rate": 100
+  },
+  "security": {
+    "analytics_only_raw_drilldown": false,
+    "evidence_requires_separate_permission": true,
+    "cross_tenant_assignment_denied": true,
+    "cross_tenant_evidence_denied": true,
+    "cross_tenant_metric_records": 0
+  },
+  "failureInjection": {
+    "lost_ack_replay": true,
+    "corrupted_evidence_blocked": true,
+    "offline_cancel_reconciled": true,
+    "stale_revision_reconciled": true,
+    "duplicate_projection_idempotent": true
+  }
+}

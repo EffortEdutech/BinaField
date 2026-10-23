@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "checks_executed": 6,
+  "failures": 0,
+  "network_state": "OFFLINE_AT_SUBMIT",
+  "bundle": "/mnt/data/bf_p1_b6/binafield_phase1_impl_batch06_repo/.build/b6-vs01/vs01-field-bundle.json",
+  "local_db": "/mnt/data/bf_p1_b6/binafield_phase1_impl_batch06_repo/.build/b6-vs01/field-local.sqlite",
+  "checks": [
+    {
+      "name": "offline-autosave-survives-restart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "offline-submit-survives-restart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "submitted-session-locked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "evidence-durable-before-sync",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "submission-blocked-by-evidence-dependency",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "submitted-attempt-immutable",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

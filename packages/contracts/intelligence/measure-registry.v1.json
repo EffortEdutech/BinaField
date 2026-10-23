@@ -1,0 +1,107 @@
+{
+  "registry_version": "1.0.0",
+  "measures": [
+    {
+      "measure_key": "assignment.issued",
+      "version": 1,
+      "source_grain": "ASSIGNMENT_FACT",
+      "value_type": "BOOLEAN",
+      "unit": null,
+      "allowed_aggregations": [
+        "COUNT",
+        "RATE"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SAME_GRAIN"
+    },
+    {
+      "measure_key": "assignment.completed",
+      "version": 1,
+      "source_grain": "ASSIGNMENT_FACT",
+      "value_type": "BOOLEAN",
+      "unit": null,
+      "allowed_aggregations": [
+        "COUNT",
+        "RATE"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SAME_GRAIN"
+    },
+    {
+      "measure_key": "assignment.completion_duration_seconds",
+      "version": 1,
+      "source_grain": "ASSIGNMENT_FACT",
+      "value_type": "NUMERIC",
+      "unit": "s",
+      "allowed_aggregations": [
+        "AVG",
+        "PERCENTILE"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SAME_GRAIN"
+    },
+    {
+      "measure_key": "submission.accepted",
+      "version": 1,
+      "source_grain": "SUBMISSION",
+      "value_type": "BOOLEAN",
+      "unit": null,
+      "allowed_aggregations": [
+        "COUNT",
+        "RATE"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SAME_GRAIN"
+    },
+    {
+      "measure_key": "evidence.complete",
+      "version": 1,
+      "source_grain": "EVIDENCE_FACT",
+      "value_type": "BOOLEAN",
+      "unit": null,
+      "allowed_aggregations": [
+        "RATE",
+        "COUNT"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SAME_GRAIN"
+    },
+    {
+      "measure_key": "sync.delay_seconds",
+      "version": 1,
+      "source_grain": "SYNC_FACT",
+      "value_type": "NUMERIC",
+      "unit": "s",
+      "allowed_aggregations": [
+        "AVG",
+        "PERCENTILE",
+        "MAX"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SAME_GRAIN"
+    },
+    {
+      "measure_key": "semantic.numeric",
+      "version": 1,
+      "source_grain": "FIELD_VALUE",
+      "value_type": "NUMERIC",
+      "unit": "SEMANTIC",
+      "allowed_aggregations": [
+        "SUM",
+        "AVG",
+        "MIN",
+        "MAX",
+        "PERCENTILE"
+      ],
+      "null_treatment": "EXCLUDE",
+      "classification": "INTERNAL",
+      "compatibility_rule": "SEMANTIC_REGISTRY"
+    }
+  ]
+}

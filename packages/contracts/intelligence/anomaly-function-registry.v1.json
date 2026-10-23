@@ -1,0 +1,78 @@
+{
+  "registry_version": "1.0.0",
+  "functions": [
+    {
+      "function_id": "THRESHOLD",
+      "minimum_sample": 1,
+      "parameters": [
+        "operator",
+        "threshold"
+      ],
+      "explanation": "Compare current value to a configured threshold."
+    },
+    {
+      "function_id": "PERCENT_CHANGE",
+      "minimum_sample": 2,
+      "parameters": [
+        "baseline"
+      ],
+      "explanation": "Calculate percentage change from a non-zero baseline."
+    },
+    {
+      "function_id": "ROLLING_MEAN_DEVIATION",
+      "minimum_sample": 3,
+      "parameters": [
+        "history"
+      ],
+      "explanation": "Difference from rolling mean, normalised by mean magnitude."
+    },
+    {
+      "function_id": "ROLLING_MEDIAN_DEVIATION",
+      "minimum_sample": 3,
+      "parameters": [
+        "history"
+      ],
+      "explanation": "Difference from rolling median, normalised by median magnitude."
+    },
+    {
+      "function_id": "Z_SCORE",
+      "minimum_sample": 5,
+      "parameters": [
+        "history"
+      ],
+      "explanation": "Standard z-score where variance and sample assumptions are adequate."
+    },
+    {
+      "function_id": "ROBUST_Z_SCORE",
+      "minimum_sample": 5,
+      "parameters": [
+        "history"
+      ],
+      "explanation": "Median/MAD robust z-score."
+    },
+    {
+      "function_id": "MISSINGNESS_SPIKE",
+      "minimum_sample": 2,
+      "parameters": [
+        "baseline_rate"
+      ],
+      "explanation": "Current missingness minus baseline missingness."
+    },
+    {
+      "function_id": "CATEGORY_RATE_SHIFT",
+      "minimum_sample": 2,
+      "parameters": [
+        "baseline_rate"
+      ],
+      "explanation": "Absolute category-rate shift."
+    },
+    {
+      "function_id": "LOCATION_CONCENTRATION",
+      "minimum_sample": 3,
+      "parameters": [
+        "bucket_counts"
+      ],
+      "explanation": "Share of records in the largest authorised location bucket."
+    }
+  ]
+}

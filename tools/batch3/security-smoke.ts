@@ -1,0 +1,20 @@
+import {authorize,fieldVisibility,PrincipalContext} from '../../packages/security/src/index';
+const ORG_A='00000000-0000-7000-8000-100000000001',ORG_B='00000000-0000-7000-8000-100000000002',PA='00000000-0000-7000-8000-200000000001',PB='00000000-0000-7000-8000-200000000002';
+const ctx:PrincipalContext={principalType:'HUMAN',organizationId:ORG_A,membershipState:'ACTIVE',deviceId:'d',deviceState:'ACTIVE',permissions:new Set(['project.read','assignment.execute']),scopes:[{scopeMode:'PROJECT_RESTRICTED',projectIds:[PA]}],recentAuth:true,authenticationStrength:'MFA',securityPolicyVersion:'1',correlationId:'c'};
+function eq(a:unknown,b:unknown,m:string){if(a!==b)throw new Error(`${m}: ${String(a)} != ${String(b)}`)}
+eq(authorize(ctx,{organizationId:ORG_A,permission:'project.read',projectId:PA}).decision,'ALLOW','allowed project');
+eq(authorize(ctx,{organizationId:ORG_B,permission:'project.read',projectId:PA}).reasonCode,'TENANT_MISMATCH','tenant');
+eq(authorize(ctx,{organizationId:ORG_A,permission:'project.read',projectId:PB}).reasonCode,'SCOPE_DENIED','scope');
+eq(authorize({...ctx,deviceState:'REVOKED'},{organizationId:ORG_A,permission:'assignment.execute',projectId:PA,deviceRequired:true}).reasonCode,'DEVICE_REVOKED','device');
+eq(authorize(ctx,{organizationId:ORG_A,permission:'submission.read',projectId:PA}).reasonCode,'PERMISSION_DENIED','permission');
+eq(fieldVisibility('PERSONAL_DATA',new Set()),'MASKED','personal masking');
+eq(fieldVisibility('SENSITIVE_OPERATIONAL',new Set()),'OMITTED','sensitive omission');
+eq(authorize({...ctx,membershipState:'INACTIVE'},{organizationId:ORG_A,permission:'project.read',projectId:PA}).reasonCode,'MEMBERSHIP_INACTIVE','membership inactive');
+eq(authorize({...ctx,membershipState:'REVOKED'},{organizationId:ORG_A,permission:'project.read',projectId:PA}).reasonCode,'MEMBERSHIP_REVOKED','membership revoked');
+eq(authorize({...ctx,deviceState:'SUSPENDED'},{organizationId:ORG_A,permission:'assignment.execute',projectId:PA,deviceRequired:true}).reasonCode,'DEVICE_SUSPENDED','device suspended');
+eq(authorize(ctx,{organizationId:ORG_A,permission:'project.read',projectId:PA,resourceEligible:false}).reasonCode,'RESOURCE_NOT_FOUND','foreign/relationship concealment');
+eq(authorize(ctx,{organizationId:ORG_A,permission:'project.read',projectId:PA,entityStateAllowed:false}).reasonCode,'ENTITY_STATE_DENIED','entity state');
+eq(authorize({...ctx,recentAuth:false},{organizationId:ORG_A,permission:'project.read',projectId:PA,stepUpRequired:true}).reasonCode,'STEP_UP_REQUIRED','step-up');
+eq(authorize(ctx,{organizationId:ORG_A,permission:'project.read',projectId:PA,classificationPermission:'data.personal.read'}).reasonCode,'CLASSIFICATION_RESTRICTED','classification');
+const orgWide={...ctx,scopes:[{scopeMode:'ORG_WIDE' as const,projectIds:[]}]};eq(authorize(orgWide,{organizationId:ORG_A,permission:'project.read',projectId:PB}).decision,'ALLOW','org wide scope');
+console.log('SECURITY_SMOKE_PASS');

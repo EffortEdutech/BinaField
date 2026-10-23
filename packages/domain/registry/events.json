@@ -1,0 +1,33 @@
+{
+  "registry_version": "1.0.0",
+  "events": [
+    "TemplateVersionPublished",
+    "TemplateVersionActivated",
+    "DeploymentActivated",
+    "DeploymentPaused",
+    "DeploymentClosed",
+    "AssignmentIssued",
+    "AssignmentReassigned",
+    "AssignmentCancelled",
+    "AssignmentCompleted",
+    "SubmissionReceived",
+    "SubmissionAccepted",
+    "SubmissionRejected",
+    "EvidenceUploaded",
+    "EvidenceVerified",
+    "EvidenceBound",
+    "EvidenceQuarantined",
+    "EvidencePurged",
+    "WorkflowRunQueued",
+    "WorkflowRunStarted",
+    "WorkflowRunSucceeded",
+    "WorkflowRunFailed",
+    "AnalyticalProjectionBuilt",
+    "AnalyticalProjectionFailed",
+    "InsightGenerated",
+    "MembershipRevoked",
+    "DeviceRevoked",
+    "ReferenceDatasetUpdated",
+    "SecurityPolicyUpdated"
+  ]
+}

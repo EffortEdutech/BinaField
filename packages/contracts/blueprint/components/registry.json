@@ -1,0 +1,145 @@
+{
+  "registry_version": "1.0.0",
+  "components": [
+    {
+      "type": "text",
+      "config_schema": "components/config/text.schema.json",
+      "value_schema": "components/value/text.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "paragraph",
+      "config_schema": "components/config/paragraph.schema.json",
+      "value_schema": "components/value/paragraph.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "number",
+      "config_schema": "components/config/number.schema.json",
+      "value_schema": "components/value/number.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "integer",
+      "config_schema": "components/config/integer.schema.json",
+      "value_schema": "components/value/integer.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "currency",
+      "config_schema": "components/config/currency.schema.json",
+      "value_schema": "components/value/currency.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "numeric_stepper",
+      "config_schema": "components/config/numeric_stepper.schema.json",
+      "value_schema": "components/value/numeric_stepper.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "single_select",
+      "config_schema": "components/config/single_select.schema.json",
+      "value_schema": "components/value/single_select.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "multi_select",
+      "config_schema": "components/config/multi_select.schema.json",
+      "value_schema": "components/value/multi_select.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "toggle",
+      "config_schema": "components/config/toggle.schema.json",
+      "value_schema": "components/value/toggle.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "date",
+      "config_schema": "components/config/date.schema.json",
+      "value_schema": "components/value/date.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "time",
+      "config_schema": "components/config/time.schema.json",
+      "value_schema": "components/value/time.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "datetime",
+      "config_schema": "components/config/datetime.schema.json",
+      "value_schema": "components/value/datetime.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "gps",
+      "config_schema": "components/config/gps.schema.json",
+      "value_schema": "components/value/gps.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "camera",
+      "config_schema": "components/config/camera.schema.json",
+      "value_schema": "components/value/camera.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "file_attachment",
+      "config_schema": "components/config/file_attachment.schema.json",
+      "value_schema": "components/value/file_attachment.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "signature",
+      "config_schema": "components/config/signature.schema.json",
+      "value_schema": "components/value/signature.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "barcode_qr",
+      "config_schema": "components/config/barcode_qr.schema.json",
+      "value_schema": "components/value/barcode_qr.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "instruction",
+      "config_schema": "components/config/instruction.schema.json",
+      "value_schema": "components/value/instruction.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "repeat_group",
+      "config_schema": "components/config/repeat_group.schema.json",
+      "value_schema": "components/value/repeat_group.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    },
+    {
+      "type": "computed_field",
+      "config_schema": "components/config/computed_field.schema.json",
+      "value_schema": "components/value/computed_field.schema.json",
+      "offline_supported": true,
+      "runtime_primitive": true
+    }
+  ]
+}

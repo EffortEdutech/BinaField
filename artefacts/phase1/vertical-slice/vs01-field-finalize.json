@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "checks_executed": 4,
+  "failures": 0,
+  "checks": [
+    {
+      "name": "accepted-outcome-durable-after-restart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "outbox-terminal-after-restart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "evidence-ready-after-restart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "assignment-completion-visible",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "fieldId": "yield",
+    "semanticKey": "farm.crop_yield_kg",
+    "valueType": "NUMERIC",
+    "unit": "kg",
+    "classification": "INTERNAL",
+    "mode": "SCALAR"
+  },
+  {
+    "fieldId": "irrigation",
+    "semanticKey": "farm.irrigation_ok",
+    "valueType": "BOOLEAN",
+    "classification": "INTERNAL",
+    "mode": "SCALAR"
+  },
+  {
+    "fieldId": "location",
+    "semanticKey": "farm.location",
+    "valueType": "GEO",
+    "classification": "SENSITIVE_OPERATIONAL",
+    "mode": "GEO"
+  },
+  {
+    "fieldId": "photos",
+    "semanticKey": "farm.photo_keys",
+    "valueType": "ENUM",
+    "classification": "INTERNAL",
+    "mode": "MULTI_SELECT"
+  },
+  {
+    "fieldId": "rows",
+    "semanticKey": "farm.repeat_row",
+    "valueType": "TEXT",
+    "classification": "INTERNAL",
+    "mode": "REPEAT_ITEM"
+  },
+  {
+    "fieldId": "notes",
+    "semanticKey": "farm.observation_note",
+    "valueType": "TEXT",
+    "classification": "INTERNAL",
+    "mode": "SCALAR"
+  },
+  {
+    "fieldId": "absent_field",
+    "semanticKey": "farm.optional_absent",
+    "valueType": "TEXT",
+    "classification": "INTERNAL",
+    "mode": "SCALAR"
+  }
+]

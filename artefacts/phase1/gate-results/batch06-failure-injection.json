@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks_executed": 8,
+  "failures": 0,
+  "checks": {
+    "event-first-processes": true,
+    "event-duplicate-detected": true,
+    "event-out-of-order-detected": true,
+    "stale-revision-rejected": true,
+    "missing-permission-denied": true,
+    "foreign-tenant-denied": true,
+    "stale-projection-fails-closed": true,
+    "stale-warning-explicit": true
+  }
+}

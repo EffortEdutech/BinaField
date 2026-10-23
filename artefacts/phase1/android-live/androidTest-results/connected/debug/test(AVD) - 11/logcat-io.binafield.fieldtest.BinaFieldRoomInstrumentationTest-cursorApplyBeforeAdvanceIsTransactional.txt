@@ -1,0 +1,2 @@
+10-22 01:39:55.389  6656  6676 I TestRunner: started: cursorApplyBeforeAdvanceIsTransactional(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)
+10-22 01:39:55.539  6656  6676 I TestRunner: finished: cursorApplyBeforeAdvanceIsTransactional(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)

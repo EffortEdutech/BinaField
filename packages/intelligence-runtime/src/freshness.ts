@@ -1,0 +1,8 @@
+import {FreshnessRecord} from './models';
+export class FreshnessTracker {private records=new Map<string,FreshnessRecord>();constructor(private staleThresholdSeconds=60){}
+ get(org:string,version:string){return this.records.get(`${org}|${version}`)??{organizationId:org,projectionVersion:version,state:'PENDING' as const,lagSeconds:0,latestEligibleSourceTimestamp:null,latestProjectedSourceTimestamp:null,projectedAt:null,failureStatus:null}}
+ markBuilding(org:string,version:string,rebuild=false){const r={...this.get(org,version),state:(rebuild?'REBUILDING':'BUILDING') as 'BUILDING'|'REBUILDING'};this.records.set(`${org}|${version}`,r);return r}
+ markCurrent(org:string,version:string,latestEligible:string|null,latestProjected:string|null,projectedAt:string){const lag=latestEligible&&latestProjected?Math.max(0,(Date.parse(latestEligible)-Date.parse(latestProjected))/1000):0;const state=lag>this.staleThresholdSeconds?'STALE':'CURRENT';const r:FreshnessRecord={organizationId:org,projectionVersion:version,state,latestEligibleSourceTimestamp:latestEligible,latestProjectedSourceTimestamp:latestProjected,projectedAt,lagSeconds:lag,failureStatus:null};this.records.set(`${org}|${version}`,r);return r}
+ markFailed(org:string,version:string,error:string){const r={...this.get(org,version),state:'FAILED' as const,failureStatus:error};this.records.set(`${org}|${version}`,r);return r}
+ require(org:string,version:string,allowStale:boolean){const r=this.get(org,version);if(['PENDING','BUILDING','REBUILDING'].includes(r.state))throw new Error('PROJECTION_NOT_READY');if(r.state==='FAILED')throw new Error('PROJECTION_FAILED');if(r.state==='STALE'&&!allowStale)throw new Error('PROJECTION_STALE');return r}
+}

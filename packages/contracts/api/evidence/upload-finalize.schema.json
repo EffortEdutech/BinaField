@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/evidence/upload-finalize/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "upload_id",
+    "attachment_id"
+  ],
+  "properties": {
+    "upload_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "attachment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "parts": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+name: Phase 1 Batch 1 — Repository and Database Gate
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  batch1:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_DB: binafield
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d binafield"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/binafield
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Static contract verification
+        run: node tools/verify-batch1.mjs
+
+      - name: Migrate from zero
+        run: bash scripts/db/migrate.sh
+
+      - name: Database/RLS/immutability verification
+        run: bash scripts/db/verify.sh
+
+      - name: Generate file manifest
+        run: node tools/generate-manifest.mjs
+
+      - name: Upload Batch 1 proof manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: binafield-phase1-batch01-proof
+          path: artefacts/phase1/manifests/

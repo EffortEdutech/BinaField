@@ -1,0 +1,7 @@
+{
+  "expected_cursor_after_restart": "c0",
+  "failure_point": "after_apply_before_cursor",
+  "next_cursor": "c1",
+  "prior_cursor": "c0",
+  "replay_safe": true
+}

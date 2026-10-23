@@ -1,0 +1,63 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/upload-part.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actual_size": {
+      "minimum": 1,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "checksum": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expected_size": {
+      "minimum": 1,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "part_number": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "provider_etag": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "enum": [
+        "PENDING",
+        "UPLOADING",
+        "UPLOADED",
+        "FAILED"
+      ]
+    },
+    "upload_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "uploaded_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "upload_id",
+    "part_number",
+    "state"
+  ],
+  "title": "EvidenceUploadPart",
+  "type": "object"
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "bf-blueprint/1.0",
+  "schema_version": "1.0",
+  "compatibility": {
+    "min_runtime_version": "1.0.0",
+    "component_registry_version": "1.0.0"
+  },
+  "template": {
+    "template_id": "tpl-demo",
+    "version_id": "tv-demo-v1",
+    "name": "Repeat Unbounded"
+  },
+  "settings": {
+    "locale": "en-MY",
+    "on_hide": "clear"
+  },
+  "workflow_steps": [
+    {
+      "step_id": "s1",
+      "title": "X",
+      "sections": [
+        {
+          "section_id": "sec1",
+          "title": "X",
+          "components": [
+            {
+              "field_id": "rg",
+              "component": "repeat_group",
+              "label": "Rows",
+              "required": false,
+              "config": {
+                "max_items": 101,
+                "children": [
+                  {
+                    "field_id": "v",
+                    "component": "text",
+                    "label": "V",
+                    "config": {}
+                  }
+                ]
+              },
+              "analytics": {
+                "enabled": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "validations": [],
+  "rules": [],
+  "calculations": [],
+  "submission_policy": {
+    "allow_offline_submit": true,
+    "require_all_required_evidence": true
+  },
+  "sync_policy": {
+    "offline_capable": true,
+    "reference_dataset_ids": []
+  },
+  "processing_routes": [],
+  "analytics": {
+    "enabled": true
+  }
+}

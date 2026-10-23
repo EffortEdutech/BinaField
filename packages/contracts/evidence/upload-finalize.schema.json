@@ -1,0 +1,48 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/upload-finalize.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "client_observed_byte_count": {
+      "minimum": 0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "client_observed_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "correlation_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parts": {
+      "items": {
+        "$ref": "upload-part.schema.json"
+      },
+      "type": "array"
+    },
+    "upload_id": {
+      "format": "uuid",
+      "type": "string"
+    }
+  },
+  "required": [
+    "upload_id",
+    "attachment_id"
+  ],
+  "title": "EvidenceUploadFinalize",
+  "type": "object"
+}

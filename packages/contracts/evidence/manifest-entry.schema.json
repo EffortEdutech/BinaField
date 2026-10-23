@@ -1,0 +1,134 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/manifest-entry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "evidence_role": {
+            "const": "ORIGINAL"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parent_attachment_id": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence_role": {
+            "const": "DERIVATIVE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parent_attachment_id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "parent_attachment_id"
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "byte_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "captured_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "claimed_mime_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "classification": {
+      "enum": [
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "PERSONAL_DATA",
+        "SENSITIVE_OPERATIONAL"
+      ]
+    },
+    "evidence_role": {
+      "enum": [
+        "ORIGINAL",
+        "DERIVATIVE"
+      ]
+    },
+    "evidence_type": {
+      "enum": [
+        "PHOTO",
+        "SIGNATURE",
+        "FILE_ATTACHMENT"
+      ]
+    },
+    "field_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "hash_algorithm": {
+      "const": "SHA-256"
+    },
+    "parent_attachment_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "source_kind": {
+      "enum": [
+        "CAMERA_CAPTURE",
+        "FILE_IMPORT",
+        "SIGNATURE_RENDER",
+        "SYSTEM_DERIVATIVE"
+      ]
+    },
+    "timezone": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "attachment_id",
+    "field_id",
+    "evidence_type",
+    "required",
+    "evidence_role",
+    "hash_algorithm",
+    "sha256",
+    "byte_size",
+    "source_kind",
+    "captured_at",
+    "classification"
+  ],
+  "title": "EvidenceManifestEntry",
+  "type": "object"
+}

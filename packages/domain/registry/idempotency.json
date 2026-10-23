@@ -1,0 +1,33 @@
+{
+  "registry_version": "1.0.0",
+  "commands": [
+    {
+      "command": "PublishTemplateVersion",
+      "class": "IDEMPOTENT_BY_TARGET_REVISION"
+    },
+    {
+      "command": "IssueAssignment",
+      "class": "IDEMPOTENT_BY_KEY"
+    },
+    {
+      "command": "CancelAssignment",
+      "class": "IDEMPOTENT_BY_TARGET_REVISION"
+    },
+    {
+      "command": "ReceiveSubmissionAttempt",
+      "class": "IDEMPOTENT_BY_KEY"
+    },
+    {
+      "command": "FinaliseEvidenceUpload",
+      "class": "IDEMPOTENT_BY_ATTACHMENT"
+    },
+    {
+      "command": "RetryWorkflowRun",
+      "class": "IDEMPOTENT_BY_KEY"
+    },
+    {
+      "command": "BuildAnalyticalProjection",
+      "class": "IDEMPOTENT_BY_SOURCE_REVISION"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+import {MetricEngine,ProjectionStore,QueryPlan,MetricResult} from '../../../../../packages/intelligence-runtime/src';import {PrincipalContext} from '../../../../../packages/security/src/authorization';
+export class IntelligenceQueryService{constructor(private metrics:MetricEngine,private projections:ProjectionStore){}query(plan:QueryPlan,ctx:PrincipalContext,projectionVersion='p1.0'):MetricResult{return this.metrics.query(plan,ctx,this.projections.all(),projectionVersion)}}

@@ -1,0 +1,4 @@
+import {randomUUID} from 'crypto'; import {sha256} from './hash'; import {Attachment} from './models';
+export interface DerivativeTransformer { transform(original:Uint8Array, label:string):Promise<Uint8Array> }
+export class ConformanceMarkerTransformer implements DerivativeTransformer { async transform(original:Uint8Array,label:string){return Buffer.concat([Buffer.from(original),Buffer.from(`\nBF-DERIVATIVE:${label}`)])} }
+export function derivativeAttachment(parent:Attachment,bytes:Uint8Array,type:'THUMBNAIL'|'PREVIEW'|'WATERMARKED_PREVIEW'):Attachment{return {attachmentId:randomUUID(),organizationId:parent.organizationId,evidenceRole:'DERIVATIVE',parentAttachmentId:parent.attachmentId,evidenceType:parent.evidenceType,expectedSha256:sha256(bytes),byteSize:bytes.length,claimedMimeType:parent.claimedMimeType,state:'LOCAL_CAPTURED',integrityState:'PENDING',bindingState:'UNBOUND',classification:parent.classification}}

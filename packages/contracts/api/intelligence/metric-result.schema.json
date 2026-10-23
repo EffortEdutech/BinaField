@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/intelligence/metric-result/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metric_id",
+    "metric_version",
+    "freshness_state",
+    "value"
+  ],
+  "properties": {
+    "metric_id": {
+      "type": "string"
+    },
+    "metric_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "freshness_state": {
+      "enum": [
+        "PENDING",
+        "BUILDING",
+        "CURRENT",
+        "STALE",
+        "FAILED",
+        "REBUILDING"
+      ]
+    },
+    "value": {},
+    "source_record_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "drilldown_token": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

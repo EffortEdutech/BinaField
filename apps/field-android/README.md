@@ -1,0 +1,2 @@
+# BinaField Field Android Runtime — Phase 1 Batch 4
+This directory now contains framework-neutral Kotlin offline/sync/evidence core models and a real SQLite-compatible local schema. The code intentionally compiles on plain Kotlin/JVM so contract tests can run without Android SDK dependencies. Production Android integration will adapt these contracts to Room/SQLCipher-or-equivalent protected app-private storage and WorkManager/job scheduling without changing the frozen state semantics.

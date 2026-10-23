@@ -1,0 +1,47 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/assignment-tombstone.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assignment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "authoritative_revision": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "effective_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "reason_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tombstone_type": {
+      "enum": [
+        "CANCELLED",
+        "REASSIGNED",
+        "ACCESS_REMOVED",
+        "COMPLETED_ELSEWHERE",
+        "DELETED_REFERENCE"
+      ]
+    }
+  },
+  "required": [
+    "assignment_id",
+    "organization_id",
+    "authoritative_revision",
+    "tombstone_type",
+    "effective_at"
+  ],
+  "title": "AssignmentTombstone",
+  "type": "object"
+}

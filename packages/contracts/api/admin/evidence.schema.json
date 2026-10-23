@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/admin/evidence/1.0",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "organization_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organization_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lifecycle_state": {
+      "type": "string"
+    },
+    "attachment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "kind": {
+      "enum": [
+        "ORIGINAL",
+        "DERIVATIVE"
+      ]
+    },
+    "evidence_state": {
+      "type": "string"
+    }
+  }
+}

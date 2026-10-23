@@ -1,0 +1,69 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/reference-dataset.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "content_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dataset_key": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dataset_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "effective_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "project_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rows": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value_snapshot": {}
+        },
+        "required": [
+          "key",
+          "value_snapshot"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "schema_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "dataset_key",
+    "dataset_version",
+    "organization_id",
+    "schema_version",
+    "rows"
+  ],
+  "title": "ReferenceDatasetPackage",
+  "type": "object"
+}

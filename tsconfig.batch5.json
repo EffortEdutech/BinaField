@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": ".build/ts-b5",
+    "rootDir": "."
+  },
+  "include": [
+    "packages/intelligence-runtime/src/**/*.ts",
+    "packages/security/src/**/*.ts",
+    "apps/api/modules/intelligence/**/*.ts",
+    "apps/worker/intelligence/**/*.ts",
+    "tools/batch5/*.ts",
+    "types/**/*.d.ts"
+  ]
+}

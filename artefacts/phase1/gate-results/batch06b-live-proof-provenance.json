@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "workflow_run_id": 39706399238,
+  "workflow_run_url": "https://github.com/EffortEdutech/test1/actions/runs/39706399238",
+  "scratch_repository": "EffortEdutech/test1",
+  "scratch_branch": "binafield-phase1-b6b-ci-20261022",
+  "head_sha": "3256a8de6db2ea921302157cb11d8329fde4647f",
+  "purpose": "Isolated CI-only live infrastructure proof; not the BinaField product repository; never merged to main.",
+  "postgres_artifact": {
+    "artifact_id": 12394903129,
+    "digest": "sha256:d080c287986653070e6826f84d12ce2d042e270f76c5c1d8a4450c68c0f59153"
+  },
+  "android_artifact": {
+    "artifact_id": 12395720709,
+    "digest": "sha256:84f8960e3c8f7207c149417f8d4adfbfc879475db91ffbff437b5a0eb5aeb751"
+  },
+  "formal_closure_artifact": {
+    "artifact_id": 12394689343,
+    "digest": "sha256:fc4e2a1dbe7b1f2001aaedda80c59ee4c2e12f4a0a4326c5ec6e2c392c9c3f5f"
+  }
+}

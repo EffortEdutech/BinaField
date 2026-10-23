@@ -1,0 +1,439 @@
+{
+  "batch": "BF-P1-Implementation-B01",
+  "generated_at": "2026-10-21T14:51:35.299Z",
+  "status": "PASS_STATIC_ONLY",
+  "checks": [
+    {
+      "name": "migration-file-set",
+      "pass": true,
+      "detail": "0001_platform_extensions_and_schemas.sql,0002_iam_and_security_registry.sql,0003_core_projects_teams.sql,0004_blueprint_templates.sql,0005_ops_deployments_assignments.sql,0006_field_submission_model.sql,0007_evidence_storage_model.sql,0008_sync_transport_model.sql,0009_processing_audit_outbox.sql,0010_intelligence_projection_model.sql,0011_runtime_roles_and_grants.sql,0012_rls_tenant_isolation.sql,0013_seed_permission_and_role_registry.sql"
+    },
+    {
+      "name": "0001_platform_extensions_and_schemas.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0001_platform_extensions_and_schemas.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0001_platform_extensions_and_schemas.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0002_iam_and_security_registry.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0002_iam_and_security_registry.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0002_iam_and_security_registry.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0003_core_projects_teams.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0003_core_projects_teams.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0003_core_projects_teams.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0004_blueprint_templates.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0004_blueprint_templates.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0004_blueprint_templates.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0005_ops_deployments_assignments.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0005_ops_deployments_assignments.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0005_ops_deployments_assignments.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0006_field_submission_model.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0006_field_submission_model.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0006_field_submission_model.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0007_evidence_storage_model.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0007_evidence_storage_model.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0007_evidence_storage_model.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0008_sync_transport_model.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0008_sync_transport_model.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0008_sync_transport_model.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0009_processing_audit_outbox.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0009_processing_audit_outbox.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0009_processing_audit_outbox.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0010_intelligence_projection_model.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0010_intelligence_projection_model.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0010_intelligence_projection_model.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0011_runtime_roles_and_grants.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0011_runtime_roles_and_grants.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0011_runtime_roles_and_grants.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0012_rls_tenant_isolation.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0012_rls_tenant_isolation.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0012_rls_tenant_isolation.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0013_seed_permission_and_role_registry.sql:transaction-start",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0013_seed_permission_and_role_registry.sql:transaction-end",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "0013_seed_permission_and_role_registry.sql:no-embedded-secret",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "postgres-16-postgis-baseline",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "template-version-immutability-trigger",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "submission-attempt-immutability-trigger",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "tenant-context-function",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "force-rls-present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "runtime-role-app-nobypassrls",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "runtime-role-worker-nobypassrls",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "runtime-role-readonly-nobypassrls",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no-runtime-bypassrls-grant",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "submission-jsonb-not-evidence-bytes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "analytical-typed-store",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "global-system-metrics-policy",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:iam.memberships",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:iam.membership_roles",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:iam.membership_project_scopes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:iam.registered_devices",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:core.projects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:core.teams",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:core.team_members",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:blueprint.templates",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:blueprint.template_versions",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:blueprint.template_fields",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:ops.deployments",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:ops.assignments",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:field.submission_attempts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:field.submissions",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:evidence.attachments",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:evidence.upload_sessions",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:evidence.bindings",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:evidence.holds",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:sync.change_log",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:sync.device_cursors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:sync.sync_events",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:processing.workflow_runs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:processing.idempotency_records",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:processing.outbox_events",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:processing.consumer_receipts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:audit.audit_events",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:intel.semantic_compatibility",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:intel.projection_runs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:intel.projection_facts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls-registry:intel.insights",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ci-runs-static-verifier",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ci-runs-db-migrations",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ci-runs-db-verification",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ci-postgis-service",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "failures": [],
+  "note": "Static verification does not replace PostgreSQL execution, RLS runtime tests, migration-from-zero proof, or CI evidence."
+}

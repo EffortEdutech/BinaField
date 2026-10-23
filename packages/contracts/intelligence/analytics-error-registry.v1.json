@@ -1,0 +1,77 @@
+{
+  "registry_version": "1.0.0",
+  "errors": [
+    {
+      "code": "ANALYTICS_PERMISSION_DENIED",
+      "safe_message": "Analytics Permission Denied"
+    },
+    {
+      "code": "METRIC_NOT_FOUND",
+      "safe_message": "Metric Not Found"
+    },
+    {
+      "code": "METRIC_VERSION_UNSUPPORTED",
+      "safe_message": "Metric Version Unsupported"
+    },
+    {
+      "code": "DIMENSION_NOT_ALLOWED",
+      "safe_message": "Dimension Not Allowed"
+    },
+    {
+      "code": "FILTER_NOT_ALLOWED",
+      "safe_message": "Filter Not Allowed"
+    },
+    {
+      "code": "TIME_BASIS_NOT_ALLOWED",
+      "safe_message": "Time Basis Not Allowed"
+    },
+    {
+      "code": "SEMANTIC_KEY_UNKNOWN",
+      "safe_message": "Semantic Key Unknown"
+    },
+    {
+      "code": "SEMANTIC_INCOMPATIBLE",
+      "safe_message": "Semantic Incompatible"
+    },
+    {
+      "code": "SEMANTIC_CONVERSION_MISSING",
+      "safe_message": "Semantic Conversion Missing"
+    },
+    {
+      "code": "PROJECTION_NOT_READY",
+      "safe_message": "Projection Not Ready"
+    },
+    {
+      "code": "PROJECTION_FAILED",
+      "safe_message": "Projection Failed"
+    },
+    {
+      "code": "PROJECTION_STALE",
+      "safe_message": "Projection Stale"
+    },
+    {
+      "code": "INSUFFICIENT_DATA",
+      "safe_message": "Insufficient Data"
+    },
+    {
+      "code": "NOT_COMPARABLE",
+      "safe_message": "Not Comparable"
+    },
+    {
+      "code": "SMALL_GROUP_SUPPRESSED",
+      "safe_message": "Small Group Suppressed"
+    },
+    {
+      "code": "DRILLDOWN_DENIED",
+      "safe_message": "Drilldown Denied"
+    },
+    {
+      "code": "GEO_ACCESS_DENIED",
+      "safe_message": "Geo Access Denied"
+    },
+    {
+      "code": "QUERY_LIMIT_EXCEEDED",
+      "safe_message": "Query Limit Exceeded"
+    }
+  ]
+}

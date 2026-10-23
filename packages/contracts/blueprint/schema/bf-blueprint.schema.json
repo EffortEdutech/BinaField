@@ -1,0 +1,516 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/bf-blueprint.schema.json",
+  "title": "BinaField Blueprint 1.0",
+  "type": "object",
+  "required": [
+    "schema",
+    "schema_version",
+    "compatibility",
+    "template",
+    "settings",
+    "workflow_steps",
+    "validations",
+    "rules",
+    "calculations",
+    "submission_policy",
+    "sync_policy",
+    "processing_routes",
+    "analytics"
+  ],
+  "properties": {
+    "schema": {
+      "const": "bf-blueprint/1.0"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "compatibility": {
+      "type": "object",
+      "required": [
+        "min_runtime_version",
+        "component_registry_version"
+      ],
+      "properties": {
+        "min_runtime_version": {
+          "type": "string"
+        },
+        "component_registry_version": {
+          "const": "1.0.0"
+        }
+      },
+      "additionalProperties": false
+    },
+    "template": {
+      "type": "object",
+      "required": [
+        "template_id",
+        "version_id",
+        "name"
+      ],
+      "properties": {
+        "template_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "locale": {
+          "type": "string"
+        },
+        "on_hide": {
+          "enum": [
+            "clear",
+            "retain"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflow_steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "validations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "calculations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/calculation"
+      }
+    },
+    "submission_policy": {
+      "type": "object",
+      "required": [
+        "allow_offline_submit"
+      ],
+      "properties": {
+        "allow_offline_submit": {
+          "type": "boolean"
+        },
+        "require_all_required_evidence": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sync_policy": {
+      "type": "object",
+      "required": [
+        "offline_capable"
+      ],
+      "properties": {
+        "offline_capable": {
+          "type": "boolean"
+        },
+        "reference_dataset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "processing_routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "route_id",
+          "connector_id",
+          "action"
+        ],
+        "properties": {
+          "route_id": {
+            "type": "string"
+          },
+          "connector_id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "step": {
+      "type": "object",
+      "required": [
+        "step_id",
+        "title",
+        "sections"
+      ],
+      "properties": {
+        "step_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/section"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "section": {
+      "type": "object",
+      "required": [
+        "section_id",
+        "title",
+        "components"
+      ],
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/component"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "required": [
+        "field_id",
+        "component",
+        "label",
+        "config",
+        "analytics"
+      ],
+      "properties": {
+        "field_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "component": {
+          "enum": [
+            "text",
+            "paragraph",
+            "number",
+            "integer",
+            "currency",
+            "numeric_stepper",
+            "single_select",
+            "multi_select",
+            "toggle",
+            "date",
+            "time",
+            "datetime",
+            "gps",
+            "camera",
+            "file_attachment",
+            "signature",
+            "barcode_qr",
+            "instruction",
+            "repeat_group",
+            "computed_field"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "config": {
+          "type": "object"
+        },
+        "analytics": {
+          "$ref": "#/$defs/analyticsField"
+        }
+      },
+      "additionalProperties": false
+    },
+    "analyticsField": {
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "semantic_key": {
+          "type": "string"
+        },
+        "classification": {
+          "enum": [
+            "PUBLIC_OPERATIONAL",
+            "INTERNAL",
+            "CONFIDENTIAL",
+            "PERSONAL_DATA",
+            "SENSITIVE_OPERATIONAL"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "field_id",
+            "value"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "EQ",
+                "NEQ",
+                "GT",
+                "GTE",
+                "LT",
+                "LTE",
+                "CONTAINS"
+              ]
+            },
+            "field_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "field_id"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "IS_SET",
+                "IS_EMPTY"
+              ]
+            },
+            "field_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "conditions"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "AND",
+                "OR"
+              ]
+            },
+            "conditions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "condition"
+          ],
+          "properties": {
+            "op": {
+              "const": "NOT"
+            },
+            "condition": {
+              "$ref": "#/$defs/condition"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "rule_id",
+        "when",
+        "action",
+        "target_field_id"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "when": {
+          "$ref": "#/$defs/condition"
+        },
+        "action": {
+          "enum": [
+            "SHOW",
+            "HIDE",
+            "ENABLE",
+            "DISABLE",
+            "REQUIRE",
+            "OPTIONAL",
+            "WARN",
+            "BLOCK_COMPLETE"
+          ]
+        },
+        "target_field_id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "calculation": {
+      "type": "object",
+      "required": [
+        "calculation_id",
+        "target_field_id",
+        "expression"
+      ],
+      "properties": {
+        "calculation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_field_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        }
+      },
+      "additionalProperties": false
+    },
+    "expression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "literal"
+          ],
+          "properties": {
+            "literal": {
+              "type": [
+                "number",
+                "integer"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "field"
+          ],
+          "properties": {
+            "field": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "op",
+            "args"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "ADD",
+                "SUBTRACT",
+                "MULTIPLY",
+                "DIVIDE",
+                "MIN",
+                "MAX"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/expression"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

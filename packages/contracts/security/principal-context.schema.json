@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/security/principal-context/1.0",
+  "title": "PrincipalContext",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "principal_type",
+    "organization_id",
+    "authentication_strength",
+    "effective_permissions",
+    "scope_bindings",
+    "security_policy_version",
+    "correlation_id"
+  ],
+  "properties": {
+    "principal_type": {
+      "enum": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ]
+    },
+    "user_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "membership_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "organization_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "device_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "service_principal_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "authentication_session_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "authentication_strength": {
+      "enum": [
+        "PASSWORD",
+        "MFA",
+        "STRONG_MFA",
+        "SERVICE_CREDENTIAL",
+        "SYSTEM"
+      ]
+    },
+    "recent_auth": {
+      "type": "boolean"
+    },
+    "effective_permissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "scope_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scope_mode",
+          "project_ids"
+        ],
+        "properties": {
+          "scope_mode": {
+            "enum": [
+              "ORG_WIDE",
+              "PROJECT_RESTRICTED"
+            ]
+          },
+          "project_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    },
+    "security_policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

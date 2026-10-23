@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "strict": true,
+    "outDir": ".build/ts",
+    "skipLibCheck": true
+  },
+  "include": [
+    "packages/domain/generated/typescript/**/*.ts",
+    "packages/contracts/blueprint/generated/typescript/**/*.ts"
+  ]
+}

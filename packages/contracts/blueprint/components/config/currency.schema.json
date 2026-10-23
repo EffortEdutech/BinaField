@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CurrencyConfig",
+  "type": "object",
+  "properties": {
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "minimum": {
+      "type": "number"
+    },
+    "maximum": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "currency"
+  ],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/currency.config.schema.json"
+}

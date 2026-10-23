@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/security/policy/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "security_policy_version",
+    "max_offline_lease_hours",
+    "evidence_download_ttl_seconds"
+  ],
+  "properties": {
+    "security_policy_version": {
+      "type": "string"
+    },
+    "max_offline_lease_hours": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 168
+    },
+    "evidence_download_ttl_seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 900
+    },
+    "require_registered_device_for_field": {
+      "type": "boolean"
+    },
+    "step_up_permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

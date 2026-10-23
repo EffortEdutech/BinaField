@@ -1,0 +1,53 @@
+{
+  "registry_version": "1.0.0",
+  "exceptions": [
+    {
+      "exception_key": "assignment.overdue.threshold",
+      "version": 1,
+      "source_metric": "assignments.overdue_count",
+      "condition": "GTE",
+      "threshold": 1,
+      "window": "CURRENT",
+      "minimum_sample": 1,
+      "severity": "WARNING",
+      "message_template": "{value} assignments are overdue.",
+      "active": true
+    },
+    {
+      "exception_key": "evidence.incomplete",
+      "version": 1,
+      "source_metric": "evidence.completion_rate",
+      "condition": "LT",
+      "threshold": 100,
+      "window": "CURRENT",
+      "minimum_sample": 1,
+      "severity": "WARNING",
+      "message_template": "Evidence completion is {value}%.",
+      "active": true
+    },
+    {
+      "exception_key": "submission.rejection.high",
+      "version": 1,
+      "source_metric": "submissions.rejection_rate",
+      "condition": "GT",
+      "threshold": 10,
+      "window": "ROLLING_7D",
+      "minimum_sample": 10,
+      "severity": "HIGH",
+      "message_template": "Submission rejection rate is {value}%.",
+      "active": true
+    },
+    {
+      "exception_key": "sync.delay.high",
+      "version": 1,
+      "source_metric": "sync.p95_delay",
+      "condition": "GT",
+      "threshold": 300,
+      "window": "ROLLING_24H",
+      "minimum_sample": 5,
+      "severity": "WARNING",
+      "message_template": "P95 sync delay is {value} seconds.",
+      "active": true
+    }
+  ]
+}

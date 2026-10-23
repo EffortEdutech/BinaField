@@ -1,0 +1,18 @@
+{
+  "api_contract_version": "1.0.0",
+  "contract_signature_sha256": "9c30bafff38c0eb45b07df84ace1b39e80b54ad980d5b1a9dacef15776179594",
+  "openapi_sha256": "eb473081797010dcffaea1427b1a1ead24cdfcbbae6e7f7de02209278618b045",
+  "commands_sha256": "54153f83574cc67dfd6739cdae08a6bda9c0d8d592e9bfc581a4f4c1c267932f",
+  "queries_sha256": "47b49947218c083e65d2785d9402b259ae11b3e44f5ca5cbc87fa0f5106c95cc",
+  "events_sha256": "05c234e9c5064e5db453716402138eddb27d60530c42a69db166a3e5e66e1e20",
+  "security_permissions_sha256": "a8bf58b9ec87715fefe1c148b85e28026f18e4c0435bba78f262fa3acb23632d",
+  "security_roles_sha256": "12287b0da1f3d3e736f3be8984cf64f73f27d215ca8a2db07c78844c8ae8bcf4",
+  "domain_signature": "2c9476cffd22d9a76d1a0d8b5ed78a10b41230f1abc5944aad526142290781dc",
+  "blueprint_signature": "6e72c21cc2d85182102e2bfafb1072ef1ef216eaa2c9ed55b21341917c9bbe84",
+  "generated_clients": {
+    "typescript_admin": "0.3.0",
+    "typescript_server": "0.3.0",
+    "kotlin_field": "0.3.0"
+  },
+  "build": "BF-P1-IMPL-B03"
+}

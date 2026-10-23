@@ -1,0 +1,37 @@
+{
+  "registry_version": "1.0.0",
+  "compatibility": [
+    {
+      "semantic_key": "farm.crop_yield_kg",
+      "source_template_version_id": "tv-farm-v1",
+      "target_template_version_id": "tv-farm-v2",
+      "state": "COMPATIBLE",
+      "conversion_key": null,
+      "notes": "Label/help/order-only revision"
+    },
+    {
+      "semantic_key": "farm.crop_yield_kg",
+      "source_template_version_id": "tv-farm-tonnes",
+      "target_template_version_id": "tv-farm-v2",
+      "state": "CONVERTIBLE",
+      "conversion_key": "TONNE_TO_KG_V1",
+      "notes": "Approved tonnes to kilograms conversion"
+    },
+    {
+      "semantic_key": "inspection.safety_result",
+      "source_template_version_id": "tv-safety-v1",
+      "target_template_version_id": "tv-safety-v2",
+      "state": "COMPATIBLE",
+      "conversion_key": null,
+      "notes": "Stable option values retained"
+    },
+    {
+      "semantic_key": "inspection.safety_result",
+      "source_template_version_id": "tv-safety-v3-redefined",
+      "target_template_version_id": "tv-safety-v2",
+      "state": "INCOMPATIBLE",
+      "conversion_key": null,
+      "notes": "Meaning changed from pass/fail to severity scale"
+    }
+  ]
+}

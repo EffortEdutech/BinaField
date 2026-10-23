@@ -1,0 +1,12 @@
+{
+  "01_unknown_component.json": "BLUEPRINT_SCHEMA_INVALID",
+  "02_duplicate_field_id.json": "BLUEPRINT_DUPLICATE_FIELD_ID",
+  "03_missing_root.json": "BLUEPRINT_SCHEMA_INVALID",
+  "04_unresolved_rule_reference.json": "BLUEPRINT_UNRESOLVED_REFERENCE",
+  "05_unresolved_rule_target.json": "BLUEPRINT_UNRESOLVED_REFERENCE",
+  "06_calculation_cycle.json": "BLUEPRINT_CALCULATION_CYCLE",
+  "07_prohibited_rule_action.json": "BLUEPRINT_SCHEMA_INVALID",
+  "08_invalid_component_config.json": "BLUEPRINT_COMPONENT_CONFIG_INVALID",
+  "09_repeat_group_unbounded.json": "BLUEPRINT_COMPONENT_CONFIG_INVALID",
+  "10_unsupported_live_lookup.json": "BLUEPRINT_COMPONENT_CONFIG_INVALID"
+}

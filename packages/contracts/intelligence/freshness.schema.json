@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/intelligence/freshness/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "organization_id",
+    "projection_version",
+    "state",
+    "lag_seconds"
+  ],
+  "properties": {
+    "organization_id": {
+      "type": "string"
+    },
+    "projection_version": {
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "PENDING",
+        "BUILDING",
+        "CURRENT",
+        "STALE",
+        "FAILED",
+        "REBUILDING"
+      ]
+    },
+    "latest_eligible_source_timestamp": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "latest_projected_source_timestamp": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "projected_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "lag_seconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "failure_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

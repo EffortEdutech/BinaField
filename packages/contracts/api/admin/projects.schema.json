@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/admin/projects/1.0",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "organization_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organization_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lifecycle_state": {
+      "type": "string"
+    },
+    "project_code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

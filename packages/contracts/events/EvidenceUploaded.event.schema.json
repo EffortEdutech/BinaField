@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/event/EvidenceUploaded/1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "entity_id"
+  ],
+  "properties": {
+    "entity_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "project_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reason_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

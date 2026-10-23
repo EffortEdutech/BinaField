@@ -1,0 +1,10 @@
+{
+  "permissions": [
+    "project.read",
+    "analytics.read",
+    "analytics.exception.read",
+    "report.read"
+  ],
+  "classification": "PERSONAL_DATA",
+  "expected": "MASKED"
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BarcodeQrConfig",
+  "type": "object",
+  "properties": {
+    "formats": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "QR_CODE",
+          "CODE_128",
+          "EAN_13",
+          "EAN_8",
+          "UPC_A",
+          "DATA_MATRIX"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "manual_fallback": {
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/barcode_qr.config.schema.json"
+}

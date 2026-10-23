@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="6" failures="0" errors="0" skipped="0" time="0.000" timestamp="2026-10-22T01:39:58" hostname="localhost">
+  <testsuite name="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" tests="6" failures="0" errors="0" skipped="0" time="0.324" timestamp="2026-10-22T01:39:58" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554" />
+    </properties>
+    <testcase name="cursorApplyBeforeAdvanceIsTransactional" classname="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" time="0.024" />
+    <testcase name="evidenceDependencyAndReconciliationPersistAcrossReopen" classname="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" time="0.061" />
+    <testcase name="submittedAttemptIsImmutableOnAndroidSQLite" classname="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" time="0.059" />
+    <testcase name="autosaveAndOriginalEvidenceSurviveRoomReopen" classname="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" time="0.066" />
+    <testcase name="freshRoomDatabaseExecutesCanonicalSchema" classname="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" time="0.058" />
+    <testcase name="uploadedOriginalEvidenceIdentityCannotMutate" classname="io.binafield.fieldtest.BinaFieldRoomInstrumentationTest" time="0.056" />
+  </testsuite>
+</testsuites>

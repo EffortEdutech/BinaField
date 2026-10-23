@@ -1,0 +1,2 @@
+import {ProjectionEngine,ProjectionStore,AcceptedSubmissionSource,FieldSemanticMapping} from '../../../packages/intelligence-runtime/src';
+export class ProjectionWorker{constructor(private store:ProjectionStore){}onSubmissionAccepted(source:AcceptedSubmissionSource,mappings:FieldSemanticMapping[],version='p1.0'){return new ProjectionEngine(this.store).projectAcceptedSubmission(source,mappings,version)}}

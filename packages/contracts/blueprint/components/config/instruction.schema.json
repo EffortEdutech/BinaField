@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InstructionConfig",
+  "type": "object",
+  "properties": {
+    "markdown": {
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/instruction.config.schema.json"
+}

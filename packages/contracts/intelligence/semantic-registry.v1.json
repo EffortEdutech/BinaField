@@ -1,0 +1,223 @@
+{
+  "registry_version": "1.0.0",
+  "entries": [
+    {
+      "semantic_key": "farm.crop_yield_kg",
+      "canonical_name": "Crop yield",
+      "description": "Observed crop yield in kilograms",
+      "value_type": "NUMERIC",
+      "canonical_unit": "kg",
+      "default_analytical_role": "MEASURE",
+      "allowed_aggregations": [
+        "SUM",
+        "AVG",
+        "MIN",
+        "MAX",
+        "PERCENTILE"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "template_version_id",
+        "field_officer_id",
+        "date_period",
+        "zone_ref"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "agriculture"
+    },
+    {
+      "semantic_key": "farm.irrigation_ok",
+      "canonical_name": "Irrigation OK",
+      "description": "Boolean irrigation condition",
+      "value_type": "BOOLEAN",
+      "canonical_unit": null,
+      "default_analytical_role": "MEASURE",
+      "allowed_aggregations": [
+        "RATE",
+        "COUNT"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "template_version_id",
+        "date_period",
+        "zone_ref"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "agriculture"
+    },
+    {
+      "semantic_key": "inspection.safety_result",
+      "canonical_name": "Safety result",
+      "description": "Stable inspection safety result option",
+      "value_type": "ENUM",
+      "canonical_unit": null,
+      "default_analytical_role": "DIMENSION",
+      "allowed_aggregations": [
+        "COUNT",
+        "COUNT_DISTINCT",
+        "RATE"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "team_id",
+        "field_officer_id",
+        "date_period"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "inspection"
+    },
+    {
+      "semantic_key": "asset.pump_pressure_bar",
+      "canonical_name": "Pump pressure",
+      "description": "Observed pump pressure in bar",
+      "value_type": "NUMERIC",
+      "canonical_unit": "bar",
+      "default_analytical_role": "MEASURE",
+      "allowed_aggregations": [
+        "AVG",
+        "MIN",
+        "MAX",
+        "PERCENTILE"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "date_period",
+        "zone_ref"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "utilities"
+    },
+    {
+      "semantic_key": "field.evidence_complete",
+      "canonical_name": "Evidence complete",
+      "description": "Required evidence is verified and bound",
+      "value_type": "BOOLEAN",
+      "canonical_unit": null,
+      "default_analytical_role": "MEASURE",
+      "allowed_aggregations": [
+        "RATE",
+        "COUNT"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "template_version_id",
+        "date_period"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "operations"
+    },
+    {
+      "semantic_key": "operations.assignment_completion",
+      "canonical_name": "Assignment completion",
+      "description": "Authoritative assignment completion fact",
+      "value_type": "BOOLEAN",
+      "canonical_unit": null,
+      "default_analytical_role": "MEASURE",
+      "allowed_aggregations": [
+        "RATE",
+        "COUNT"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "team_id",
+        "field_officer_id",
+        "date_period"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "operations"
+    },
+    {
+      "semantic_key": "operations.sync_delay_seconds",
+      "canonical_name": "Sync delay",
+      "description": "Submission transport delay in seconds under the registered time basis",
+      "value_type": "NUMERIC",
+      "canonical_unit": "s",
+      "default_analytical_role": "MEASURE",
+      "allowed_aggregations": [
+        "AVG",
+        "PERCENTILE",
+        "MAX"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "field_officer_id",
+        "date_period"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "operations"
+    },
+    {
+      "semantic_key": "grant.site_category",
+      "canonical_name": "Site category",
+      "description": "Governed beneficiary/site category key",
+      "value_type": "ENUM",
+      "canonical_unit": null,
+      "default_analytical_role": "DIMENSION",
+      "allowed_aggregations": [
+        "COUNT",
+        "COUNT_DISTINCT"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "date_period",
+        "zone_ref"
+      ],
+      "classification_default": "PERSONAL_DATA",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "monitoring"
+    },
+    {
+      "semantic_key": "farm.observation_note",
+      "canonical_name": "Observation note",
+      "description": "Optional observation note",
+      "value_type": "TEXT",
+      "canonical_unit": null,
+      "default_analytical_role": "ATTRIBUTE",
+      "allowed_aggregations": [
+        "COUNT"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "date_period"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "agriculture"
+    },
+    {
+      "semantic_key": "farm.optional_absent",
+      "canonical_name": "Optional absent field",
+      "description": "Fixture semantic used to prove absent is not projected as null",
+      "value_type": "TEXT",
+      "canonical_unit": null,
+      "default_analytical_role": "ATTRIBUTE",
+      "allowed_aggregations": [
+        "COUNT"
+      ],
+      "compatible_dimensions": [
+        "project_id",
+        "date_period"
+      ],
+      "classification_default": "INTERNAL",
+      "introduced_version": "1.0.0",
+      "deprecated_version": null,
+      "domain": "agriculture"
+    }
+  ]
+}

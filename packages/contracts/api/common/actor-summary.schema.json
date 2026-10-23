@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/common/actor-summary/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "principal_type"
+  ],
+  "properties": {
+    "principal_type": {
+      "enum": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ]
+    },
+    "membership_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "service_principal_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "device_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

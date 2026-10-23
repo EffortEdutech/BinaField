@@ -1,0 +1,405 @@
+{
+  "registry_version": "1.0.0",
+  "operations": [
+    {
+      "operation_id": "listProjects",
+      "permission_key": "project.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "createProject",
+      "permission_key": "project.create",
+      "scope_model": "ORG_WIDE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getProject",
+      "permission_key": "project.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "updateProject",
+      "permission_key": "project.update",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "RECOMMENDED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "archiveProject",
+      "permission_key": "project.archive",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listTemplates",
+      "permission_key": "template.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "createTemplate",
+      "permission_key": "template.create",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getTemplate",
+      "permission_key": "template.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "createTemplateVersion",
+      "permission_key": "template.create",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getTemplateVersion",
+      "permission_key": "template.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "updateDraftBlueprint",
+      "permission_key": "template.edit_draft",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "RECOMMENDED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "validateTemplateVersion",
+      "permission_key": "template.validate",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "RECOMMENDED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "publishTemplateVersion",
+      "permission_key": "template.publish",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listDeployments",
+      "permission_key": "deployment.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "createDeployment",
+      "permission_key": "deployment.create",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "activateDeployment",
+      "permission_key": "deployment.activate",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "pauseDeployment",
+      "permission_key": "deployment.pause",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "closeDeployment",
+      "permission_key": "deployment.close",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listAssignments",
+      "permission_key": "assignment.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "createAssignment",
+      "permission_key": "assignment.create",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getAssignment",
+      "permission_key": "assignment.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "issueAssignment",
+      "permission_key": "assignment.issue",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "reassignAssignment",
+      "permission_key": "assignment.reassign",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "cancelAssignment",
+      "permission_key": "assignment.cancel",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": true,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listSubmissions",
+      "permission_key": "submission.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getSubmission",
+      "permission_key": "submission.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listSubmissionEvidence",
+      "permission_key": "evidence.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "fieldBootstrap",
+      "permission_key": "assignment.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "fieldDelta",
+      "permission_key": "assignment.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "acknowledgeFieldDelta",
+      "permission_key": "assignment.execute",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "receiveSubmissionAttempt",
+      "permission_key": "submission.create",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getSubmissionAttemptOutcome",
+      "permission_key": "submission.acceptance.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "initiateEvidenceUpload",
+      "permission_key": "evidence.capture",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "finalizeEvidenceUpload",
+      "permission_key": "evidence.capture",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": true,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "getEvidenceStatus",
+      "permission_key": "evidence.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "requestEvidenceDownload",
+      "permission_key": "evidence.download",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "REQUIRED",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listMetrics",
+      "permission_key": "analytics.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "queryMetric",
+      "permission_key": "analytics.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "drilldownMetric",
+      "permission_key": "analytics.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    },
+    {
+      "operation_id": "listInsights",
+      "permission_key": "analytics.read",
+      "scope_model": "PROJECT_AWARE",
+      "device_required": false,
+      "revision_required": false,
+      "idempotency_class": "NONE",
+      "cross_tenant_concealment": true,
+      "classification_policy": "APPLY_WHERE_RELEVANT"
+    }
+  ]
+}

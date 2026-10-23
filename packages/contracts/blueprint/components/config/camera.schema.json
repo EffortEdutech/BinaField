@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CameraConfig",
+  "type": "object",
+  "properties": {
+    "min_items": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "max_items": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "camera_only": {
+      "type": "boolean"
+    },
+    "watermark_derivative": {
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/camera.config.schema.json"
+}

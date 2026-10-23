@@ -1,0 +1,11 @@
+{
+  "states": [
+    "PENDING",
+    "BUILDING",
+    "CURRENT",
+    "STALE",
+    "FAILED",
+    "REBUILDING"
+  ],
+  "stale_threshold_seconds": 60
+}

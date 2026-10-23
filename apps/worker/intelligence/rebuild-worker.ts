@@ -1,0 +1,2 @@
+import {RebuildManager,ProjectionStore,FreshnessTracker,AcceptedSubmissionSource,FieldSemanticMapping} from '../../../packages/intelligence-runtime/src';
+export class ProjectionRebuildWorker{private manager:RebuildManager;constructor(store:ProjectionStore,freshness:FreshnessTracker){this.manager=new RebuildManager(store,freshness)}run(org:string,version:string,sources:AcceptedSubmissionSource[],mappings:Record<string,FieldSemanticMapping[]>){return this.manager.rebuild(org,version,sources,mappings)}}

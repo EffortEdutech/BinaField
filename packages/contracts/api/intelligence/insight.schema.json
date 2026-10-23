@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/intelligence/insight/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "insight_id",
+    "metric_id",
+    "explanation",
+    "trace"
+  ],
+  "properties": {
+    "insight_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "metric_id": {
+      "type": "string"
+    },
+    "explanation": {
+      "type": "string"
+    },
+    "trace": {
+      "type": "object"
+    }
+  }
+}

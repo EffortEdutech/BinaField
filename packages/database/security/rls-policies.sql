@@ -1,0 +1,1 @@
+-- Canonical RLS policies are applied by migration 0012. This file is a packaged reference; CI compares rls-registry.v1.json to pg_catalog after migration.

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/field/delta/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entries",
+    "next_cursor"
+  ],
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "delta_id",
+          "entity_type",
+          "entity_id",
+          "organization_id",
+          "change_type",
+          "occurred_at"
+        ],
+        "properties": {
+          "delta_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entity_type": {
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entity_revision": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "change_type": {
+            "enum": [
+              "UPSERT",
+              "TOMBSTONE",
+              "OUTCOME",
+              "POLICY"
+            ]
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "payload": {},
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "next_cursor": {
+      "type": "string"
+    }
+  }
+}

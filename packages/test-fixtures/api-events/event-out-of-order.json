@@ -1,0 +1,6 @@
+{
+  "aggregate_id": "00000000-0000-7000-8000-800000000001",
+  "seen_revision": 8,
+  "incoming_revision": 7,
+  "expected": "STALE_OR_OUT_OF_ORDER"
+}

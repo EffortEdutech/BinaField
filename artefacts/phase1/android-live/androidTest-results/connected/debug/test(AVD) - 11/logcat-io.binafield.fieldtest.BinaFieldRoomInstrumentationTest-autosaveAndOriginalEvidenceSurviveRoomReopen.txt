@@ -1,0 +1,2 @@
+10-22 01:39:56.586  6764  6784 I TestRunner: started: autosaveAndOriginalEvidenceSurviveRoomReopen(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)
+10-22 01:39:56.652  6764  6784 I TestRunner: finished: autosaveAndOriginalEvidenceSurviveRoomReopen(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)

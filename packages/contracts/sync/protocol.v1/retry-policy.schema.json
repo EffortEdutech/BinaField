@@ -1,0 +1,37 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/retry-policy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "initial_delay_ms": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "jitter_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "type": "number"
+    },
+    "max_attempts": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "max_delay_ms": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "multiplier": {
+      "minimum": 1,
+      "type": "number"
+    }
+  },
+  "required": [
+    "initial_delay_ms",
+    "multiplier",
+    "max_delay_ms",
+    "jitter_fraction",
+    "max_attempts"
+  ],
+  "title": "RetryPolicy",
+  "type": "object"
+}

@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/intelligence/metric-definition/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metric_key",
+    "metric_version",
+    "source_grain",
+    "operation",
+    "permitted_dimensions",
+    "time_basis",
+    "security_classification",
+    "lifecycle_state"
+  ],
+  "properties": {
+    "metric_key": {
+      "type": "string"
+    },
+    "metric_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "source_grain": {
+      "enum": [
+        "SUBMISSION",
+        "FIELD_VALUE",
+        "REPEAT_ITEM",
+        "MULTI_SELECT_VALUE",
+        "EVIDENCE_FACT",
+        "ASSIGNMENT_FACT",
+        "SYNC_FACT",
+        "WORKFLOW_FACT",
+        "GEO_POINT"
+      ]
+    },
+    "operation": {
+      "enum": [
+        "COUNT",
+        "COUNT_DISTINCT",
+        "SUM",
+        "AVG",
+        "MIN",
+        "MAX",
+        "PERCENTILE",
+        "RATIO",
+        "RATE",
+        "DURATION_AVG",
+        "DURATION_P95"
+      ]
+    },
+    "measure_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "value_field": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "numerator_filters": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "denominator_filters": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "distinct_field": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "permitted_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "time_basis": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "zero_denominator_policy": {
+      "enum": [
+        "NULL",
+        "ZERO",
+        "ERROR"
+      ]
+    },
+    "compatibility_policy": {
+      "type": "string"
+    },
+    "security_classification": {
+      "enum": [
+        "PUBLIC_OPERATIONAL",
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "PERSONAL_DATA",
+        "SENSITIVE_OPERATIONAL"
+      ]
+    },
+    "drilldown": {
+      "type": "object"
+    },
+    "minimum_data_rule": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "lifecycle_state": {
+      "enum": [
+        "ACTIVE",
+        "SUPERSEDED",
+        "ARCHIVED"
+      ]
+    },
+    "scale": {
+      "type": "number"
+    },
+    "percentile": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

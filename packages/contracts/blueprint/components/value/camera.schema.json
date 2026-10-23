@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/evidenceRef"
+  },
+  "$defs": {
+    "evidenceRef": {
+      "type": "object",
+      "required": [
+        "attachment_id",
+        "sha256"
+      ],
+      "properties": {
+        "attachment_id": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/camera.value.schema.json"
+}

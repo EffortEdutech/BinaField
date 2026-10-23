@@ -1,0 +1,7 @@
+{
+  "permissions": [
+    "submission.read"
+  ],
+  "requested_permission": "evidence.download",
+  "expected": "PERMISSION_DENIED"
+}

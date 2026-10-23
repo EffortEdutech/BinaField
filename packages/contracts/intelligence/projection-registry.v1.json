@@ -1,0 +1,51 @@
+{
+  "registry_version": "1.0.0",
+  "projection_version": "p1.0",
+  "grains": [
+    {
+      "grain_key": "SUBMISSION",
+      "unique_by": "source_identity",
+      "description": "One fact per governed Submission source record"
+    },
+    {
+      "grain_key": "FIELD_VALUE",
+      "unique_by": "source_identity",
+      "description": "One fact per scalar projected field occurrence"
+    },
+    {
+      "grain_key": "REPEAT_ITEM",
+      "unique_by": "source_identity",
+      "description": "One fact per repeat-group item"
+    },
+    {
+      "grain_key": "MULTI_SELECT_VALUE",
+      "unique_by": "source_identity",
+      "description": "One fact per selected stable option value"
+    },
+    {
+      "grain_key": "EVIDENCE_FACT",
+      "unique_by": "source_identity",
+      "description": "One fact per governed evidence completeness/integrity occurrence"
+    },
+    {
+      "grain_key": "ASSIGNMENT_FACT",
+      "unique_by": "source_identity",
+      "description": "One fact per authoritative assignment analytical snapshot/fact"
+    },
+    {
+      "grain_key": "SYNC_FACT",
+      "unique_by": "source_identity",
+      "description": "One fact per governed sync measurement"
+    },
+    {
+      "grain_key": "WORKFLOW_FACT",
+      "unique_by": "source_identity",
+      "description": "One fact per governed workflow measurement"
+    },
+    {
+      "grain_key": "GEO_POINT",
+      "unique_by": "source_identity",
+      "description": "One fact per approved projected location point"
+    }
+  ]
+}

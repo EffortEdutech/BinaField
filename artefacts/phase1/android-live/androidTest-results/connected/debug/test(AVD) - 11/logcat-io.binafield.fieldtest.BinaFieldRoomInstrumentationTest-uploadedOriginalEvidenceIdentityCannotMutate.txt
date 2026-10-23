@@ -1,0 +1,2 @@
+10-22 01:39:57.321  6836  6856 I TestRunner: started: uploadedOriginalEvidenceIdentityCannotMutate(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)
+10-22 01:39:57.377  6836  6856 I TestRunner: finished: uploadedOriginalEvidenceIdentityCannotMutate(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)

@@ -1,0 +1,633 @@
+{
+  "batch": "BF-P1-IMPL-B02",
+  "snapshot_version": "0.2.0",
+  "hash_algorithm": "SHA-256",
+  "file_count": 125,
+  "files": [
+    {
+      "path": ".editorconfig",
+      "sha256": "c064b30ae15b4f3522162e8f137822945cca20f43ea8b19705f0690b747b01ca",
+      "bytes": 140
+    },
+    {
+      "path": ".env.example",
+      "sha256": "414959740eb1a5550caf12e1317ed9d1e7e60b411d3f473c98d69a12975ffd56",
+      "bytes": 184
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "0d5537fa0e588a9c4339c9564fbdfd193f6095146c3656b0936fdca4644f5e8e",
+      "bytes": 1429
+    },
+    {
+      "path": ".github/workflows/contracts.yml",
+      "sha256": "7f4efc69530d8b8344fc975da592894b776dc787a86f7d3f903a9d888079b931",
+      "bytes": 1126
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "72576da22372c6148341bfeb2d8a60abe23be47eb03a5f6de770e10ef2b5987d",
+      "bytes": 184
+    },
+    {
+      "path": "Makefile",
+      "sha256": "d8ce943889f0f0517c5dd151702a99eb354e6651608d36d2d0950aa0fb0c78d4",
+      "bytes": 339
+    },
+    {
+      "path": "README.md",
+      "sha256": "d0a09686c537e29548f2d687f5cc518515f325017ace7ea2d55aecf1fe3e7436",
+      "bytes": 915
+    },
+    {
+      "path": "apps/admin-web/README.md",
+      "sha256": "35dc698ed684a5b64a65162a8aebc861549ede1fd1894c0d48cd1f6e2913afa1",
+      "bytes": 206
+    },
+    {
+      "path": "apps/api/README.md",
+      "sha256": "2cb177065f14a7c49662ad676b4020a00e42f6fc7d76056fad07ce540416e500",
+      "bytes": 200
+    },
+    {
+      "path": "apps/field-android/README.md",
+      "sha256": "9a7771a02aca197199c80b7e60a00609b86e390cbbb1a78ba2786ed7d9d0466d",
+      "bytes": 210
+    },
+    {
+      "path": "apps/worker/README.md",
+      "sha256": "e2a6effc5287802454c5e622a982f7a66f81235a9a3607a059e9fc8c8f03d9ba",
+      "bytes": 203
+    },
+    {
+      "path": "artefacts/phase1/manifests/batch01-files.sha256.json",
+      "sha256": "f61402c105c3b0098f9aa99f603d0fbaf349be0d86d447e25587210fe590ffaa",
+      "bytes": 7422
+    },
+    {
+      "path": "artefacts/phase1/manifests/batch01-static-verification.json",
+      "sha256": "6d35feeac6c808693e010259db98ba594557a7c049e53b05fe4944042d2952e7",
+      "bytes": 10178
+    },
+    {
+      "path": "artefacts/phase1/test-results/batch02-compile-parity.json",
+      "sha256": "67a9362bf8cd94df04bd6a5838536f6c3518db4f15951455b5b4bf338c5ba69b",
+      "bytes": 629
+    },
+    {
+      "path": "artefacts/phase1/test-results/batch02-contract-verification.json",
+      "sha256": "dee9d8e5b75016dbc4e85c758a6d1001f53f8de694b9714665f765ed47467789",
+      "bytes": 28326
+    },
+    {
+      "path": "docker-compose.yml",
+      "sha256": "2f088a127f91b4693571f10651b1e71288be45bda605b3f95eaac30c89d9ff20",
+      "bytes": 535
+    },
+    {
+      "path": "docs/adr/ADR-0001-modular-monolith-initial-topology.md",
+      "sha256": "b6e720752fcbc52b0c1a6e25da641e57fd6b8a8795f91e5c8e8b746d2c2ec344",
+      "bytes": 485
+    },
+    {
+      "path": "docs/adr/ADR-0002-postgresql-postgis-and-forward-only-sql.md",
+      "sha256": "d71df79c07e7a4a88a21ca7c9a6936f018ba3b24aa923b9f7f31e7e3c2eaa9f9",
+      "bytes": 432
+    },
+    {
+      "path": "package.json",
+      "sha256": "8f0e3c9b27fabadffdcedba49b998cefc1e4c5fb1c48fb8ebde73daef03b32a6",
+      "bytes": 1128
+    },
+    {
+      "path": "packages/contracts/README.md",
+      "sha256": "826ac2d702a2ea476d1f85409ac7f34b83d3f6a2857c32e9a9cd8822b8112556",
+      "bytes": 473
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/barcode_qr.schema.json",
+      "sha256": "7448b4de1f5775e9739a75383b9b74a615cf7b1d95d698f1278f0dc6b6f1f82e",
+      "bytes": 595
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/camera.schema.json",
+      "sha256": "d5c9745512a6448659351c687e8e9a18c123d0dde25582f347484643122d8801",
+      "bytes": 533
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/computed_field.schema.json",
+      "sha256": "f3910774dd1787ab02ef2ab8c7fdb258a1eb067a6b7d817fb6d0fc550e9e8a0f",
+      "bytes": 514
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/currency.schema.json",
+      "sha256": "de599e8cabcc70296fc1a4e28ad4dd868c33aabab49eda88c78a8bcdeffbd843",
+      "bytes": 475
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/date.schema.json",
+      "sha256": "17dd83f5e93b3e61adf0cab47c1aca00a2973dcaf86169b71e0e69e8047f7822",
+      "bytes": 418
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/datetime.schema.json",
+      "sha256": "0a6d6eb0f24839f024bb28faf46c03bc67b2bdf58758799fea7208d19a8af8ab",
+      "bytes": 282
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/file_attachment.schema.json",
+      "sha256": "d707f60374b596cd6fa3c5b339063d8249b74f5d7b46cd2aeaf37be29b8e4b74",
+      "bytes": 647
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/gps.schema.json",
+      "sha256": "4c1e44ce34fa07cc15425a2185c104887e981aa9b70a4bf31a5547d1632d1fda",
+      "bytes": 862
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/instruction.schema.json",
+      "sha256": "e9b32071eb5da505e13887bdf038440b92a37209decb95bc45e3ef4670f5492f",
+      "bytes": 339
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/integer.schema.json",
+      "sha256": "81ebc27fa94c2048419786d75d895016b17c6fd590971fb86519a6261085c61e",
+      "bytes": 487
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/multi_select.schema.json",
+      "sha256": "3cc777b45f35d9348a7c1603a19798cd6ae1dbad8e1a56acb7a53e1f692faf3e",
+      "bytes": 1021
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/number.schema.json",
+      "sha256": "924e3a9ed43470eae92fc9b5c3d263a00963bad666932df8b7d33a8ba59537c4",
+      "bytes": 491
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/numeric_stepper.schema.json",
+      "sha256": "a2b804467ffce6afeb0e9500150b624147cb425e3988c41d3e096b3b7bc363fd",
+      "bytes": 478
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/paragraph.schema.json",
+      "sha256": "978294b83ac6e442758cba21adbe9e0f363510141f46f3d154e088d23ef15257",
+      "bytes": 514
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/repeat_group.schema.json",
+      "sha256": "8769929a13468125916b936cc99673d19546ba496b0e8389c9cdf3336fc7a262",
+      "bytes": 1618
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/signature.schema.json",
+      "sha256": "ca0b58ee164d160ef36dcc1643363d0b559b1cdc9e52274d09ab51049fd0c7ea",
+      "bytes": 342
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/single_select.schema.json",
+      "sha256": "fc93dbe682130f517513f376214e2d29f5d800d1a738027ec3d17dc2e358496d",
+      "bytes": 873
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/text.schema.json",
+      "sha256": "b6ffbb4a7b8efe377ba2f9760b561f1b5f4c4e9d99e6867443b365b6fe5a544e",
+      "bytes": 516
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/time.schema.json",
+      "sha256": "64077851bb54e323b64ff32fd51f3660e52824b874bffd604eb9be6d0769393c",
+      "bytes": 274
+    },
+    {
+      "path": "packages/contracts/blueprint/components/config/toggle.schema.json",
+      "sha256": "3da633a8e0a4463be825f0141a2e3d2fba6aeafc75e74d9ae4ac4367128f8c61",
+      "bytes": 381
+    },
+    {
+      "path": "packages/contracts/blueprint/components/registry.json",
+      "sha256": "79f17df85b438aefbf5e45493932e59cab9543498df165b89e9340933cdf4c8f",
+      "bytes": 4744
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/barcode_qr.schema.json",
+      "sha256": "065d5c0175798fd4bba0d043f8d66c6ad9cd6e0d6b4ee0ae78934f93ae1e9662",
+      "bytes": 512
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/camera.schema.json",
+      "sha256": "2bd320b8ed1a3ba73b9a6cea74f90e83679ba969154571b60f5b5b3e3740d0fd",
+      "bytes": 598
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/computed_field.schema.json",
+      "sha256": "009540f2e821119cbc88a51a85103e34dc54bfff55a68f8c284ef0368c443d77",
+      "bytes": 226
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/currency.schema.json",
+      "sha256": "d8e380db6e8688ba4a34659e4ac7f7fa3a2879d93b5de96e391223bdb5c13c92",
+      "bytes": 439
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/date.schema.json",
+      "sha256": "ef30da05f66196b2a0f47cc55fd03ef184147d5d3bcea7808cae802209111c59",
+      "bytes": 197
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/datetime.schema.json",
+      "sha256": "c46bbf7e52aa860f95037e96341036cd85e11dca401c75809410162ee33af02b",
+      "bytes": 206
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/file_attachment.schema.json",
+      "sha256": "819d1a050ed37eaf5744e08dbaa29f14bfa5d3f4495fb500195263142990ee71",
+      "bytes": 607
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/gps.schema.json",
+      "sha256": "f092325f966fd659f021fb4f380c682830bcca7035c4c6af32deb849adf3ba2c",
+      "bytes": 679
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/instruction.schema.json",
+      "sha256": "1c1cc1fb963570949ccab0611c59a4dae41fda196fc4c877de6c50463b80a73e",
+      "bytes": 182
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/integer.schema.json",
+      "sha256": "f4d73dd8d81bd6e77ee10629afc749e9274fba0dc5d76debc10df438e94c18c4",
+      "bytes": 181
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/multi_select.schema.json",
+      "sha256": "4020c815ad990807adb62079edeaed7bf5bb84f656badcd6c8e146c4fa755089",
+      "bytes": 246
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/number.schema.json",
+      "sha256": "3a207848163f0d28a78d86a3fbbe11f2bb41f7f7d5100f08f3e120bfbaba5eea",
+      "bytes": 179
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/numeric_stepper.schema.json",
+      "sha256": "841feace1039f651a464a7163b23f0f716c4184e4a60b9e105a1326d9923310b",
+      "bytes": 188
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/paragraph.schema.json",
+      "sha256": "ea84d223d723c517749765b9bf795d0916b7b2c6d1343c8ab5529f9f4d114d1b",
+      "bytes": 182
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/repeat_group.schema.json",
+      "sha256": "f837dde1a96944bfe8fec98cad8991511d30417be7c5829d6997fe6778af806e",
+      "bytes": 223
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/signature.schema.json",
+      "sha256": "47053afb221d5c42629faec7dd1d409c06e298a4da0af07f0e58621c7c9cefe1",
+      "bytes": 455
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/single_select.schema.json",
+      "sha256": "30687b55f3c6935ef97db40c2d522edce207e839eadc469c88598d81155dd642",
+      "bytes": 186
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/text.schema.json",
+      "sha256": "08078be00f92e733fa96545ae3dad9e9a062550b2c686eec19d815736f943895",
+      "bytes": 177
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/time.schema.json",
+      "sha256": "1021a06448fba7e11c6c97940ed9f09f063bdd5c98ca9c6b2167ee0419553abe",
+      "bytes": 197
+    },
+    {
+      "path": "packages/contracts/blueprint/components/value/toggle.schema.json",
+      "sha256": "acb1bd2a235e8cd89c5884490cbb498b2f0d109d7518e2af1fd61a40cdd1a11a",
+      "bytes": 180
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/01_unknown_component.json",
+      "sha256": "9140b95b4a9dc3ac12e4f362d383fb665f648ee78150b58f889aa84fc77a0a1a",
+      "bytes": 1161
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/02_duplicate_field_id.json",
+      "sha256": "eac0896c3f362890b0af293ed7e4e84239eb96750d62c53e3cb91374db1b93c8",
+      "bytes": 1418
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/03_missing_root.json",
+      "sha256": "f572835aec268321ae4bc5ad748dd3e5445dad2e3daeb5672a70860ccf75a25f",
+      "bytes": 790
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/04_unresolved_rule_reference.json",
+      "sha256": "7511913500f0432d2991695446183ca45b2e0f2b679c0ca6e7b996689a591a7c",
+      "bytes": 1340
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/05_unresolved_rule_target.json",
+      "sha256": "77af955f6842a688553471dcfcd49e6ffd92da5df00be7a2037910760e22fb80",
+      "bytes": 1338
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/06_calculation_cycle.json",
+      "sha256": "6f135e303e1fce8560b88b37d9c5763cca3f05275483da48bf6d5cc1161e7bf3",
+      "bytes": 1872
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/07_prohibited_rule_action.json",
+      "sha256": "f406d621376be135e5ce0fc1ef7b5d49e8c954cbad40b03bca54ed034d736fab",
+      "bytes": 1322
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/08_invalid_component_config.json",
+      "sha256": "838699db4060ab95cebfde7adc74f51300a147eef11d5d5855be34b3346d7167",
+      "bytes": 1206
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/09_repeat_group_unbounded.json",
+      "sha256": "eedfaec60cc0e649fea142f692ea8f35e0024d6bfa5a12f2e56b9b94ee794879",
+      "bytes": 1445
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/10_unsupported_live_lookup.json",
+      "sha256": "899ae85207a9ef07891850683ac5cc9a1667899dad0a30a40b7dba230aac22a2",
+      "bytes": 1243
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/invalid/expected-errors.json",
+      "sha256": "1e529ec6ab73f4f9f8f2c643033ca889a271f2d82694f7eca54110c582fc2677",
+      "bytes": 674
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/valid/01_one_step_numeric.json",
+      "sha256": "f3d570a5691d327bd51968fff4f8601c9335159c96747ee34338f38af7aaf54f",
+      "bytes": 1662
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/valid/02_conditional_evidence.json",
+      "sha256": "b241e429b6cba4edf0cb1bc51edd3c8af792842c1cf0fdaef7f6f60ec6e2cf99",
+      "bytes": 2905
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/valid/03_selects.json",
+      "sha256": "dae7ba2b772f1edbd5e405f1c5c7e6163c535f0069f49c7595713b8861a0da56",
+      "bytes": 2345
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/valid/04_dates_signature.json",
+      "sha256": "5f37021baebad83c53fe994262242c345fd44b50da69485f446210f74dde2377",
+      "bytes": 2114
+    },
+    {
+      "path": "packages/contracts/blueprint/fixtures/valid/05_barcode_repeat_computed.json",
+      "sha256": "c3dc2825c4d929110e7160df8388548abc69642fd5071b2f6615edbf190f16b0",
+      "bytes": 2805
+    },
+    {
+      "path": "packages/contracts/blueprint/generated/kotlin/src/main/kotlin/com/binafield/contracts/blueprint/BlueprintContracts.kt",
+      "sha256": "641dbd355a4e86374c8404ecbb1142fd204a73e0714fc237b3ed3d28db434128",
+      "bytes": 1078
+    },
+    {
+      "path": "packages/contracts/blueprint/generated/typescript/blueprint-contracts.ts",
+      "sha256": "f83082ff9e89f5a6988cc20da2055051322585bfa52fe6a4e654bd812319405a",
+      "bytes": 1772
+    },
+    {
+      "path": "packages/contracts/blueprint/manifests/blueprint-contract-signature.txt",
+      "sha256": "942091a122d4cda98058c0fcbdd2121338f9e59cfaee277876aee577922d7d2e",
+      "bytes": 65
+    },
+    {
+      "path": "packages/contracts/blueprint/manifests/contract-manifest.json",
+      "sha256": "3d4ccc88e339930320277e24f7f60c60d973af9abf1b56e4f1aa589350c7332f",
+      "bytes": 11425
+    },
+    {
+      "path": "packages/contracts/blueprint/rules/calculation.schema.json",
+      "sha256": "b45fbfbc362371d968777198cd2d4ff429924c080c5ca84135dec7818264724f",
+      "bytes": 1798
+    },
+    {
+      "path": "packages/contracts/blueprint/rules/condition.schema.json",
+      "sha256": "098f1f34c01aa39a67a7786ff49eac04001ec35e41a8539d7dbbb5eb35f6e3ff",
+      "bytes": 1717
+    },
+    {
+      "path": "packages/contracts/blueprint/rules/rule.schema.json",
+      "sha256": "7a4bb514cfc8175bc0294ca432b8b003125aeda3028cb73f14040ef08e5f6549",
+      "bytes": 794
+    },
+    {
+      "path": "packages/contracts/blueprint/schema/bf-blueprint.schema.json",
+      "sha256": "d223c6d8df4485d34c2c38ee977a05e9386501bc982679b3e39a860ae63c19e7",
+      "bytes": 10725
+    },
+    {
+      "path": "packages/contracts/blueprint/validators/registry.json",
+      "sha256": "817ed92623eac2af98e12118a3daae80777ddc530b687ebbd71300760b6ce157",
+      "bytes": 1196
+    },
+    {
+      "path": "packages/database/README.md",
+      "sha256": "7eccd480f43107b65b7180b9d3dd587db2825718ecc76e7c71da4240a4d2be76",
+      "bytes": 1349
+    },
+    {
+      "path": "packages/database/migrations/0001_platform_extensions_and_schemas.sql",
+      "sha256": "c12498296eedac5854155be3502071cb1ce2f1353c4fd51b82fb196c786b6b70",
+      "bytes": 1945
+    },
+    {
+      "path": "packages/database/migrations/0002_iam_and_security_registry.sql",
+      "sha256": "6826744d06d478efe55d4b2f683c9229ba4e0d7ef9da19478006c4c8b9aa2f19",
+      "bytes": 3505
+    },
+    {
+      "path": "packages/database/migrations/0003_core_projects_teams.sql",
+      "sha256": "7cfd4ac2c9e7797616a91df80d41d727947f8fea85b359ccfa40bb1624d4450c",
+      "bytes": 2110
+    },
+    {
+      "path": "packages/database/migrations/0004_blueprint_templates.sql",
+      "sha256": "098b43ba8d33b0c00ad387ed2fd193fa4ae0b47e6ae340d1ab80d0331814d0ce",
+      "bytes": 4031
+    },
+    {
+      "path": "packages/database/migrations/0005_ops_deployments_assignments.sql",
+      "sha256": "a44113742713f344585f70ba16c99ceb416baf7bbb40521dafe98818964906a1",
+      "bytes": 3166
+    },
+    {
+      "path": "packages/database/migrations/0006_field_submission_model.sql",
+      "sha256": "ad693aa1a3b9806e81907b7f57b01f3adcd2ddcb581ea7839555a1dd081fd79e",
+      "bytes": 3415
+    },
+    {
+      "path": "packages/database/migrations/0007_evidence_storage_model.sql",
+      "sha256": "ccfd78df2c739408e79895a7be7d46214b510a05e1b92ac9cd08bc03c0f1847d",
+      "bytes": 6469
+    },
+    {
+      "path": "packages/database/migrations/0008_sync_transport_model.sql",
+      "sha256": "bd30382fece76e06d26609de155ed9496b51cb5fe209860ed286271e26c3f595",
+      "bytes": 1843
+    },
+    {
+      "path": "packages/database/migrations/0009_processing_audit_outbox.sql",
+      "sha256": "d6773abcce20881c5888a7aeedd454e216d99b064013c129f73a7c1b78f55070",
+      "bytes": 3189
+    },
+    {
+      "path": "packages/database/migrations/0010_intelligence_projection_model.sql",
+      "sha256": "96bd6aed102934a0c8d7cf69b27adb80d11bf5c3cdff2182edce9552677ea2fa",
+      "bytes": 7989
+    },
+    {
+      "path": "packages/database/migrations/0011_runtime_roles_and_grants.sql",
+      "sha256": "81a52918fb38338d4cf45f4895fe825fdad18169f40fdd14cd47a35388177a35",
+      "bytes": 4331
+    },
+    {
+      "path": "packages/database/migrations/0012_rls_tenant_isolation.sql",
+      "sha256": "78cd76f3bc4cd3396f51ac24d50f9ca2b77ce545b5bf59de7683f88b98e1e154",
+      "bytes": 4855
+    },
+    {
+      "path": "packages/database/migrations/0013_seed_permission_and_role_registry.sql",
+      "sha256": "9d471c55f12ef8e56409833f5f1c2a6766e9a684082aeb735031eea7a7b7e5f1",
+      "bytes": 8289
+    },
+    {
+      "path": "packages/database/tests/001_schema_and_role_assertions.sql",
+      "sha256": "be80e7f2ba08f3ab61d60eae465d019fca895ea60c730bc9b6e6ebc972e0a4f7",
+      "bytes": 1366
+    },
+    {
+      "path": "packages/database/tests/002_rls_isolation.sql",
+      "sha256": "38363a6b8d9597098bc38cada73db2a0b08a56b30d5f5a07e51b062ebfcf2b64",
+      "bytes": 1729
+    },
+    {
+      "path": "packages/database/tests/003_immutability_guards.sql",
+      "sha256": "b778b49850f10cbeada6c3427a87325de48456ce114b9e8bf080f0f037f60a0b",
+      "bytes": 4035
+    },
+    {
+      "path": "packages/domain/README.md",
+      "sha256": "991e75991c1c330d143bcf33ac220d4d290717909f037dc827717ee04971d972",
+      "bytes": 397
+    },
+    {
+      "path": "packages/domain/generated/kotlin/src/main/kotlin/com/binafield/contracts/domain/DomainContracts.kt",
+      "sha256": "3b50d7eb9a9c2147503ea7e0ac85c4b39e5fe4ac568293538935cccc5423fe12",
+      "bytes": 4470
+    },
+    {
+      "path": "packages/domain/generated/typescript/domain-contracts.ts",
+      "sha256": "01edc9ba7a65d3dbe20f4e016672e48a30cfaa786a740c14b3e3646fece00a5d",
+      "bytes": 7393
+    },
+    {
+      "path": "packages/domain/registry/contract-signature.txt",
+      "sha256": "f77d9334af43c55ce0eea609523a828aa011b248b4b4d37c9706c85923b4c7b6",
+      "bytes": 65
+    },
+    {
+      "path": "packages/domain/registry/errors.json",
+      "sha256": "afc529d57496132192cc81cb51e62c95444b1a3938a48774cb987aa587eebc86",
+      "bytes": 2404
+    },
+    {
+      "path": "packages/domain/registry/events.json",
+      "sha256": "e6059d1a463466abfd64d41782302a59d904dd265de9418c27ba5aaca9cfb46a",
+      "bytes": 794
+    },
+    {
+      "path": "packages/domain/registry/idempotency.json",
+      "sha256": "896fc6f01bd46d53fa0cd31b235d629652be7c74c40755c6f53a6db5fe2571b9",
+      "bytes": 720
+    },
+    {
+      "path": "packages/domain/registry/lifecycles.json",
+      "sha256": "431523cf36bdd3d7afb6ccee9fd01d2722b510024c6da1bcad1a77a1e958776c",
+      "bytes": 2958
+    },
+    {
+      "path": "packages/domain/registry/transitions.json",
+      "sha256": "c641f84786cef8e7a3e4a2541dd88d0584d29bfd13667254b30952c556c97f50",
+      "bytes": 4985
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "60ce4d1dbf137701a4683d171391c51662700c2f3e32a7caab8b2efc22540e65",
+      "bytes": 40
+    },
+    {
+      "path": "scripts/contracts/compile-kotlin.sh",
+      "sha256": "931804bad8414bdf84be53003a02b4ce691fbe06315939a606cfef4d6002162e",
+      "bytes": 515
+    },
+    {
+      "path": "scripts/contracts/verify-parity.sh",
+      "sha256": "c6eea7560d5026e82a736799adb9f75ec4572c93e769db58015ccfd73d52009b",
+      "bytes": 779
+    },
+    {
+      "path": "scripts/db/migrate.sh",
+      "sha256": "02edf1c27c53a4c7d2625e27a8cde0b3766c551847ed5df03c7021ec72f9eff6",
+      "bytes": 1252
+    },
+    {
+      "path": "scripts/db/reset.sh",
+      "sha256": "3ed0abda2aa7a07ba7ac5b10b382458c73e30e1ced87f0e392f5c63e37e2ae90",
+      "bytes": 886
+    },
+    {
+      "path": "scripts/db/verify.sh",
+      "sha256": "4b8f6c13e4e4601883c5bd2f6ed66d32f2b1b8812030d6209d58a59f507ac1e3",
+      "bytes": 836
+    },
+    {
+      "path": "tools/batch2/ParityMain.kt",
+      "sha256": "c0f52d5f1ee032b0a2ec773ab490b7adbcdcf95dca8a3d07aa852c713f7dc6d5",
+      "bytes": 245
+    },
+    {
+      "path": "tools/batch2/generate_bindings.py",
+      "sha256": "b65b4f7018cabcae7f5723431958e3900d1990a0987015e222ca02955f2afe36",
+      "bytes": 5313
+    },
+    {
+      "path": "tools/batch2/generate_contract_manifest.py",
+      "sha256": "14b53168fc8933971a6b2e792ed67f6f94a80a62e856b959a40f6900cf453807",
+      "bytes": 685
+    },
+    {
+      "path": "tools/batch2/verify_contracts.py",
+      "sha256": "9d5280a937149dc2ebfdf3ccd516bb93148981bed79caef0b5d1b7fcc3075c69",
+      "bytes": 9008
+    },
+    {
+      "path": "tools/generate-manifest.mjs",
+      "sha256": "0c7f063fc8b2520ce2119a038b0cdeaf50f81060e132442fa8b1c069a8d38b12",
+      "bytes": 1378
+    },
+    {
+      "path": "tools/verify-batch1.mjs",
+      "sha256": "a130eaed2d4e0e7e9b89590843240ff3bd9bb39cd96fc6da2b421e500185231e",
+      "bytes": 5166
+    },
+    {
+      "path": "tsconfig.batch2.json",
+      "sha256": "c8d9bc57c8d330c7bc86a000f4819e2e0a4a6e972de98d69fc4054c81f10b0bd",
+      "bytes": 289
+    }
+  ]
+}

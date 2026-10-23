@@ -1,0 +1,12 @@
+{
+  "total": 15,
+  "passed": 15,
+  "failed": 0,
+  "failures": [],
+  "migration_order": [
+    "0014_p1_06_security_registry_reconciliation.sql",
+    "0014z_p1_08_rls_registry_metadata_compatibility.sql",
+    "0015_p1_08_evidence_runtime_reconciliation.sql",
+    "0016_p1_09_intelligence_runtime_reconciliation.sql"
+  ]
+}

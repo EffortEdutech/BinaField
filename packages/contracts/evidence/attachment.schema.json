@@ -1,0 +1,154 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/attachment.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assignment_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "byte_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "claimed_mime_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "classification": {
+      "enum": [
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "PERSONAL_DATA",
+        "SENSITIVE_OPERATIONAL"
+      ]
+    },
+    "detected_mime_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence_role": {
+      "enum": [
+        "ORIGINAL",
+        "DERIVATIVE"
+      ]
+    },
+    "evidence_type": {
+      "enum": [
+        "PHOTO",
+        "SIGNATURE",
+        "FILE_ATTACHMENT"
+      ]
+    },
+    "field_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hash_algorithm": {
+      "const": "SHA-256"
+    },
+    "integrity_state": {
+      "enum": [
+        "PENDING",
+        "VERIFIED",
+        "FAILED",
+        "QUARANTINED"
+      ]
+    },
+    "lifecycle_state": {
+      "enum": [
+        "LOCAL_CAPTURED",
+        "QUEUED_FOR_UPLOAD",
+        "UPLOADING",
+        "UPLOADED",
+        "BOUND",
+        "PROCESSING",
+        "READY",
+        "FAILED",
+        "RETAINED",
+        "PURGED"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "parent_attachment_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "project_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "session_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "storage_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "storage_provider": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "submission_attempt_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "submission_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "attachment_id",
+    "organization_id",
+    "evidence_type",
+    "evidence_role",
+    "hash_algorithm",
+    "sha256",
+    "byte_size",
+    "lifecycle_state",
+    "classification"
+  ],
+  "title": "EvidenceAttachment",
+  "type": "object"
+}

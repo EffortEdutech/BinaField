@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "checks_executed": 17,
+  "failures": 0,
+  "blueprint_hash": "fcb4a124dec4003acdf49cbe2e31bb17001f1394f50f15672c3c2401d979fe2b",
+  "checks": [
+    {
+      "name": "root-schema-valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-known:yield",
+      "ok": true,
+      "detail": "number"
+    },
+    {
+      "name": "component-config:yield",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-known:irrigation",
+      "ok": true,
+      "detail": "toggle"
+    },
+    {
+      "name": "component-config:irrigation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-known:reason",
+      "ok": true,
+      "detail": "paragraph"
+    },
+    {
+      "name": "component-config:reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-known:location",
+      "ok": true,
+      "detail": "gps"
+    },
+    {
+      "name": "component-config:location",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-known:photos",
+      "ok": true,
+      "detail": "camera"
+    },
+    {
+      "name": "component-config:photos",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "field-ids-unique",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "offline-capable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "offline-submit-enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "required-evidence-gate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "strict-rule-action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "analytics-enabled",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

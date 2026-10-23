@@ -1,0 +1,756 @@
+{
+  "registry_version": "1.0.0",
+  "tables": [
+    {
+      "schema": "iam",
+      "table": "organizations",
+      "tenant_owned": true,
+      "organization_column": "id",
+      "policy_mode": "ORGANIZATION_ROOT",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "iam",
+      "table": "memberships",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "iam",
+      "table": "membership_roles",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "iam",
+      "table": "membership_project_scopes",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "iam",
+      "table": "registered_devices",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "iam",
+      "table": "roles",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ROLE_VISIBILITY",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "role_visibility"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "iam",
+      "table": "role_permissions",
+      "tenant_owned": true,
+      "organization_column": null,
+      "policy_mode": "ROLE_PERMISSION_VISIBILITY",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "role_permission_visibility"
+      ],
+      "owning_module": "iam",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "core",
+      "table": "projects",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "core",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "core",
+      "table": "teams",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "core",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "core",
+      "table": "team_members",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "core",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "blueprint",
+      "table": "templates",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "blueprint",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "blueprint",
+      "table": "template_versions",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "blueprint",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "blueprint",
+      "table": "template_fields",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "blueprint",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "ops",
+      "table": "deployments",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "ops",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "ops",
+      "table": "assignments",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "ops",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "field",
+      "table": "submission_attempts",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "field",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "field",
+      "table": "submissions",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "field",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "evidence",
+      "table": "attachments",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "evidence",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "evidence",
+      "table": "upload_sessions",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "evidence",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "evidence",
+      "table": "bindings",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "evidence",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "evidence",
+      "table": "holds",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "evidence",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "sync",
+      "table": "change_log",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "sync",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "sync",
+      "table": "device_cursors",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "sync",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "sync",
+      "table": "sync_events",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "sync",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "processing",
+      "table": "workflow_runs",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "processing",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "processing",
+      "table": "idempotency_records",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "processing",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "processing",
+      "table": "outbox_events",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "processing",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "processing",
+      "table": "consumer_receipts",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "processing",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "audit",
+      "table": "audit_events",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "audit",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "semantic_compatibility",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "projection_runs",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "projection_facts",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_numeric",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_boolean",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_text",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_date",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_datetime",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_currency",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "fact_geo",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "metric_definitions",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "SYSTEM_OR_ORG",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "system_or_org"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "insights",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "evidence",
+      "table": "upload_parts",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "upload_parts_tenant_select",
+        "upload_parts_tenant_insert",
+        "upload_parts_tenant_update",
+        "upload_parts_tenant_delete"
+      ],
+      "owning_module": "evidence",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "semantic_mappings",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    },
+    {
+      "schema": "intel",
+      "table": "projection_freshness",
+      "tenant_owned": true,
+      "organization_column": "organization_id",
+      "policy_mode": "ORGANIZATION_ID",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "policy_ids": [
+        "tenant_isolation"
+      ],
+      "owning_module": "intel",
+      "runtime_roles": [
+        "app_runtime",
+        "worker_runtime"
+      ]
+    }
+  ]
+}

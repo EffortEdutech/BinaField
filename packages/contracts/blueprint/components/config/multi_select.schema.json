@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MultiSelectConfig",
+  "type": "object",
+  "properties": {
+    "options": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/option"
+      },
+      "minItems": 1
+    },
+    "source": {
+      "enum": [
+        "static",
+        "synced"
+      ]
+    },
+    "dataset_id": {
+      "type": "string"
+    },
+    "min_selections": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "max_selections": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "source"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "option": {
+      "type": "object",
+      "required": [
+        "value",
+        "label"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/multi_select.config.schema.json"
+}

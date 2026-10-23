@@ -1,0 +1,2 @@
+10-22 01:39:56.964  6800  6820 I TestRunner: started: freshRoomDatabaseExecutesCanonicalSchema(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)
+10-22 01:39:57.023  6800  6820 I TestRunner: finished: freshRoomDatabaseExecutesCanonicalSchema(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)

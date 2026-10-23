@@ -1,0 +1,43 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/cursor.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "current_cursor": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "device_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "last_applied_delta_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "server_generation": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "updated_at": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "organization_id",
+    "device_id",
+    "current_cursor",
+    "updated_at"
+  ],
+  "title": "SyncCursor",
+  "type": "object"
+}

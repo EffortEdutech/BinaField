@@ -1,0 +1,23 @@
+{
+  "schema":"bf-blueprint/1.0","schema_version":"1.0",
+  "compatibility":{"min_runtime_version":"1.0.0","component_registry_version":"1.0.0"},
+  "template":{"template_id":"tpl-vs01-farm","version_id":"tv-vs01-farm-v1","name":"VS-01 Agriculture Farm Audit"},
+  "settings":{"locale":"en-MY","on_hide":"clear"},
+  "workflow_steps":[
+    {"step_id":"context","title":"Farm Context","sections":[{"section_id":"measurements","title":"Measurements","components":[
+      {"field_id":"yield","component":"number","label":"Crop yield","required":true,"config":{"minimum":0,"unit":"kg"},"analytics":{"enabled":true,"semantic_key":"farm.crop_yield_kg","classification":"INTERNAL"}},
+      {"field_id":"irrigation","component":"toggle","label":"Irrigation OK?","required":true,"config":{},"analytics":{"enabled":true,"semantic_key":"farm.irrigation_ok","classification":"INTERNAL"}},
+      {"field_id":"reason","component":"paragraph","label":"Irrigation issue","required":false,"config":{"max_length":500},"analytics":{"enabled":false}}
+    ]}]},
+    {"step_id":"evidence","title":"Evidence","sections":[{"section_id":"location-photo","title":"Location & Photo","components":[
+      {"field_id":"location","component":"gps","label":"Farm location","required":true,"config":{"required_accuracy_m":30},"analytics":{"enabled":true,"semantic_key":"farm.location","classification":"SENSITIVE_OPERATIONAL"}},
+      {"field_id":"photos","component":"camera","label":"Farm photo","required":true,"config":{"min_items":1,"max_items":4,"watermark_derivative":true},"analytics":{"enabled":false}}
+    ]}]}
+  ],
+  "validations":[],
+  "rules":[{"rule_id":"r-irrigation","when":{"op":"EQ","field_id":"irrigation","value":false},"action":"REQUIRE","target_field_id":"reason","message":"Explain the irrigation issue."}],
+  "calculations":[],
+  "submission_policy":{"allow_offline_submit":true,"require_all_required_evidence":true},
+  "sync_policy":{"offline_capable":true,"reference_dataset_ids":[]},
+  "processing_routes":[],"analytics":{"enabled":true}
+}

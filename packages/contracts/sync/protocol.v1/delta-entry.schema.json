@@ -1,0 +1,56 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/delta-entry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "change_type": {
+      "enum": [
+        "UPSERT",
+        "TOMBSTONE",
+        "OUTCOME",
+        "POLICY"
+      ]
+    },
+    "compatibility": {
+      "type": "object"
+    },
+    "delta_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "entity_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "entity_revision": {
+      "minimum": 0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "entity_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "occurred_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "payload": {}
+  },
+  "required": [
+    "delta_id",
+    "organization_id",
+    "entity_type",
+    "entity_id",
+    "change_type",
+    "occurred_at"
+  ],
+  "title": "DeltaEntry",
+  "type": "object"
+}

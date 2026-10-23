@@ -1,0 +1,30 @@
+{
+  "registry_version": "1.0.0",
+  "classifications": [
+    {
+      "key": "PUBLIC_OPERATIONAL",
+      "required_permission": null,
+      "default_response": "VISIBLE"
+    },
+    {
+      "key": "INTERNAL",
+      "required_permission": null,
+      "default_response": "VISIBLE"
+    },
+    {
+      "key": "CONFIDENTIAL",
+      "required_permission": "data.confidential.read",
+      "default_response": "MASKED"
+    },
+    {
+      "key": "PERSONAL_DATA",
+      "required_permission": "data.personal.read",
+      "default_response": "MASKED"
+    },
+    {
+      "key": "SENSITIVE_OPERATIONAL",
+      "required_permission": "data.sensitive_operational.read",
+      "default_response": "OMITTED"
+    }
+  ]
+}

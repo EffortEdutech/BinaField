@@ -1,0 +1,110 @@
+{
+  "registry_version": "1.0.0",
+  "errors": [
+    {
+      "code": "DOMAIN_INVALID_TRANSITION",
+      "category": "DOMAIN",
+      "retryable": false
+    },
+    {
+      "code": "DOMAIN_REVISION_CONFLICT",
+      "category": "DOMAIN",
+      "retryable": true
+    },
+    {
+      "code": "DOMAIN_IMMUTABLE_ENTITY",
+      "category": "DOMAIN",
+      "retryable": false
+    },
+    {
+      "code": "SECURITY_UNAUTHENTICATED",
+      "category": "SECURITY",
+      "retryable": false
+    },
+    {
+      "code": "SECURITY_MEMBERSHIP_INACTIVE",
+      "category": "SECURITY",
+      "retryable": false
+    },
+    {
+      "code": "SECURITY_PERMISSION_DENIED",
+      "category": "SECURITY",
+      "retryable": false
+    },
+    {
+      "code": "SECURITY_SCOPE_DENIED",
+      "category": "SECURITY",
+      "retryable": false
+    },
+    {
+      "code": "SECURITY_TENANT_MISMATCH",
+      "category": "SECURITY",
+      "retryable": false
+    },
+    {
+      "code": "BLUEPRINT_SCHEMA_INVALID",
+      "category": "BLUEPRINT",
+      "retryable": false
+    },
+    {
+      "code": "BLUEPRINT_UNKNOWN_COMPONENT",
+      "category": "BLUEPRINT",
+      "retryable": false
+    },
+    {
+      "code": "BLUEPRINT_DUPLICATE_FIELD_ID",
+      "category": "BLUEPRINT",
+      "retryable": false
+    },
+    {
+      "code": "BLUEPRINT_UNRESOLVED_REFERENCE",
+      "category": "BLUEPRINT",
+      "retryable": false
+    },
+    {
+      "code": "BLUEPRINT_CALCULATION_CYCLE",
+      "category": "BLUEPRINT",
+      "retryable": false
+    },
+    {
+      "code": "BLUEPRINT_PROHIBITED_RUNTIME_BEHAVIOUR",
+      "category": "BLUEPRINT",
+      "retryable": false
+    },
+    {
+      "code": "SYNC_CURSOR_INVALID",
+      "category": "SYNC",
+      "retryable": true
+    },
+    {
+      "code": "SYNC_RECONCILIATION_REQUIRED",
+      "category": "SYNC",
+      "retryable": false
+    },
+    {
+      "code": "EVIDENCE_HASH_MISMATCH",
+      "category": "EVIDENCE",
+      "retryable": false
+    },
+    {
+      "code": "EVIDENCE_REQUIRED_MISSING",
+      "category": "EVIDENCE",
+      "retryable": false
+    },
+    {
+      "code": "ANALYTICS_SEMANTIC_INCOMPATIBLE",
+      "category": "ANALYTICS",
+      "retryable": false
+    },
+    {
+      "code": "ANALYTICS_PROJECTION_STALE",
+      "category": "ANALYTICS",
+      "retryable": true
+    },
+    {
+      "code": "BLUEPRINT_COMPONENT_CONFIG_INVALID",
+      "category": "BLUEPRINT",
+      "retryable": false
+    }
+  ]
+}

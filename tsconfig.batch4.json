@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": ".build/ts-b4",
+    "rootDir": "."
+  },
+  "include": [
+    "packages/evidence-runtime/src/**/*.ts",
+    "apps/api/modules/evidence/adapters/storage/**/*.ts",
+    "apps/api/modules/evidence/adapters/scanner/**/*.ts",
+    "tools/batch4/evidence-runtime-smoke.ts",
+    "types/**/*.d.ts"
+  ]
+}

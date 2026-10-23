@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/intelligence/insight/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "insight_id",
+    "organization_id",
+    "insight_type",
+    "definition_key",
+    "definition_version",
+    "scope",
+    "period",
+    "explanation",
+    "freshness",
+    "lifecycle_state"
+  ],
+  "properties": {
+    "insight_id": {
+      "type": "string"
+    },
+    "organization_id": {
+      "type": "string"
+    },
+    "insight_type": {
+      "type": "string"
+    },
+    "definition_key": {
+      "type": "string"
+    },
+    "definition_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_metric": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scope": {
+      "type": "object"
+    },
+    "period": {
+      "type": "object"
+    },
+    "current_value": {},
+    "baseline": {},
+    "explanation": {
+      "type": "string"
+    },
+    "severity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "confidence_descriptor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_record_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "drilldown_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "freshness": {
+      "type": "object"
+    },
+    "lifecycle_state": {
+      "enum": [
+        "ACTIVE",
+        "ACKNOWLEDGED",
+        "RESOLVED",
+        "EXPIRED",
+        "SUPERSEDED"
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/field/reconciliation/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "item_id",
+    "reason_code",
+    "allowed_actions"
+  ],
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "reason_code": {
+      "type": "string"
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

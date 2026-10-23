@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/security/authorization-decision/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "reason_code",
+    "policy_version"
+  ],
+  "properties": {
+    "decision": {
+      "enum": [
+        "ALLOW",
+        "DENY"
+      ]
+    },
+    "reason_code": {
+      "type": "string"
+    },
+    "policy_version": {
+      "type": "string"
+    },
+    "masked_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "omitted_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

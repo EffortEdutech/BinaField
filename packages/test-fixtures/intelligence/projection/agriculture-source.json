@@ -1,0 +1,38 @@
+{
+  "organizationId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "projectId": "11111111-1111-4111-8111-111111111111",
+  "assignmentId": "asg-farm-1",
+  "submissionId": "sub-farm-1",
+  "templateId": "tpl-farm",
+  "templateVersionId": "tv-farm-v1",
+  "blueprintHash": "bp-farm-v1",
+  "state": "ACCEPTED",
+  "acceptedAt": "2026-10-20T10:00:00Z",
+  "projectedDimensions": {
+    "field_officer_id": "officer-1",
+    "date_period": "2026-10-20"
+  },
+  "payload": {
+    "yield": 0,
+    "irrigation": false,
+    "location": {
+      "latitude": 4.5975,
+      "longitude": 101.0901,
+      "accuracyM": 8,
+      "zoneRef": "zone-a"
+    },
+    "photos": [
+      "p1",
+      "p2"
+    ],
+    "rows": [
+      {
+        "id": "r1"
+      },
+      {
+        "id": "r2"
+      }
+    ],
+    "notes": null
+  }
+}

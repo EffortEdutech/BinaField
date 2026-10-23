@@ -1,0 +1,37 @@
+name: contracts-security
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  api-security-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: fwilhe2/setup-kotlin@main
+        with: { version: '1.9.0' }
+      - run: python3 -m pip install 'jsonschema>=4.20,<5' 'PyYAML>=6,<7'
+      - run: python3 tools/batch3/verify_contracts.py
+      - run: npx --yes typescript@5.8.3 tsc -p tsconfig.batch3.json
+      - run: node .build/ts-b3/tools/batch3/security-smoke.js
+      - run: node .build/ts-b3/tools/batch3/api-contract-smoke.js
+      - run: bash scripts/contracts/compile-kotlin-batch3.sh
+  postgres-rls-conformance:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env: { POSTGRES_PASSWORD: postgres, POSTGRES_USER: postgres, POSTGRES_DB: binafield }
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres -d binafield" --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/binafield
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/db/migrate.sh
+      - run: bash scripts/db/verify.sh

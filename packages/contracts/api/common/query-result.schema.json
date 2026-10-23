@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/common/query-result/1.0",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "items": {
+      "type": "array"
+    },
+    "page": {
+      "type": "object"
+    },
+    "data": {}
+  }
+}

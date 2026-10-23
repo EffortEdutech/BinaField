@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": ".build/ts-b3",
+    "rootDir": "."
+  },
+  "include": [
+    "packages/security/src/**/*.ts",
+    "packages/generated/clients/typescript-admin/**/*.ts",
+    "packages/generated/clients/typescript-server/**/*.ts",
+    "tools/batch3/security-smoke.ts",
+    "packages/api-contract/src/**/*.ts",
+    "tools/batch3/api-contract-smoke.ts"
+  ]
+}

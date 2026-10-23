@@ -1,0 +1,201 @@
+{
+  "registry_version": "1.0.0",
+  "events": [
+    {
+      "event_type": "TemplateVersionPublished",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/TemplateVersionPublished/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "TemplateVersionActivated",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/TemplateVersionActivated/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "DeploymentActivated",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/DeploymentActivated/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "DeploymentPaused",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/DeploymentPaused/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "DeploymentClosed",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/DeploymentClosed/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "AssignmentIssued",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/AssignmentIssued/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "AssignmentReassigned",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/AssignmentReassigned/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "AssignmentCancelled",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/AssignmentCancelled/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "AssignmentCompleted",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/AssignmentCompleted/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "SubmissionReceived",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/SubmissionReceived/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "SubmissionAccepted",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/SubmissionAccepted/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "SubmissionRejected",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/SubmissionRejected/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "EvidenceUploaded",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/EvidenceUploaded/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "EvidenceVerified",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/EvidenceVerified/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "EvidenceBound",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/EvidenceBound/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "EvidenceQuarantined",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/EvidenceQuarantined/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "EvidencePurged",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/EvidencePurged/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "WorkflowRunQueued",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/WorkflowRunQueued/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "WorkflowRunStarted",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/WorkflowRunStarted/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "WorkflowRunSucceeded",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/WorkflowRunSucceeded/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "WorkflowRunFailed",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/WorkflowRunFailed/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "AnalyticalProjectionBuilt",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/AnalyticalProjectionBuilt/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "AnalyticalProjectionFailed",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/AnalyticalProjectionFailed/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "InsightGenerated",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/InsightGenerated/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "MembershipRevoked",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/MembershipRevoked/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "DeviceRevoked",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/DeviceRevoked/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "ReferenceDatasetUpdated",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/ReferenceDatasetUpdated/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    },
+    {
+      "event_type": "SecurityPolicyUpdated",
+      "event_version": 1,
+      "payload_schema_id": "https://contracts.binafield.io/event/SecurityPolicyUpdated/1",
+      "delivery": "AT_LEAST_ONCE",
+      "past_tense_fact": true
+    }
+  ]
+}

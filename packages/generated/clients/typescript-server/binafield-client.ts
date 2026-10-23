@@ -1,0 +1,51 @@
+// GENERATED from BF-P1-05/P1-06 machine registries. DO NOT EDIT.
+export const API_SECURITY_CONTRACT_SIGNATURE = '9c30bafff38c0eb45b07df84ace1b39e80b54ad980d5b1a9dacef15776179594' as const;
+export type IdempotencyClass = 'NONE' | 'RECOMMENDED' | 'REQUIRED';
+export interface OperationSpec { operationId:string; method:string; path:string; permission:string; deviceRequired:boolean; idempotency:IdempotencyClass }
+export const OPERATIONS: readonly OperationSpec[] = [
+  { operationId: 'listProjects', method: 'GET', path: '/organizations/{organization_id}/projects', permission: 'project.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'createProject', method: 'POST', path: '/organizations/{organization_id}/projects', permission: 'project.create', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'getProject', method: 'GET', path: '/organizations/{organization_id}/projects/{project_id}', permission: 'project.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'updateProject', method: 'PATCH', path: '/organizations/{organization_id}/projects/{project_id}', permission: 'project.update', deviceRequired: false, idempotency: 'RECOMMENDED' },
+  { operationId: 'archiveProject', method: 'POST', path: '/organizations/{organization_id}/projects/{project_id}:archive', permission: 'project.archive', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'listTemplates', method: 'GET', path: '/organizations/{organization_id}/templates', permission: 'template.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'createTemplate', method: 'POST', path: '/organizations/{organization_id}/templates', permission: 'template.create', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'getTemplate', method: 'GET', path: '/organizations/{organization_id}/templates/{template_id}', permission: 'template.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'createTemplateVersion', method: 'POST', path: '/organizations/{organization_id}/templates/{template_id}/versions', permission: 'template.create', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'getTemplateVersion', method: 'GET', path: '/organizations/{organization_id}/template-versions/{template_version_id}', permission: 'template.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'updateDraftBlueprint', method: 'PUT', path: '/organizations/{organization_id}/template-versions/{template_version_id}/blueprint', permission: 'template.edit_draft', deviceRequired: false, idempotency: 'RECOMMENDED' },
+  { operationId: 'validateTemplateVersion', method: 'POST', path: '/organizations/{organization_id}/template-versions/{template_version_id}:validate', permission: 'template.validate', deviceRequired: false, idempotency: 'RECOMMENDED' },
+  { operationId: 'publishTemplateVersion', method: 'POST', path: '/organizations/{organization_id}/template-versions/{template_version_id}:publish', permission: 'template.publish', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'listDeployments', method: 'GET', path: '/organizations/{organization_id}/deployments', permission: 'deployment.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'createDeployment', method: 'POST', path: '/organizations/{organization_id}/deployments', permission: 'deployment.create', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'activateDeployment', method: 'POST', path: '/organizations/{organization_id}/deployments/{deployment_id}:activate', permission: 'deployment.activate', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'pauseDeployment', method: 'POST', path: '/organizations/{organization_id}/deployments/{deployment_id}:pause', permission: 'deployment.pause', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'closeDeployment', method: 'POST', path: '/organizations/{organization_id}/deployments/{deployment_id}:close', permission: 'deployment.close', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'listAssignments', method: 'GET', path: '/organizations/{organization_id}/assignments', permission: 'assignment.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'createAssignment', method: 'POST', path: '/organizations/{organization_id}/assignments', permission: 'assignment.create', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'getAssignment', method: 'GET', path: '/organizations/{organization_id}/assignments/{assignment_id}', permission: 'assignment.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'issueAssignment', method: 'POST', path: '/organizations/{organization_id}/assignments/{assignment_id}:issue', permission: 'assignment.issue', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'reassignAssignment', method: 'POST', path: '/organizations/{organization_id}/assignments/{assignment_id}:reassign', permission: 'assignment.reassign', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'cancelAssignment', method: 'POST', path: '/organizations/{organization_id}/assignments/{assignment_id}:cancel', permission: 'assignment.cancel', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'listSubmissions', method: 'GET', path: '/organizations/{organization_id}/submissions', permission: 'submission.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'getSubmission', method: 'GET', path: '/organizations/{organization_id}/submissions/{submission_id}', permission: 'submission.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'listSubmissionEvidence', method: 'GET', path: '/organizations/{organization_id}/submissions/{submission_id}/evidence', permission: 'evidence.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'fieldBootstrap', method: 'POST', path: '/organizations/{organization_id}/field/bootstrap', permission: 'assignment.read', deviceRequired: true, idempotency: 'NONE' },
+  { operationId: 'fieldDelta', method: 'GET', path: '/organizations/{organization_id}/field/delta', permission: 'assignment.read', deviceRequired: true, idempotency: 'NONE' },
+  { operationId: 'acknowledgeFieldDelta', method: 'POST', path: '/organizations/{organization_id}/field/acknowledgements', permission: 'assignment.execute', deviceRequired: true, idempotency: 'REQUIRED' },
+  { operationId: 'receiveSubmissionAttempt', method: 'POST', path: '/organizations/{organization_id}/field/submission-attempts', permission: 'submission.create', deviceRequired: true, idempotency: 'REQUIRED' },
+  { operationId: 'getSubmissionAttemptOutcome', method: 'GET', path: '/organizations/{organization_id}/field/submission-attempts/{attempt_id}/outcome', permission: 'submission.acceptance.read', deviceRequired: true, idempotency: 'NONE' },
+  { operationId: 'initiateEvidenceUpload', method: 'POST', path: '/organizations/{organization_id}/evidence/uploads', permission: 'evidence.capture', deviceRequired: true, idempotency: 'REQUIRED' },
+  { operationId: 'finalizeEvidenceUpload', method: 'POST', path: '/organizations/{organization_id}/evidence/uploads/{upload_id}:finalize', permission: 'evidence.capture', deviceRequired: true, idempotency: 'REQUIRED' },
+  { operationId: 'getEvidenceStatus', method: 'GET', path: '/organizations/{organization_id}/evidence/{attachment_id}/status', permission: 'evidence.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'requestEvidenceDownload', method: 'POST', path: '/organizations/{organization_id}/evidence/{attachment_id}:request-download', permission: 'evidence.download', deviceRequired: false, idempotency: 'REQUIRED' },
+  { operationId: 'listMetrics', method: 'GET', path: '/organizations/{organization_id}/analytics/metrics', permission: 'analytics.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'queryMetric', method: 'POST', path: '/organizations/{organization_id}/analytics/query', permission: 'analytics.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'drilldownMetric', method: 'POST', path: '/organizations/{organization_id}/analytics/drilldown', permission: 'analytics.read', deviceRequired: false, idempotency: 'NONE' },
+  { operationId: 'listInsights', method: 'GET', path: '/organizations/{organization_id}/analytics/insights', permission: 'analytics.read', deviceRequired: false, idempotency: 'NONE' },
+] as const;
+export interface RequestOptions { organizationId:string; pathParams?:Record<string,string>; query?:Record<string,string|number|boolean|undefined>; body?:unknown; idempotencyKey?:string; ifMatch?:string; correlationId?:string; }
+export interface TransportResponse<T=unknown> { status:number; headers:Record<string,string>; body:T }
+export interface Transport { request<T=unknown>(method:string,path:string,headers:Record<string,string>,body?:unknown):Promise<TransportResponse<T>> }
+function renderPath(spec:OperationSpec,o:RequestOptions): string { let p='/api/v1'+spec.path.replace('{organization_id}',o.organizationId); for(const [k,v] of Object.entries(o.pathParams??{})) p=p.replace(`{${k}}`,v); const q=Object.entries(o.query??{}).filter(([,v])=>v!==undefined).map(([k,v])=>`${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`).join('&'); return q?`${p}?${q}`:p; }
+export class BinaFieldClient { constructor(private readonly transport:Transport){} async call<T=unknown>(operationId:string,options:RequestOptions):Promise<TransportResponse<T>>{ const spec=OPERATIONS.find(x=>x.operationId===operationId); if(!spec) throw new Error('UNKNOWN_OPERATION'); if(spec.idempotency==='REQUIRED'&&!options.idempotencyKey) throw new Error('IDEMPOTENCY_KEY_REQUIRED'); const headers:Record<string,string>={Accept:'application/json'}; if(options.idempotencyKey) headers['Idempotency-Key']=options.idempotencyKey; if(options.ifMatch) headers['If-Match']=options.ifMatch; if(options.correlationId) headers['X-Correlation-Id']=options.correlationId; if(options.body!==undefined) headers['Content-Type']='application/json'; return this.transport.request<T>(spec.method,renderPath(spec,options),headers,options.body); } }

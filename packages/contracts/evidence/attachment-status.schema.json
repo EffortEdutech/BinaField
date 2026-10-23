@@ -1,0 +1,67 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/attachment-status.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "binding_state": {
+      "enum": [
+        "UNBOUND",
+        "BOUND"
+      ]
+    },
+    "bound_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "failure_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "integrity_state": {
+      "enum": [
+        "PENDING",
+        "VERIFIED",
+        "FAILED",
+        "QUARANTINED"
+      ]
+    },
+    "lifecycle_state": {
+      "enum": [
+        "LOCAL_CAPTURED",
+        "QUEUED_FOR_UPLOAD",
+        "UPLOADING",
+        "UPLOADED",
+        "BOUND",
+        "PROCESSING",
+        "READY",
+        "FAILED",
+        "RETAINED",
+        "PURGED"
+      ]
+    },
+    "verified_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "attachment_id",
+    "lifecycle_state",
+    "integrity_state",
+    "binding_state"
+  ],
+  "title": "EvidenceAttachmentStatus",
+  "type": "object"
+}

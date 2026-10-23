@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/intelligence/security-suppression/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "minimum_group_size",
+    "action"
+  ],
+  "properties": {
+    "minimum_group_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "action": {
+      "enum": [
+        "SUPPRESS_VALUE",
+        "BROADER_BUCKET",
+        "DISABLE_DRILLDOWN",
+        "HIDE_EXACT_COUNT"
+      ]
+    },
+    "classifications": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "PUBLIC_OPERATIONAL",
+          "INTERNAL",
+          "CONFIDENTIAL",
+          "PERSONAL_DATA",
+          "SENSITIVE_OPERATIONAL"
+        ]
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

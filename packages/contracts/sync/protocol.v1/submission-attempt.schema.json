@@ -1,0 +1,101 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/submission-attempt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assignment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "assignment_revision_used": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "attempt_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "blueprint_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "client_submitted_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "contract_version": {
+      "const": "1.0"
+    },
+    "created_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "device_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "evidence_manifest": {
+      "items": {
+        "$ref": "../../evidence/manifest-entry.schema.json"
+      },
+      "type": "array"
+    },
+    "idempotency_key": {
+      "minLength": 8,
+      "type": "string"
+    },
+    "membership_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "payload_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "session_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "template_version_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "timezone": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "attempt_id",
+    "idempotency_key",
+    "session_id",
+    "organization_id",
+    "assignment_id",
+    "assignment_revision_used",
+    "template_version_id",
+    "blueprint_hash",
+    "payload",
+    "payload_hash",
+    "evidence_manifest",
+    "device_id",
+    "contract_version",
+    "created_at"
+  ],
+  "title": "OfflineSubmissionAttempt",
+  "type": "object"
+}

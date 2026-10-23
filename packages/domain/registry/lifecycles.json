@@ -1,0 +1,174 @@
+{
+  "registry_version": "1.0.0",
+  "entities": {
+    "Template": {
+      "states": [
+        "DRAFT",
+        "ACTIVE",
+        "SUSPENDED",
+        "ARCHIVED"
+      ],
+      "terminal": [
+        "ARCHIVED"
+      ]
+    },
+    "TemplateVersion": {
+      "states": [
+        "DRAFT",
+        "VALIDATED",
+        "PUBLISHED",
+        "ACTIVE",
+        "SUPERSEDED",
+        "ARCHIVED"
+      ],
+      "terminal": [
+        "ARCHIVED"
+      ]
+    },
+    "Deployment": {
+      "states": [
+        "DRAFT",
+        "SCHEDULED",
+        "ACTIVE",
+        "PAUSED",
+        "CLOSED",
+        "ARCHIVED"
+      ],
+      "terminal": [
+        "ARCHIVED"
+      ]
+    },
+    "Assignment": {
+      "states": [
+        "PLANNED",
+        "ASSIGNED",
+        "IN_PROGRESS",
+        "SUBMITTED",
+        "COMPLETED",
+        "CANCELLED"
+      ],
+      "terminal": [
+        "COMPLETED",
+        "CANCELLED"
+      ],
+      "derived_conditions": [
+        "OVERDUE",
+        "DUE_SOON",
+        "BLOCKED",
+        "REQUIRES_REVIEW",
+        "LATE_COMPLETION"
+      ]
+    },
+    "SubmissionSession": {
+      "states": [
+        "CREATED",
+        "IN_PROGRESS",
+        "COMPLETE",
+        "SUBMITTED",
+        "ABANDONED"
+      ],
+      "terminal": [
+        "SUBMITTED",
+        "ABANDONED"
+      ]
+    },
+    "Sync": {
+      "states": [
+        "LOCAL_ONLY",
+        "QUEUED",
+        "SYNCING",
+        "SYNC_FAILED",
+        "RECONCILIATION_REQUIRED",
+        "SYNCED"
+      ],
+      "terminal": []
+    },
+    "Submission": {
+      "states": [
+        "RECEIVED",
+        "VALIDATING",
+        "ACCEPTED",
+        "REJECTED"
+      ],
+      "terminal": [
+        "ACCEPTED",
+        "REJECTED"
+      ]
+    },
+    "Evidence": {
+      "states": [
+        "LOCAL_ONLY",
+        "UPLOAD_PENDING",
+        "UPLOADING",
+        "UPLOADED",
+        "VERIFYING",
+        "VERIFIED",
+        "BOUND",
+        "READY",
+        "QUARANTINED",
+        "PURGED"
+      ],
+      "terminal": [
+        "PURGED"
+      ]
+    },
+    "WorkflowRun": {
+      "states": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "terminal": [
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    "AnalyticalProjection": {
+      "states": [
+        "PENDING",
+        "BUILDING",
+        "CURRENT",
+        "STALE",
+        "FAILED",
+        "REBUILDING"
+      ],
+      "terminal": []
+    },
+    "Membership": {
+      "states": [
+        "INVITED",
+        "ACTIVE",
+        "SUSPENDED",
+        "REVOKED"
+      ],
+      "terminal": [
+        "REVOKED"
+      ]
+    },
+    "Device": {
+      "states": [
+        "REGISTERED",
+        "ACTIVE",
+        "SUSPENDED",
+        "REVOKED"
+      ],
+      "terminal": [
+        "REVOKED"
+      ]
+    },
+    "Project": {
+      "states": [
+        "DRAFT",
+        "ACTIVE",
+        "CLOSED",
+        "ARCHIVED"
+      ],
+      "terminal": [
+        "ARCHIVED"
+      ]
+    }
+  }
+}

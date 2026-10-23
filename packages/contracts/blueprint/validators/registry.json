@@ -1,0 +1,76 @@
+{
+  "registry_version": "1.0.0",
+  "validators": [
+    {
+      "type": "required",
+      "applies_to": "*"
+    },
+    {
+      "type": "min",
+      "applies_to": [
+        "number",
+        "integer",
+        "currency",
+        "numeric_stepper"
+      ]
+    },
+    {
+      "type": "max",
+      "applies_to": [
+        "number",
+        "integer",
+        "currency",
+        "numeric_stepper"
+      ]
+    },
+    {
+      "type": "pattern",
+      "applies_to": [
+        "text",
+        "paragraph"
+      ]
+    },
+    {
+      "type": "allowed_values",
+      "applies_to": [
+        "single_select",
+        "multi_select"
+      ]
+    },
+    {
+      "type": "min_selections",
+      "applies_to": [
+        "multi_select"
+      ]
+    },
+    {
+      "type": "max_selections",
+      "applies_to": [
+        "multi_select"
+      ]
+    },
+    {
+      "type": "file_count",
+      "applies_to": [
+        "camera",
+        "file_attachment"
+      ]
+    },
+    {
+      "type": "location_accuracy",
+      "applies_to": [
+        "gps"
+      ]
+    },
+    {
+      "type": "geofence",
+      "applies_to": [
+        "gps"
+      ]
+    },
+    {
+      "type": "reference_match",
+      "applies_to": "*"
+    }
+  ]
+}

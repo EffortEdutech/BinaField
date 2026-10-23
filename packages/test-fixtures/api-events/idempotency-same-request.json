@@ -1,0 +1,7 @@
+{
+  "key": "idem-a",
+  "organization_id": "00000000-0000-7000-8000-100000000001",
+  "request_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "replay_request_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "expected": "REPLAY_ORIGINAL_RESULT"
+}

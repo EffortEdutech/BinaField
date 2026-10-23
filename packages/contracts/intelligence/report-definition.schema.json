@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/intelligence/report-definition/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_key",
+    "version",
+    "metrics",
+    "time_basis"
+  ],
+  "properties": {
+    "report_key": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "time_basis": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "METRIC_CARD",
+          "TABLE",
+          "LINE_CHART",
+          "BAR_CHART",
+          "MAP"
+        ]
+      }
+    },
+    "classification": {
+      "enum": [
+        "PUBLIC_OPERATIONAL",
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "PERSONAL_DATA",
+        "SENSITIVE_OPERATIONAL"
+      ]
+    }
+  }
+}

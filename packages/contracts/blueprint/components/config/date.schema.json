@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DateConfig",
+  "type": "object",
+  "properties": {
+    "minimum": {
+      "type": "string",
+      "format": "date"
+    },
+    "maximum": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/date.config.schema.json"
+}

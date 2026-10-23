@@ -1,0 +1,1 @@
+-- Runtime role/grant baseline is applied by migration 0011. Runtime roles must remain NOSUPERUSER NOCREATEROLE NOBYPASSRLS and must not own tenant tables.

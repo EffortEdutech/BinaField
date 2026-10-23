@@ -1,0 +1,101 @@
+{
+  "version": "0.4.0",
+  "sync_protocol_version": "1.0",
+  "evidence_protocol_version": "1.0",
+  "local_schema_version": 1,
+  "contract_signature_sha256": "11018555f29e31c391c15295d74080b7de3c2b0b3e18491e5cfbf66686230455",
+  "files": [
+    {
+      "path": "packages/contracts/sync/compatibility-matrix.v1.json",
+      "sha256": "ead367554220e8a866e5722a7f3351157129b83d4dfdde540b134884898893bf"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/assignment-tombstone.schema.json",
+      "sha256": "ea707409f47eb88bba453cabd3addb240dc78703208718668e84a6cda8847574"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/cursor.schema.json",
+      "sha256": "97f0c0f9e994ceddb56a454b7ec2ff810702db77ad2bd71f77a7c8a1dfcc588a"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/delta-entry.schema.json",
+      "sha256": "95c5f11b56fea1388cc30ad2bc3f9e6b40512a47bc4a5cf5ef006a62198be0ba"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/delta-page.schema.json",
+      "sha256": "b8c63f33ef098ad6dbb8d04fbcdc6516ba685608404b07bf7880c18acc64264b"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/outbox-operation.schema.json",
+      "sha256": "e2b63a44dcc401566b063c6cf11e7e5fdd5c2b52ee83866c31e7f16c852bd9e0"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/reconciliation-action-registry.v1.json",
+      "sha256": "b095e24565aef533ab130c71d135e59fb9841e779a149356480e49a594b1ba86"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/reconciliation.schema.json",
+      "sha256": "ed9c40e6f25529fecb199c5ab61212829584577037bd4c1f04f08eb8bcd81044"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/reference-dataset.schema.json",
+      "sha256": "a8e03a22e3465fcbce1fd59c948825d54469e7373db0ba2476b133ca99b04986"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/retry-policy.schema.json",
+      "sha256": "bf36998569bef58b2691383f94388cedd22f6aa655a3d9fbbfabda350f371509"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/submission-attempt.schema.json",
+      "sha256": "52805174d182c747d4b4166c2e9cc9aae06f762978b2ec88fd21ab00b51da0db"
+    },
+    {
+      "path": "packages/contracts/sync/protocol.v1/sync-error-registry.v1.json",
+      "sha256": "678231cabbb4f0dd5a8c21383b23fd654082675875ca1643b6cd72b7a59b72b1"
+    },
+    {
+      "path": "packages/contracts/evidence/attachment-status.schema.json",
+      "sha256": "4dc28431df0f0612787a5a44acdf58a053e6ba16d1d9c15f41aa454039e12bff"
+    },
+    {
+      "path": "packages/contracts/evidence/attachment.schema.json",
+      "sha256": "97e57669f8742a1b651f9de936c7664f2b8d2a98f8362ff126e3e2fef1c68490"
+    },
+    {
+      "path": "packages/contracts/evidence/derivative.schema.json",
+      "sha256": "d011fde09924ef4b0f20d4a6c69398eabb988576d33333765beaa7d6c070d1e8"
+    },
+    {
+      "path": "packages/contracts/evidence/evidence-error-registry.v1.json",
+      "sha256": "ce032c70a60398d3458540142fbf89ed69293d22f89c35464424f385d116d633"
+    },
+    {
+      "path": "packages/contracts/evidence/hold.schema.json",
+      "sha256": "2e9fdc30c814e9e65800d8bdbb6ace801fcf3e810d4b7ef363a061483244d7ec"
+    },
+    {
+      "path": "packages/contracts/evidence/manifest-entry.schema.json",
+      "sha256": "05a4f444900fcb74369d3b60473ac3cba98a496f654ac68cd9ff6ec43d5fb926"
+    },
+    {
+      "path": "packages/contracts/evidence/retention-policy.schema.json",
+      "sha256": "9704b0b950c652d4a025ca1e5ff5818b52f601f7ac8a4b36fa3b459fe9aa7d04"
+    },
+    {
+      "path": "packages/contracts/evidence/upload-finalize.schema.json",
+      "sha256": "159349519b0df204fb107396a30cac8320d723969aeac72b6d0ab239fd40436c"
+    },
+    {
+      "path": "packages/contracts/evidence/upload-init.schema.json",
+      "sha256": "cb71123285ed29ba613730f0b799471455f59159c67e991342e5ed0e76b23e88"
+    },
+    {
+      "path": "packages/contracts/evidence/upload-part.schema.json",
+      "sha256": "71732584fed5dade3c1ac31e6b1a4e128b13d7b98d13141809a98ae541cd2659"
+    },
+    {
+      "path": "packages/contracts/evidence/upload-session.schema.json",
+      "sha256": "20e1ba111bb52c13fecee63d1b46bc12450d7ff5bac78ab9efd86950abf62c6b"
+    }
+  ]
+}

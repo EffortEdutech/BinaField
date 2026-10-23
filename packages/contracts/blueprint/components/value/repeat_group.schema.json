@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object"
+  },
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/repeat_group.value.schema.json"
+}

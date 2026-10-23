@@ -1,0 +1,15 @@
+{
+  "scenario": "Government NGO Monitoring",
+  "metrics": [
+    "assignments.completion_rate",
+    "submissions.accepted_count"
+  ],
+  "semantics": [
+    "grant.site_category"
+  ],
+  "features": [
+    "completion",
+    "category",
+    "classification_controls"
+  ]
+}

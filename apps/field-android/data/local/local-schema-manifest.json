@@ -1,0 +1,29 @@
+{
+  "destructive_migration_for_unsynced_data": false,
+  "local_schema_version": 1,
+  "sync_protocol_version": "1.0",
+  "tables": [
+    "local_meta",
+    "organization_context",
+    "membership_snapshot",
+    "device_snapshot",
+    "project_cache",
+    "template_package",
+    "reference_dataset",
+    "reference_dataset_row",
+    "assignment_cache",
+    "assignment_tombstone",
+    "submission_session",
+    "submission_attempt",
+    "local_evidence",
+    "sync_inbox",
+    "sync_inbox_item",
+    "sync_outbox",
+    "sync_operation_dependency",
+    "sync_cursor",
+    "sync_event",
+    "reconciliation_case",
+    "reconciliation_action",
+    "diagnostic_event"
+  ]
+}

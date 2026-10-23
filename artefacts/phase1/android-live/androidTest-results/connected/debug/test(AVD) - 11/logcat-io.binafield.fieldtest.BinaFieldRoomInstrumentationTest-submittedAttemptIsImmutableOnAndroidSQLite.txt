@@ -1,0 +1,2 @@
+10-22 01:39:56.213  6728  6748 I TestRunner: started: submittedAttemptIsImmutableOnAndroidSQLite(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)
+10-22 01:39:56.272  6728  6748 I TestRunner: finished: submittedAttemptIsImmutableOnAndroidSQLite(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)

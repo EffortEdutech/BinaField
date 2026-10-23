@@ -1,0 +1,163 @@
+{
+  "registry_version": "1.0.0",
+  "dimensions": [
+    {
+      "dimension_key": "project_id",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "template_id",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "template_version_id",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "deployment_id",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "team_id",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "field_officer_id",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "PERSONAL_DATA",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "assignment_state",
+      "version": 1,
+      "source_grain": "ASSIGNMENT_FACT",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "assignment_condition",
+      "version": 1,
+      "source_grain": "ASSIGNMENT_FACT",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "submission_state",
+      "version": 1,
+      "source_grain": "SUBMISSION",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "date_period",
+      "version": 1,
+      "source_grain": "ALL",
+      "value_type": "DATE",
+      "allowed_operators": [
+        "EQ",
+        "IN",
+        "GTE",
+        "LTE"
+      ],
+      "classification": "INTERNAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "zone_ref",
+      "version": 1,
+      "source_grain": "GEO_POINT",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "SENSITIVE_OPERATIONAL",
+      "security_predicate_required": true,
+      "groupable": true
+    },
+    {
+      "dimension_key": "site_category",
+      "version": 1,
+      "source_grain": "FIELD_VALUE",
+      "value_type": "TEXT",
+      "allowed_operators": [
+        "EQ",
+        "IN"
+      ],
+      "classification": "PERSONAL_DATA",
+      "security_predicate_required": true,
+      "groupable": true
+    }
+  ]
+}

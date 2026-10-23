@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": ".build/ts-b6",
+    "rootDir": "."
+  },
+  "include": [
+    "packages/processing-runtime/src/**/*.ts",
+    "packages/api-contract/src/**/*.ts",
+    "packages/evidence-runtime/src/**/*.ts",
+    "packages/intelligence-runtime/src/**/*.ts",
+    "packages/security/src/**/*.ts",
+    "packages/domain/generated/typescript/**/*.ts",
+    "apps/api/modules/evidence/adapters/storage/**/*.ts",
+    "apps/api/modules/evidence/adapters/scanner/**/*.ts",
+    "apps/api/modules/intelligence/**/*.ts",
+    "apps/worker/intelligence/**/*.ts",
+    "tools/batch6/*.ts",
+    "types/**/*.d.ts"
+  ]
+}

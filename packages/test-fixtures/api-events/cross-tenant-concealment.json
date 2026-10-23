@@ -1,0 +1,6 @@
+{
+  "route_organization_id": "00000000-0000-7000-8000-100000000001",
+  "foreign_resource_organization_id": "00000000-0000-7000-8000-100000000002",
+  "expected_http_status": 404,
+  "expected_code": "RESOURCE_NOT_FOUND"
+}

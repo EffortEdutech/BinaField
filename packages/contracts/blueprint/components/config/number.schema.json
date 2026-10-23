@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NumberConfig",
+  "type": "object",
+  "properties": {
+    "minimum": {
+      "type": "number"
+    },
+    "maximum": {
+      "type": "number"
+    },
+    "step": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "unit": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/number.config.schema.json"
+}

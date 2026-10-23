@@ -1,0 +1,91 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/upload-init.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assignment_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "byte_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "claimed_mime_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_role": {
+      "enum": [
+        "ORIGINAL",
+        "DERIVATIVE"
+      ]
+    },
+    "evidence_type": {
+      "enum": [
+        "PHOTO",
+        "SIGNATURE",
+        "FILE_ATTACHMENT"
+      ]
+    },
+    "field_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "parent_attachment_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "session_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "source_kind": {
+      "enum": [
+        "CAMERA_CAPTURE",
+        "FILE_IMPORT",
+        "SIGNATURE_RENDER",
+        "SYSTEM_DERIVATIVE"
+      ]
+    },
+    "upload_protocol_version": {
+      "const": "1.0"
+    }
+  },
+  "required": [
+    "attachment_id",
+    "organization_id",
+    "evidence_type",
+    "evidence_role",
+    "byte_size",
+    "sha256",
+    "claimed_mime_type",
+    "source_kind",
+    "upload_protocol_version"
+  ],
+  "title": "EvidenceUploadInit",
+  "type": "object"
+}

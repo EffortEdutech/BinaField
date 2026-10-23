@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "platform": "Android emulator",
+  "api_level": 30,
+  "tests_total": 6,
+  "tests_passed": 6,
+  "tests_failed": 0,
+  "tests_skipped": 0
+}

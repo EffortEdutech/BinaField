@@ -1,0 +1,10 @@
+{
+  "cases": [
+    "tenant-isolation",
+    "project-scope-before-aggregate",
+    "analytics-without-submission-read",
+    "evidence-download-separate",
+    "small-group-suppression",
+    "sensitive-classification-omission"
+  ]
+}

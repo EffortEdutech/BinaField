@@ -1,0 +1,147 @@
+{
+  "status": "PASS",
+  "criteria": [
+    {
+      "criterion": "B1",
+      "status": "PASS_LOCAL",
+      "detail": "Repository/workspace and all four application skeletons present; local cumulative build proof is recorded separately.",
+      "evidence": []
+    },
+    {
+      "criterion": "B2",
+      "status": "PASS",
+      "detail": "Fresh PostgreSQL 16 + PostGIS migrate-from-zero evidence is required.",
+      "evidence": [
+        "0014_p1_06_security_registry_reconciliation.sql",
+        "0014z_p1_08_rls_registry_metadata_compatibility.sql",
+        "0015_p1_08_evidence_runtime_reconciliation.sql",
+        "0016_p1_09_intelligence_runtime_reconciliation.sql"
+      ]
+    },
+    {
+      "criterion": "B3",
+      "status": "PASS",
+      "detail": "Schema drift/catalogue proof requires live PostgreSQL schema snapshot output.",
+      "evidence": []
+    },
+    {
+      "criterion": "B4",
+      "status": "PASS",
+      "detail": "Domain lifecycle/transition/error/idempotency/event registries plus TypeScript/Kotlin bindings are present and previously validated.",
+      "evidence": [
+        "packages/domain/registry/lifecycles.json",
+        "packages/domain/registry/transitions.json",
+        "packages/domain/generated/typescript/domain-contracts.ts"
+      ]
+    },
+    {
+      "criterion": "B5",
+      "status": "PASS",
+      "detail": "Blueprint Draft 2020-12 schema, component registry, validators, rules/calculations and fixture corpus are present.",
+      "evidence": [
+        "packages/contracts/blueprint/schema/bf-blueprint.schema.json",
+        "packages/contracts/blueprint/components/registry.json"
+      ]
+    },
+    {
+      "criterion": "B6",
+      "status": "PASS",
+      "detail": "OpenAPI 3.1, command/query/event registries and generated TypeScript/Kotlin clients are present.",
+      "evidence": [
+        "packages/contracts/api/openapi.v1.yaml",
+        "packages/contracts/commands/registry.v1.json",
+        "packages/contracts/queries/registry.v1.json",
+        "packages/contracts/events/registry.v1.json"
+      ]
+    },
+    {
+      "criterion": "B7",
+      "status": "PASS",
+      "detail": "Permission/role/RLS registries and SQL policies require live catalogue/runtime-role/pool-isolation proof.",
+      "evidence": [
+        "packages/contracts/security/permission-registry.v1.json",
+        "packages/contracts/security/role-registry.v1.json",
+        "packages/database/security/rls-registry.v1.json",
+        "packages/database/tests/004_rls_crud_and_pool_safety.sql"
+      ]
+    },
+    {
+      "criterion": "B8",
+      "status": "PASS",
+      "detail": "Android Room/device instrumentation must execute the canonical local schema and durability/immutability fixtures.",
+      "evidence": [
+        "apps/field-android/data/local/migrations/0001_local_schema_v1.sql",
+        "apps/field-android/app/src/androidTest/java/io/binafield/fieldtest/BinaFieldRoomInstrumentationTest.java"
+      ]
+    },
+    {
+      "criterion": "B9",
+      "status": "PASS",
+      "detail": "Sync, Evidence and Intelligence contract/manifests are present and versioned.",
+      "evidence": [
+        "packages/contracts/batch04-sync-evidence-manifest.json",
+        "packages/contracts/intelligence/manifest.json"
+      ]
+    },
+    {
+      "criterion": "B10",
+      "status": "PASS_LOCAL",
+      "detail": "Generated contract signatures and binding parity mechanisms are present; Batch 2/3 parity and Batch 5 stable-manifest checks are retained.",
+      "evidence": [
+        "packages/domain/registry/contract-signature.txt",
+        "packages/contracts/blueprint/manifests/blueprint-contract-signature.txt",
+        "packages/contracts/api/manifests/api-security-contract-signature.txt"
+      ]
+    },
+    {
+      "criterion": "B11",
+      "status": "PASS",
+      "detail": "Canonical fixture families are represented across Blueprint, security, sync, evidence, Intelligence and VS-01.",
+      "evidence": [
+        "packages/contracts/blueprint/fixtures/valid/01_one_step_numeric.json",
+        "packages/test-fixtures/security/cross-tenant/foreign-organization.json",
+        "packages/test-fixtures/sync/cursor/crash-before-cursor.json",
+        "packages/test-fixtures/evidence/hash/known-hashes.json",
+        "packages/test-fixtures/intelligence/metrics/golden-results.json",
+        "packages/test-fixtures/phase1-gate/vs01/farm-audit-blueprint.json"
+      ]
+    },
+    {
+      "criterion": "B12",
+      "status": "PASS",
+      "detail": "Contract signatures and cumulative file-manifest generation are implemented; Batch 6 sealed hashes are generated after gate execution.",
+      "evidence": [
+        "tools/batch6/generate_manifest.py"
+      ]
+    }
+  ],
+  "blocking_failures": 0,
+  "pending_external_proofs": 0,
+  "extra": {
+    "processing_acceptance_runtime": "PASS",
+    "migration_count": 17,
+    "latest_migration": "0016_p1_09_intelligence_runtime_reconciliation.sql"
+  },
+  "batch6b_live_reaudit": {
+    "postgres": {
+      "status": "PASS",
+      "postgres_version": "16.4 (Debian 16.4-1.pgdg110+2)",
+      "postgis_version": "3.4.3",
+      "migration_count": 18,
+      "rls_enabled_tables": 44,
+      "rls_forced_tables": 44,
+      "migration_from_zero": true,
+      "database_test_suite": "PASS",
+      "schema_snapshot": "artefacts/phase1/manifests/schema.sql"
+    },
+    "android": {
+      "status": "PASS",
+      "platform": "Android emulator",
+      "api_level": 30,
+      "tests_total": 6,
+      "tests_passed": 6,
+      "tests_failed": 0,
+      "tests_skipped": 0
+    }
+  }
+}

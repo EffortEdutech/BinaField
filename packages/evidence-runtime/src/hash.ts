@@ -1,0 +1,2 @@
+import {createHash} from 'crypto';
+export function sha256(bytes:Uint8Array){return createHash('sha256').update(bytes).digest('hex')}

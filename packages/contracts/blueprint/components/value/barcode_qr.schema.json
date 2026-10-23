@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BarcodeQrValue",
+  "type": "object",
+  "properties": {
+    "raw_value": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "raw_value",
+    "format",
+    "captured_at"
+  ],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/barcode_qr.value.schema.json"
+}

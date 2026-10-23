@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "null",
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/instruction.value.schema.json"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "projection_facts": 21,
+  "checks": {
+    "zero_preserved": true,
+    "false_preserved": true,
+    "null_absent_distinguished": true,
+    "idempotent_projection": true,
+    "rejected_excluded": true,
+    "semantic_compatible": true,
+    "semantic_convertible": true,
+    "semantic_unknown_excluded": true,
+    "project_scope_before_aggregation": true,
+    "cross_tenant_excluded": true,
+    "classification_before_aggregation": true,
+    "analytics_without_raw_drilldown": true,
+    "token_not_authority": true,
+    "evidence_permission_separate": true,
+    "small_group_suppression": true,
+    "stale_fail_closed": true,
+    "stale_warning_allowed": true,
+    "rebuild_deterministic": true,
+    "rebuild_failure_atomic": true,
+    "source_not_mutated": true
+  },
+  "values": {
+    "completion_project_1": 50,
+    "completion_org": 75,
+    "evidence_completion": 50,
+    "sync_p95": 19.5,
+    "semantic_converted_sum": 1750
+  }
+}

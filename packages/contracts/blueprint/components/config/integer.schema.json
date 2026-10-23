@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IntegerConfig",
+  "type": "object",
+  "properties": {
+    "minimum": {
+      "type": "integer"
+    },
+    "maximum": {
+      "type": "integer"
+    },
+    "step": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "unit": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/integer.config.schema.json"
+}

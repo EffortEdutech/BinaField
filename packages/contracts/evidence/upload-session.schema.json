@@ -1,0 +1,87 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/upload-session.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "expected_mime_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expected_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "expected_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "max_parts": {
+      "minimum": 1,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "part_size": {
+      "minimum": 1,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "provider_upload_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "enum": [
+        "INITIALISED",
+        "UPLOADING",
+        "UPLOAD_COMPLETE",
+        "VERIFYING",
+        "VERIFIED",
+        "FAILED",
+        "EXPIRED",
+        "ABORTED"
+      ]
+    },
+    "upload_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "upload_strategy": {
+      "enum": [
+        "SINGLE_PUT",
+        "MULTIPART"
+      ]
+    }
+  },
+  "required": [
+    "upload_id",
+    "attachment_id",
+    "organization_id",
+    "expected_size",
+    "expected_sha256",
+    "upload_strategy",
+    "state",
+    "expires_at"
+  ],
+  "title": "EvidenceUploadSession",
+  "type": "object"
+}

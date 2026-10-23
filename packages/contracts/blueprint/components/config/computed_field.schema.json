@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ComputedFieldConfig",
+  "type": "object",
+  "properties": {
+    "value_type": {
+      "enum": [
+        "number",
+        "integer",
+        "currency",
+        "text"
+      ]
+    },
+    "calculation_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "value_type",
+    "calculation_id"
+  ],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/computed_field.config.schema.json"
+}

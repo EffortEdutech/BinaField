@@ -1,0 +1,55 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/hold.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "created_by": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "hold_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "released_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "released_by": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "hold_id",
+    "organization_id",
+    "attachment_id",
+    "reason",
+    "created_by",
+    "created_at"
+  ],
+  "title": "EvidenceHold",
+  "type": "object"
+}

@@ -1,0 +1,16 @@
+{
+  "scenario": "Construction Site Safety",
+  "metrics": [
+    "assignments.overdue_rate",
+    "evidence.completion_rate"
+  ],
+  "semantics": [
+    "inspection.safety_result"
+  ],
+  "features": [
+    "pass_fail",
+    "exceptions",
+    "evidence",
+    "overdue"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "scenario": "Agriculture Farm Audit",
+  "metrics": [
+    "semantic.crop_yield.avg",
+    "evidence.completion_rate"
+  ],
+  "semantics": [
+    "farm.crop_yield_kg",
+    "farm.irrigation_ok"
+  ],
+  "features": [
+    "numeric",
+    "boolean",
+    "geo",
+    "evidence"
+  ]
+}

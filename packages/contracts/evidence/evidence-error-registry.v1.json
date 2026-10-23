@@ -1,0 +1,68 @@
+{
+  "errors": [
+    {
+      "code": "UPLOAD_FAILED"
+    },
+    {
+      "code": "UPLOAD_SESSION_EXPIRED"
+    },
+    {
+      "code": "HASH_MISMATCH"
+    },
+    {
+      "code": "SIZE_MISMATCH"
+    },
+    {
+      "code": "UNSUPPORTED_MEDIA_TYPE"
+    },
+    {
+      "code": "MALWARE_SUSPECTED"
+    },
+    {
+      "code": "QUARANTINED"
+    },
+    {
+      "code": "METADATA_INVALID"
+    },
+    {
+      "code": "BINDING_CONFLICT"
+    },
+    {
+      "code": "TENANT_MISMATCH"
+    },
+    {
+      "code": "SESSION_MISMATCH"
+    },
+    {
+      "code": "ATTEMPT_MISMATCH"
+    },
+    {
+      "code": "FIELD_MISMATCH"
+    },
+    {
+      "code": "MANIFEST_MISMATCH"
+    },
+    {
+      "code": "PROCESSING_FAILED"
+    },
+    {
+      "code": "DERIVATIVE_FAILED"
+    },
+    {
+      "code": "RETENTION_BLOCKED"
+    },
+    {
+      "code": "OBJECT_MISSING"
+    },
+    {
+      "code": "ORPHAN_OBJECT"
+    },
+    {
+      "code": "EVIDENCE_INTEGRITY_FAILED"
+    },
+    {
+      "code": "EVIDENCE_SIZE_LIMIT_EXCEEDED"
+    }
+  ],
+  "version": "1.0.0"
+}

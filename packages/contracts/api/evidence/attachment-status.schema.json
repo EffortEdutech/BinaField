@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/evidence/attachment-status/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attachment_id",
+    "evidence_state"
+  ],
+  "properties": {
+    "attachment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "evidence_state": {
+      "type": "string"
+    },
+    "verified_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "bound": {
+      "type": "boolean"
+    }
+  }
+}

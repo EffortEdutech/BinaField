@@ -1,0 +1,39 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/delta-page.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "delta-entry.schema.json"
+      },
+      "type": "array"
+    },
+    "next_cursor": {
+      "type": "string"
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "prior_cursor": {
+      "type": "string"
+    },
+    "server_time": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "sync_protocol_version": {
+      "const": "1.0"
+    }
+  },
+  "required": [
+    "sync_protocol_version",
+    "organization_id",
+    "prior_cursor",
+    "next_cursor",
+    "entries"
+  ],
+  "title": "DeltaPage",
+  "type": "object"
+}

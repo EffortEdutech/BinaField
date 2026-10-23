@@ -1,0 +1,8 @@
+{
+  "attempt_revision_used": 8,
+  "local_assignment_revision": 8,
+  "must_not_resurrect_assignment": true,
+  "must_preserve_attempt": true,
+  "server_assignment_revision": 9,
+  "server_outcome": "ASSIGNMENT_CANCELLED"
+}

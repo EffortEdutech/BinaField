@@ -1,0 +1,1515 @@
+openapi: 3.1.0
+info:
+  title: BinaField API
+  version: 1.0.0
+  description: Frozen Phase 1 API contract. Organisation route values are routing context, never proof of authority.
+servers:
+- url: https://api.example.invalid/api/v1
+  description: Placeholder; deployment-specific server URL
+security:
+- bearerAuth: []
+paths:
+  /organizations/{organization_id}/projects:
+    get:
+      operationId: listProjects
+      summary: listProjects
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: project.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListProjects
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+    post:
+      operationId: createProject
+      summary: createProject
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: project.create
+      x-binafield-scope: ORG_WIDE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CreateProject
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CreateProject.command.schema.json
+  /organizations/{organization_id}/projects/{project_id}:
+    get:
+      operationId: getProject
+      summary: getProject
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: project.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetProject
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+    patch:
+      operationId: updateProject
+      summary: updateProject
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: project.update
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: UpdateProject
+      x-binafield-device-required: false
+      x-binafield-idempotency: RECOMMENDED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/UpdateProject.command.schema.json
+  /organizations/{organization_id}/projects/{project_id}:archive:
+    post:
+      operationId: archiveProject
+      summary: archiveProject
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: project.archive
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: ArchiveProject
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/ArchiveProject.command.schema.json
+  /organizations/{organization_id}/templates:
+    get:
+      operationId: listTemplates
+      summary: listTemplates
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: template.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListTemplates
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+    post:
+      operationId: createTemplate
+      summary: createTemplate
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: template.create
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CreateTemplate
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CreateTemplate.command.schema.json
+  /organizations/{organization_id}/templates/{template_id}:
+    get:
+      operationId: getTemplate
+      summary: getTemplate
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: template.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetTemplate
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/templates/{template_id}/versions:
+    post:
+      operationId: createTemplateVersion
+      summary: createTemplateVersion
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: template.create
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CreateTemplateVersion
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CreateTemplateVersion.command.schema.json
+  /organizations/{organization_id}/template-versions/{template_version_id}:
+    get:
+      operationId: getTemplateVersion
+      summary: getTemplateVersion
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: template_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: template.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetTemplateVersion
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/template-versions/{template_version_id}/blueprint:
+    put:
+      operationId: updateDraftBlueprint
+      summary: updateDraftBlueprint
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: template_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: template.edit_draft
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: UpdateDraftBlueprint
+      x-binafield-device-required: false
+      x-binafield-idempotency: RECOMMENDED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/UpdateDraftBlueprint.command.schema.json
+  /organizations/{organization_id}/template-versions/{template_version_id}:validate:
+    post:
+      operationId: validateTemplateVersion
+      summary: validateTemplateVersion
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: template_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: template.validate
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: ValidateTemplateVersion
+      x-binafield-device-required: false
+      x-binafield-idempotency: RECOMMENDED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/ValidateTemplateVersion.command.schema.json
+  /organizations/{organization_id}/template-versions/{template_version_id}:publish:
+    post:
+      operationId: publishTemplateVersion
+      summary: publishTemplateVersion
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: template_version_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: template.publish
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: PublishTemplateVersion
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/PublishTemplateVersion.command.schema.json
+  /organizations/{organization_id}/deployments:
+    get:
+      operationId: listDeployments
+      summary: listDeployments
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: deployment.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListDeployments
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+    post:
+      operationId: createDeployment
+      summary: createDeployment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: deployment.create
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CreateDeployment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CreateDeployment.command.schema.json
+  /organizations/{organization_id}/deployments/{deployment_id}:activate:
+    post:
+      operationId: activateDeployment
+      summary: activateDeployment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: deployment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: deployment.activate
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: ActivateDeployment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/ActivateDeployment.command.schema.json
+  /organizations/{organization_id}/deployments/{deployment_id}:pause:
+    post:
+      operationId: pauseDeployment
+      summary: pauseDeployment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: deployment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: deployment.pause
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: PauseDeployment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/PauseDeployment.command.schema.json
+  /organizations/{organization_id}/deployments/{deployment_id}:close:
+    post:
+      operationId: closeDeployment
+      summary: closeDeployment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: deployment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: deployment.close
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CloseDeployment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CloseDeployment.command.schema.json
+  /organizations/{organization_id}/assignments:
+    get:
+      operationId: listAssignments
+      summary: listAssignments
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: assignment.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListAssignments
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+    post:
+      operationId: createAssignment
+      summary: createAssignment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: assignment.create
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CreateAssignment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CreateAssignment.command.schema.json
+  /organizations/{organization_id}/assignments/{assignment_id}:
+    get:
+      operationId: getAssignment
+      summary: getAssignment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: assignment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: assignment.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetAssignment
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/assignments/{assignment_id}:issue:
+    post:
+      operationId: issueAssignment
+      summary: issueAssignment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: assignment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: assignment.issue
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: IssueAssignment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/IssueAssignment.command.schema.json
+  /organizations/{organization_id}/assignments/{assignment_id}:reassign:
+    post:
+      operationId: reassignAssignment
+      summary: reassignAssignment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: assignment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: assignment.reassign
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: ReassignAssignment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/ReassignAssignment.command.schema.json
+  /organizations/{organization_id}/assignments/{assignment_id}:cancel:
+    post:
+      operationId: cancelAssignment
+      summary: cancelAssignment
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: assignment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IfMatch'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: assignment.cancel
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: CancelAssignment
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/CancelAssignment.command.schema.json
+  /organizations/{organization_id}/submissions:
+    get:
+      operationId: listSubmissions
+      summary: listSubmissions
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: submission.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListSubmissions
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/submissions/{submission_id}:
+    get:
+      operationId: getSubmission
+      summary: getSubmission
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: submission.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetSubmission
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/submissions/{submission_id}/evidence:
+    get:
+      operationId: listSubmissionEvidence
+      summary: listSubmissionEvidence
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: evidence.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListSubmissionEvidence
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/field/bootstrap:
+    post:
+      operationId: fieldBootstrap
+      summary: fieldBootstrap
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: assignment.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: FieldBootstrap
+      x-binafield-device-required: true
+      x-binafield-idempotency: NONE
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../queries/FieldBootstrap.query.schema.json
+  /organizations/{organization_id}/field/delta:
+    get:
+      operationId: fieldDelta
+      summary: fieldDelta
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: assignment.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: FieldDelta
+      x-binafield-device-required: true
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/field/acknowledgements:
+    post:
+      operationId: acknowledgeFieldDelta
+      summary: acknowledgeFieldDelta
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: assignment.execute
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: AcknowledgeFieldDelta
+      x-binafield-device-required: true
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/AcknowledgeFieldDelta.command.schema.json
+  /organizations/{organization_id}/field/submission-attempts:
+    post:
+      operationId: receiveSubmissionAttempt
+      summary: receiveSubmissionAttempt
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: submission.create
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: ReceiveSubmissionAttempt
+      x-binafield-device-required: true
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/ReceiveSubmissionAttempt.command.schema.json
+  /organizations/{organization_id}/field/submission-attempts/{attempt_id}/outcome:
+    get:
+      operationId: getSubmissionAttemptOutcome
+      summary: getSubmissionAttemptOutcome
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: attempt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: submission.acceptance.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetSubmissionAttemptOutcome
+      x-binafield-device-required: true
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/evidence/uploads:
+    post:
+      operationId: initiateEvidenceUpload
+      summary: initiateEvidenceUpload
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: evidence.capture
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: InitiateEvidenceUpload
+      x-binafield-device-required: true
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/InitiateEvidenceUpload.command.schema.json
+  /organizations/{organization_id}/evidence/uploads/{upload_id}:finalize:
+    post:
+      operationId: finalizeEvidenceUpload
+      summary: finalizeEvidenceUpload
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: upload_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: evidence.capture
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: FinalizeEvidenceUpload
+      x-binafield-device-required: true
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/FinalizeEvidenceUpload.command.schema.json
+  /organizations/{organization_id}/evidence/{attachment_id}/status:
+    get:
+      operationId: getEvidenceStatus
+      summary: getEvidenceStatus
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: attachment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: evidence.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetEvidenceStatus
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/evidence/{attachment_id}:request-download:
+    post:
+      operationId: requestEvidenceDownload
+      summary: requestEvidenceDownload
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: attachment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Command accepted/applied
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+        '409':
+          description: Revision/state/idempotency conflict
+      x-binafield-permission: evidence.download
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: COMMAND
+      x-binafield-registry-key: RequestEvidenceDownload
+      x-binafield-device-required: false
+      x-binafield-idempotency: REQUIRED
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../commands/RequestEvidenceDownload.command.schema.json
+  /organizations/{organization_id}/analytics/metrics:
+    get:
+      operationId: listMetrics
+      summary: listMetrics
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: analytics.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListMetrics
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+  /organizations/{organization_id}/analytics/query:
+    post:
+      operationId: queryMetric
+      summary: queryMetric
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: analytics.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: QueryMetric
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../queries/QueryMetric.query.schema.json
+  /organizations/{organization_id}/analytics/drilldown:
+    post:
+      operationId: drilldownMetric
+      summary: drilldownMetric
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: analytics.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: DrilldownMetric
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: ../queries/DrilldownMetric.query.schema.json
+  /organizations/{organization_id}/analytics/insights:
+    get:
+      operationId: listInsights
+      summary: listInsights
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Authorised query result
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./common/problem.schema.json
+        '401':
+          description: Authentication required
+        '403':
+          description: Permission/scope denied where safe
+        '404':
+          description: Absent or concealed resource
+      x-binafield-permission: analytics.read
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: ListInsights
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 200
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: ^W/\"rev-[1-9][0-9]*\"$
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: false
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Problem:
+      $ref: ./common/problem.schema.json

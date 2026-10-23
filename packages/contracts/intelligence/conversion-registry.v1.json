@@ -1,0 +1,38 @@
+{
+  "registry_version": "1.0.0",
+  "conversions": [
+    {
+      "conversion_key": "KG_TO_TONNE_V1",
+      "version": 1,
+      "source_semantic_key": "farm.crop_yield_kg",
+      "source_unit": "kg",
+      "target_semantic_key": "farm.crop_yield_kg",
+      "target_unit": "t",
+      "function_id": "DIVIDE_1000",
+      "precision": 6,
+      "rounding": "HALF_UP"
+    },
+    {
+      "conversion_key": "TONNE_TO_KG_V1",
+      "version": 1,
+      "source_semantic_key": "farm.crop_yield_kg",
+      "source_unit": "t",
+      "target_semantic_key": "farm.crop_yield_kg",
+      "target_unit": "kg",
+      "function_id": "MULTIPLY_1000",
+      "precision": 3,
+      "rounding": "HALF_UP"
+    },
+    {
+      "conversion_key": "SECONDS_TO_MINUTES_V1",
+      "version": 1,
+      "source_semantic_key": "operations.sync_delay_seconds",
+      "source_unit": "s",
+      "target_semantic_key": "operations.sync_delay_seconds",
+      "target_unit": "min",
+      "function_id": "DIVIDE_60",
+      "precision": 4,
+      "rounding": "HALF_UP"
+    }
+  ]
+}

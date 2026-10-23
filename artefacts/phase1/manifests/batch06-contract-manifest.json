@@ -1,0 +1,124 @@
+{
+  "manifest_version": "1.0",
+  "batch": "BF-P1-IMPL-B06",
+  "repository_version": "0.6.0-phase1-b06",
+  "files": [
+    {
+      "path": "packages/contracts/blueprint/generated/typescript/blueprint-contracts.ts",
+      "sha256": "fbb9574184bba46edd141d97f259f02bc1458526d6efb4143281d972aa01782d",
+      "bytes": 1811
+    },
+    {
+      "path": "packages/contracts/blueprint/manifests/blueprint-contract-signature.txt",
+      "sha256": "f68f545ee057ac273c29289d30c04ec43378a51be72f8329cd74aef08688a319",
+      "bytes": 65
+    },
+    {
+      "path": "packages/contracts/blueprint/schema/bf-blueprint.schema.json",
+      "sha256": "5c80bd775c433d2949fad8855671be5b683754b0764685e944f56027709cded7",
+      "bytes": 10777
+    },
+    {
+      "path": "packages/database/tests/006_intelligence_rls_and_freshness.sql",
+      "sha256": "f6378eedf7a370eca73425cdb516b2384a2b18335edcfe4e9c59e78273f2ccdf",
+      "bytes": 1844
+    },
+    {
+      "path": "packages/intelligence-runtime/src/drilldown.ts",
+      "sha256": "aef3c62108f6c5196956f61b63d4ec8650ebfe5244b47139800ae41c82e5826d",
+      "bytes": 2197
+    },
+    {
+      "path": "packages/intelligence-runtime/src/metric.ts",
+      "sha256": "0cfa4cdd9ae1c5a8cc9f8239bea7399a8a3b310fdb80d40e8f35291743511556",
+      "bytes": 5519
+    },
+    {
+      "path": "packages/processing-runtime/src/index.ts",
+      "sha256": "69d694d2f6f2ae862c7fd08e6b0a3cb4ddcbb3c30df511fccf6302deea96c7f4",
+      "bytes": 63
+    },
+    {
+      "path": "packages/processing-runtime/src/models.ts",
+      "sha256": "6875ede178eedb82b8d90a4197c78ddead15309c14b0468762cca5c20521a33b",
+      "bytes": 1450
+    },
+    {
+      "path": "packages/processing-runtime/src/submission-service.ts",
+      "sha256": "4fe36cc75cfa44c22250a67175ba549aca621b72a26bfa2b4479fd5ba50d45e3",
+      "bytes": 4107
+    },
+    {
+      "path": "packages/test-fixtures/phase1-gate/vs01/farm-audit-blueprint.json",
+      "sha256": "bf2d11c18778f484e4a4a4d10f670d2e90546abdb517dae54e35ac5dcd6e88d1",
+      "bytes": 2030
+    },
+    {
+      "path": "scripts/gate/phase1-local-regression.sh",
+      "sha256": "7499ccab3bf8f2a5e498ec2906a0bb4a6502f5a9060a1d9854cc80e8833c146d",
+      "bytes": 1561
+    },
+    {
+      "path": "scripts/gate/postgres16-postgis-gate.sh",
+      "sha256": "2af782b1f812b46eb5507f6256c8e7228065522991a58de8ff9ad19f48d22c3c",
+      "bytes": 2845
+    },
+    {
+      "path": "tools/batch2/generate_bindings.py",
+      "sha256": "7d14e07da0b5290ca72c122450241056fd02bfd9d1ee2bf4ed4ec5dc843f34ce",
+      "bytes": 5352
+    },
+    {
+      "path": "tools/batch6/failure-injection-smoke.ts",
+      "sha256": "d62d1a7dd447b28b2903906ec99bdc23802117690406ddc90230e47c3b269089",
+      "bytes": 3912
+    },
+    {
+      "path": "tools/batch6/final_gate.py",
+      "sha256": "0a60ea9784b0fed84eb6a5d1f17188a796eade41f16391eade19ca5011ddb5d4",
+      "bytes": 4142
+    },
+    {
+      "path": "tools/batch6/generate_manifest.py",
+      "sha256": "799ab2081479f0b360757ef9993e35989745e787f9de6f834f4a5024e74df382",
+      "bytes": 1721
+    },
+    {
+      "path": "tools/batch6/p1b_artifact_audit.py",
+      "sha256": "57a42c58a9355763a9bda1a69c157977559e9585ebf3ef357b57335f45c587d7",
+      "bytes": 5040
+    },
+    {
+      "path": "tools/batch6/postgres_probe.py",
+      "sha256": "cac759f0e9955bb88402cf5426904731b8d3347f3688ba877ee7d815a64d6a0f",
+      "bytes": 1154
+    },
+    {
+      "path": "tools/batch6/verify_vs01_blueprint.py",
+      "sha256": "a92368b99d63b859da1b5dc9c6f2a354bdbe0edb293caef54e4d4dbb266c7df6",
+      "bytes": 2343
+    },
+    {
+      "path": "tools/batch6/vs01-server-stage.ts",
+      "sha256": "261089234cc195c77a5c7451fbe1431af1eca60816f0b03433a76ca658c7be56",
+      "bytes": 14374
+    },
+    {
+      "path": "tools/batch6/vs01_field_finalize.py",
+      "sha256": "ad2c34cd5f213f237c565e1d42fcd9030b8a7c6e6cbd216a7c33d65aedb2c72e",
+      "bytes": 2868
+    },
+    {
+      "path": "tools/batch6/vs01_field_stage.py",
+      "sha256": "884259689b48deee345588d074b2bf3a08ffa1fac2487251a5aa4cc987b8249b",
+      "bytes": 8444
+    },
+    {
+      "path": "tsconfig.batch6.json",
+      "sha256": "f80f1733d4cdb522bbe9c35408f5269a2581038eb1f288f09f5697018021df04",
+      "bytes": 776
+    }
+  ],
+  "file_count": 23,
+  "contract_signature": "d1a0d187e04563f391cc78cb487879c2d48f456277501bc336fb58955977fd83"
+}

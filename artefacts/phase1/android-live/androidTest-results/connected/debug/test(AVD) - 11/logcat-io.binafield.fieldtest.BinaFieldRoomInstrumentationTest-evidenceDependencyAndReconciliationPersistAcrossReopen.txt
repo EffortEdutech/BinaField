@@ -1,0 +1,2 @@
+10-22 01:39:55.860  6692  6712 I TestRunner: started: evidenceDependencyAndReconciliationPersistAcrossReopen(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)
+10-22 01:39:55.924  6692  6712 I TestRunner: finished: evidenceDependencyAndReconciliationPersistAcrossReopen(io.binafield.fieldtest.BinaFieldRoomInstrumentationTest)

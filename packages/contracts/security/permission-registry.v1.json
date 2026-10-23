@@ -1,0 +1,1160 @@
+{
+  "registry_version": "1.0.0",
+  "permissions": [
+    {
+      "permission_key": "organization.read",
+      "description": "Read Organisation settings and metadata",
+      "domain_owner": "iam",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "organization.manage",
+      "description": "Manage Organisation settings",
+      "domain_owner": "iam",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "membership.read",
+      "description": "Read Organisation memberships",
+      "domain_owner": "iam",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "membership.invite",
+      "description": "Invite Organisation memberships",
+      "domain_owner": "iam",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "membership.suspend",
+      "description": "Suspend Organisation memberships",
+      "domain_owner": "iam",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "membership.revoke",
+      "description": "Revoke Organisation memberships",
+      "domain_owner": "iam",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "role.read",
+      "description": "Read roles and bindings",
+      "domain_owner": "iam",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "role.assign",
+      "description": "Assign governed roles within delegated ceiling",
+      "domain_owner": "iam",
+      "risk_level": "CRITICAL",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "security.policy.read",
+      "description": "Read Organisation security policy",
+      "domain_owner": "iam",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "security.policy.manage",
+      "description": "Manage Organisation security policy",
+      "domain_owner": "iam",
+      "risk_level": "CRITICAL",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "security.audit.read",
+      "description": "Read security-specific audit records",
+      "domain_owner": "audit",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "device.read",
+      "description": "Read registered device metadata",
+      "domain_owner": "iam",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "device.revoke",
+      "description": "Revoke a registered device",
+      "domain_owner": "iam",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "project.create",
+      "description": "Create Projects",
+      "domain_owner": "core",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "project.read",
+      "description": "Read authorised Projects",
+      "domain_owner": "core",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "project.update",
+      "description": "Update authorised Project metadata/state",
+      "domain_owner": "core",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "project.archive",
+      "description": "Archive authorised Projects",
+      "domain_owner": "core",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "team.read",
+      "description": "Read authorised Teams",
+      "domain_owner": "core",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "team.manage",
+      "description": "Manage Teams and membership grouping",
+      "domain_owner": "core",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "template.create",
+      "description": "Create Templates and draft Versions",
+      "domain_owner": "blueprint",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "template.read",
+      "description": "Read authorised Templates/Versions",
+      "domain_owner": "blueprint",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "template.edit_draft",
+      "description": "Edit DRAFT Template Version content",
+      "domain_owner": "blueprint",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "template.validate",
+      "description": "Validate DRAFT Template Version",
+      "domain_owner": "blueprint",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "template.publish",
+      "description": "Publish immutable Template Version",
+      "domain_owner": "blueprint",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "template.archive",
+      "description": "Archive Templates/Versions",
+      "domain_owner": "blueprint",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "deployment.create",
+      "description": "Create Deployments",
+      "domain_owner": "ops",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "deployment.read",
+      "description": "Read Deployments",
+      "domain_owner": "ops",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "deployment.update",
+      "description": "Update permitted Deployment metadata",
+      "domain_owner": "ops",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "deployment.activate",
+      "description": "Activate/schedule/resume Deployments",
+      "domain_owner": "ops",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "deployment.pause",
+      "description": "Pause Deployments",
+      "domain_owner": "ops",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "deployment.close",
+      "description": "Close/archive Deployments",
+      "domain_owner": "ops",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.create",
+      "description": "Create Assignments",
+      "domain_owner": "ops",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.read",
+      "description": "Read eligible Assignments",
+      "domain_owner": "ops",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.issue",
+      "description": "Issue Assignments to field personnel",
+      "domain_owner": "ops",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.reassign",
+      "description": "Reassign Assignments",
+      "domain_owner": "ops",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.cancel",
+      "description": "Cancel Assignments",
+      "domain_owner": "ops",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.execute",
+      "description": "Execute eligible Assignment in Field Runtime",
+      "domain_owner": "field",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "assignment.review",
+      "description": "Review eligible Assignment outcome",
+      "domain_owner": "ops",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "submission.create",
+      "description": "Create immutable Submission Attempt in eligible Assignment context",
+      "domain_owner": "field",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "submission.read",
+      "description": "Read authorised raw Submissions subject to masking",
+      "domain_owner": "field",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "submission.acceptance.read",
+      "description": "Read acceptance/rejection outcomes",
+      "domain_owner": "field",
+      "risk_level": "LOW",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "submission.review",
+      "description": "Review authorised Submissions",
+      "domain_owner": "field",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "evidence.capture",
+      "description": "Capture/upload evidence for eligible work",
+      "domain_owner": "evidence",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "evidence.read",
+      "description": "Read evidence metadata/preview according to classification",
+      "domain_owner": "evidence",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "evidence.download",
+      "description": "Download authorised evidence bytes",
+      "domain_owner": "evidence",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "evidence.download_bulk",
+      "description": "Bulk download authorised evidence",
+      "domain_owner": "evidence",
+      "risk_level": "CRITICAL",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "analytics.read",
+      "description": "Read governed analytics/projections",
+      "domain_owner": "intel",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "analytics.exception.read",
+      "description": "Read analytical exceptions",
+      "domain_owner": "intel",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "analytics.ask",
+      "description": "Use governed Ask BinaField semantic query planner",
+      "domain_owner": "intel",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "report.read",
+      "description": "Read governed reports",
+      "domain_owner": "intel",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "report.export",
+      "description": "Generate/export governed reports/data",
+      "domain_owner": "intel",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "workflow.read",
+      "description": "Read Workflow Runs",
+      "domain_owner": "processing",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": false,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "workflow.retry",
+      "description": "Retry eligible Workflow Runs",
+      "domain_owner": "processing",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "integration.read",
+      "description": "Read approved integration configuration/status",
+      "domain_owner": "processing",
+      "risk_level": "MEDIUM",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "integration.manage",
+      "description": "Manage approved integrations",
+      "domain_owner": "processing",
+      "risk_level": "CRITICAL",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": true,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "audit.read",
+      "description": "Read governed audit history",
+      "domain_owner": "audit",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "data.confidential.read",
+      "description": "Read fields classified CONFIDENTIAL where policy permits",
+      "domain_owner": "security",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "data.personal.read",
+      "description": "Read fields classified PERSONAL_DATA where policy permits",
+      "domain_owner": "security",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    },
+    {
+      "permission_key": "data.sensitive_operational.read",
+      "description": "Read SENSITIVE_OPERATIONAL fields where policy permits",
+      "domain_owner": "security",
+      "risk_level": "HIGH",
+      "allowed_principal_types": [
+        "HUMAN",
+        "SERVICE",
+        "SYSTEM"
+      ],
+      "supported_scope_modes": [
+        "ORG_WIDE",
+        "PROJECT_RESTRICTED"
+      ],
+      "step_up_required": false,
+      "audit_required": true,
+      "classification_implications": [],
+      "introduced_version": "1.0.0",
+      "deprecated_version": null
+    }
+  ]
+}

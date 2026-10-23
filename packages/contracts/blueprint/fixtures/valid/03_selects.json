@@ -1,0 +1,95 @@
+{
+  "schema": "bf-blueprint/1.0",
+  "schema_version": "1.0",
+  "compatibility": {
+    "min_runtime_version": "1.0.0",
+    "component_registry_version": "1.0.0"
+  },
+  "template": {
+    "template_id": "tpl-demo",
+    "version_id": "tv-demo-v1",
+    "name": "Selects"
+  },
+  "settings": {
+    "locale": "en-MY",
+    "on_hide": "clear"
+  },
+  "workflow_steps": [
+    {
+      "step_id": "s1",
+      "title": "Classification",
+      "sections": [
+        {
+          "section_id": "sec1",
+          "title": "Classify",
+          "components": [
+            {
+              "field_id": "status",
+              "component": "single_select",
+              "label": "Status",
+              "required": true,
+              "config": {
+                "source": "static",
+                "options": [
+                  {
+                    "value": "PASS",
+                    "label": "Pass"
+                  },
+                  {
+                    "value": "FAIL",
+                    "label": "Fail"
+                  }
+                ]
+              },
+              "analytics": {
+                "enabled": true,
+                "semantic_key": "inspection.status",
+                "classification": "INTERNAL"
+              }
+            },
+            {
+              "field_id": "issues",
+              "component": "multi_select",
+              "label": "Issues",
+              "required": false,
+              "config": {
+                "source": "static",
+                "options": [
+                  {
+                    "value": "LEAK",
+                    "label": "Leak"
+                  },
+                  {
+                    "value": "NOISE",
+                    "label": "Noise"
+                  }
+                ],
+                "max_selections": 2
+              },
+              "analytics": {
+                "enabled": true,
+                "semantic_key": "inspection.issues",
+                "classification": "INTERNAL"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "validations": [],
+  "rules": [],
+  "calculations": [],
+  "submission_policy": {
+    "allow_offline_submit": true,
+    "require_all_required_evidence": true
+  },
+  "sync_policy": {
+    "offline_capable": true,
+    "reference_dataset_ids": []
+  },
+  "processing_routes": [],
+  "analytics": {
+    "enabled": true
+  }
+}

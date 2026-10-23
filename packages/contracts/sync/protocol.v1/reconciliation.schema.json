@@ -1,0 +1,109 @@
+{
+  "$id": "https://schemas.binafield.io/sync/1.0/reconciliation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_actions": {
+      "items": {
+        "enum": [
+          "ACKNOWLEDGE_SERVER_STATE",
+          "DISCARD_EDITABLE_DRAFT",
+          "CREATE_NEW_ATTEMPT",
+          "KEEP_LOCAL_FOR_REFERENCE",
+          "RETRY_AFTER_REFRESH",
+          "CONTACT_SUPERVISOR",
+          "SERVER_REVIEW_REQUEST"
+        ]
+      },
+      "type": "array"
+    },
+    "case_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "conflict_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "device_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "entity_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "entity_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "local_revision": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "operation_id": {
+      "format": "uuid",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "resolved_at": {
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "server_revision": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "INFO",
+        "WARNING",
+        "BLOCKING",
+        "CRITICAL"
+      ]
+    },
+    "status": {
+      "enum": [
+        "OPEN",
+        "AWAITING_USER",
+        "AWAITING_SERVER",
+        "RESOLVED",
+        "CLOSED_NO_ACTION",
+        "ESCALATED"
+      ]
+    }
+  },
+  "required": [
+    "case_id",
+    "organization_id",
+    "device_id",
+    "conflict_type",
+    "severity",
+    "allowed_actions",
+    "status",
+    "created_at"
+  ],
+  "title": "ReconciliationCase",
+  "type": "object"
+}

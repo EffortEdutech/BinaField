@@ -1,0 +1,16 @@
+{
+  "scenario": "Utility Pump Maintenance",
+  "metrics": [
+    "semantic.pump_pressure.avg",
+    "assignments.revisit_count"
+  ],
+  "semantics": [
+    "asset.pump_pressure_bar"
+  ],
+  "features": [
+    "numeric",
+    "threshold",
+    "trend",
+    "revisit"
+  ]
+}

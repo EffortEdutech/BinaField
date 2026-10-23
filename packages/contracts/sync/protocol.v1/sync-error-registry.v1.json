@@ -1,0 +1,97 @@
+{
+  "errors": [
+    {
+      "code": "NETWORK_UNAVAILABLE",
+      "retryable": true
+    },
+    {
+      "code": "NETWORK_TIMEOUT",
+      "retryable": true
+    },
+    {
+      "code": "SERVER_TEMPORARY_UNAVAILABLE",
+      "retryable": true
+    },
+    {
+      "code": "RATE_LIMITED",
+      "retryable": true
+    },
+    {
+      "code": "AUTH_REFRESH_REQUIRED",
+      "retryable": true
+    },
+    {
+      "code": "MEMBERSHIP_REVOKED",
+      "retryable": false
+    },
+    {
+      "code": "DEVICE_REVOKED",
+      "retryable": false
+    },
+    {
+      "code": "PROTOCOL_INCOMPATIBLE",
+      "retryable": false
+    },
+    {
+      "code": "RUNTIME_INCOMPATIBLE",
+      "retryable": false
+    },
+    {
+      "code": "CURSOR_INVALID",
+      "retryable": false
+    },
+    {
+      "code": "ASSIGNMENT_STALE",
+      "retryable": false
+    },
+    {
+      "code": "ASSIGNMENT_CANCELLED",
+      "retryable": false
+    },
+    {
+      "code": "ASSIGNMENT_REASSIGNED",
+      "retryable": false
+    },
+    {
+      "code": "ASSIGNMENT_COMPLETED_ELSEWHERE",
+      "retryable": false
+    },
+    {
+      "code": "TEMPLATE_VERSION_MISMATCH",
+      "retryable": false
+    },
+    {
+      "code": "REFERENCE_DATA_STALE",
+      "retryable": false
+    },
+    {
+      "code": "PAYLOAD_INTEGRITY_FAILED",
+      "retryable": false
+    },
+    {
+      "code": "EVIDENCE_UPLOAD_FAILED",
+      "retryable": true
+    },
+    {
+      "code": "EVIDENCE_INTEGRITY_FAILED",
+      "retryable": false
+    },
+    {
+      "code": "DUPLICATE_CONFLICT",
+      "retryable": false
+    },
+    {
+      "code": "LOCAL_STORAGE_UNAVAILABLE",
+      "retryable": false
+    },
+    {
+      "code": "LOCAL_DATABASE_CORRUPT",
+      "retryable": false
+    },
+    {
+      "code": "RECONCILIATION_REQUIRED",
+      "retryable": false
+    }
+  ],
+  "version": "1.0.0"
+}

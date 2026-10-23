@@ -1,0 +1,12 @@
+.env
+.env.local
+node_modules/
+.pnpm-store/
+dist/
+build/
+coverage/
+*.log
+.DS_Store
+artefacts/phase1/test-results/
+artefacts/phase1/benchmark-results/
+artefacts/phase1/security-results/

@@ -1,0 +1,9 @@
+// GENERATED BASELINE BINDING — DO NOT EDIT
+export const BLUEPRINT_CONTRACT_SIGNATURE = 'd3c82c04e7af6a56d45b2168acc9916d5b9b7f62818b8ab8aaf2f9030514db7f' as const;
+export type ComponentType = 'text' | 'paragraph' | 'number' | 'integer' | 'currency' | 'numeric_stepper' | 'single_select' | 'multi_select' | 'toggle' | 'date' | 'time' | 'datetime' | 'gps' | 'camera' | 'file_attachment' | 'signature' | 'barcode_qr' | 'instruction' | 'repeat_group' | 'computed_field';
+export type RuleAction = 'SHOW' | 'HIDE' | 'ENABLE' | 'DISABLE' | 'REQUIRE' | 'OPTIONAL' | 'WARN' | 'BLOCK_COMPLETE';
+export interface AnalyticsField { enabled: boolean; semantic_key?: string; classification?: 'PUBLIC_OPERATIONAL'|'INTERNAL'|'CONFIDENTIAL'|'PERSONAL_DATA'|'SENSITIVE_OPERATIONAL'; unit?: string }
+export interface ComponentInstance { field_id:string; component:ComponentType; label:string; required?:boolean; config:Record<string,unknown>; analytics:AnalyticsField }
+export interface Section { section_id:string; title:string; components:ComponentInstance[] }
+export interface WorkflowStep { step_id:string; title:string; sections:Section[] }
+export interface Blueprint { schema:'bf-blueprint/1.0'; schema_version:'1.0'; compatibility:{min_runtime_version:string; component_registry_version:'1.0.0'}; template:{template_id:string;version_id:string;name:string}; settings:{locale?:string;on_hide?:'clear'|'retain'}; workflow_steps:WorkflowStep[]; validations:Record<string,unknown>[]; rules:Record<string,unknown>[]; calculations:Record<string,unknown>[]; submission_policy:{allow_offline_submit:boolean;require_all_required_evidence?:boolean}; sync_policy:{offline_capable:boolean;reference_dataset_ids?:string[]}; processing_routes:{route_id:string;connector_id:string;action:string}[]; analytics:Record<string,unknown>; }

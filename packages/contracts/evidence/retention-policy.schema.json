@@ -1,0 +1,55 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/retention-policy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "derivative_retention_days": {
+      "minimum": 0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "device_local_retention_days": {
+      "minimum": 0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "hold_behavior": {
+      "enum": [
+        "BLOCK_PURGE"
+      ]
+    },
+    "maximum_retention_days": {
+      "minimum": 0,
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "minimum_retention_days": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "purge_approval_required": {
+      "type": "boolean"
+    },
+    "version": {
+      "minimum": 1,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "policy_id",
+    "version",
+    "minimum_retention_days",
+    "hold_behavior"
+  ],
+  "title": "EvidenceRetentionPolicy",
+  "type": "object"
+}

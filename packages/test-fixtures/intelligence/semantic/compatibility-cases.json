@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "semantic_key": "farm.crop_yield_kg",
+      "source": "tv-farm-v1",
+      "target": "tv-farm-v2",
+      "expected": "COMPATIBLE"
+    },
+    {
+      "semantic_key": "farm.crop_yield_kg",
+      "source": "tv-farm-tonnes",
+      "target": "tv-farm-v2",
+      "expected": "CONVERTIBLE"
+    },
+    {
+      "semantic_key": "inspection.safety_result",
+      "source": "tv-safety-v3-redefined",
+      "target": "tv-safety-v2",
+      "expected": "INCOMPATIBLE"
+    },
+    {
+      "semantic_key": "asset.pump_pressure_bar",
+      "source": "unknown-v1",
+      "target": "unknown-v2",
+      "expected": "UNKNOWN"
+    }
+  ]
+}

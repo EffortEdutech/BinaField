@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/intelligence/projection-row/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fact_id",
+    "organization_id",
+    "projection_grain",
+    "projection_version",
+    "source_identity",
+    "classification",
+    "value_presence",
+    "projected_at"
+  ],
+  "properties": {
+    "fact_id": {
+      "type": "string"
+    },
+    "organization_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "assignment_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "submission_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "template_version_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "field_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "semantic_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "projection_grain": {
+      "enum": [
+        "SUBMISSION",
+        "FIELD_VALUE",
+        "REPEAT_ITEM",
+        "MULTI_SELECT_VALUE",
+        "EVIDENCE_FACT",
+        "ASSIGNMENT_FACT",
+        "SYNC_FACT",
+        "WORKFLOW_FACT",
+        "GEO_POINT"
+      ]
+    },
+    "projection_version": {
+      "type": "string"
+    },
+    "source_identity": {
+      "type": "string"
+    },
+    "classification": {
+      "enum": [
+        "PUBLIC_OPERATIONAL",
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "PERSONAL_DATA",
+        "SENSITIVE_OPERATIONAL"
+      ]
+    },
+    "value_presence": {
+      "enum": [
+        "PRESENT",
+        "NULL"
+      ]
+    },
+    "numeric_value": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "boolean_value": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "text_value": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "datetime_value": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "geo": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "dimensions": {
+      "type": "object"
+    },
+    "source_accepted_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "projected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "active": {
+      "type": "boolean"
+    }
+  }
+}

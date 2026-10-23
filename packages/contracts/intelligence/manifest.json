@@ -1,0 +1,274 @@
+{
+  "manifest_version": "1.0",
+  "batch": "BF-P1-IMPL-B05",
+  "package_version": "0.5.0",
+  "contract": "BF-P1-09",
+  "files": [
+    {
+      "path": "apps/api/modules/intelligence/application/IntelligenceQueryService.ts",
+      "sha256": "85472dde211e1f412f027ea90b8a8f30f1c1956940669dbfd9bcd8b760673f24",
+      "bytes": 479
+    },
+    {
+      "path": "apps/worker/intelligence/projection-worker.ts",
+      "sha256": "fdc854c8f7dbed6bbf55fc8035abd10e7ce9e0f9e720016cfd0bc1eed99fd49d",
+      "bytes": 407
+    },
+    {
+      "path": "apps/worker/intelligence/rebuild-worker.ts",
+      "sha256": "76c359d204581f6674062e451d63cf07c966588e9a684647677294057d4b11e0",
+      "bytes": 506
+    },
+    {
+      "path": "packages/contracts/intelligence/analytics-error-registry.v1.json",
+      "sha256": "dfc673ceb4bb66802ef9ab8c931327c56c1ce4bfdb30b07443bfd22c78497803",
+      "bytes": 1774
+    },
+    {
+      "path": "packages/contracts/intelligence/anomaly-function-registry.v1.json",
+      "sha256": "0ba40df81e61b0ca0eb817bcce50e56b2dc4573dae95e34756ccddc9cb1a8abc",
+      "bytes": 1938
+    },
+    {
+      "path": "packages/contracts/intelligence/compatibility-registry.v1.json",
+      "sha256": "84eac69766aa7ff9fa4fd498479c943c610ae0500140cc02df7046d5e107332c",
+      "bytes": 1190
+    },
+    {
+      "path": "packages/contracts/intelligence/conversion-registry.v1.json",
+      "sha256": "c9fd557e772b4c3e172d0faf2e9fc495f7dad3760083ac90abb9e06cfe70e805",
+      "bytes": 1035
+    },
+    {
+      "path": "packages/contracts/intelligence/dimension-registry.v1.json",
+      "sha256": "16013cd0eca22ee2ab7c95bc5a8c66ea13d3e6674d6004a16ea7f117d82bf47a",
+      "bytes": 3734
+    },
+    {
+      "path": "packages/contracts/intelligence/drilldown.schema.json",
+      "sha256": "5410007ee11c6734af7749388756663df597fd21597d713283c6cbf4510682e7",
+      "bytes": 697
+    },
+    {
+      "path": "packages/contracts/intelligence/exception-definition.schema.json",
+      "sha256": "507f9ea230b33378f1f46f6c7a2bdf84c77346f05d4e93832992dfddf3a8759d",
+      "bytes": 1063
+    },
+    {
+      "path": "packages/contracts/intelligence/exception-registry.v1.json",
+      "sha256": "5e88a60a23613175c82c8b2a9ab4c1b4ec8e503be0bdf486348d191630885f73",
+      "bytes": 1451
+    },
+    {
+      "path": "packages/contracts/intelligence/freshness.schema.json",
+      "sha256": "0132cedeb5f733c17c09fc26fa1bc1e17bdbb32fbc01504c1ac0327115146659",
+      "bytes": 1128
+    },
+    {
+      "path": "packages/contracts/intelligence/insight.schema.json",
+      "sha256": "b9074ddfcc3af6d44f63cccde4cfe3f04187919e4380ba4c311ab99995ccac6e",
+      "bytes": 1577
+    },
+    {
+      "path": "packages/contracts/intelligence/measure-registry.v1.json",
+      "sha256": "384b8524b1df261ce7aef9367a44a449cc0da40651123b99e711663f242fc7af",
+      "bytes": 2610
+    },
+    {
+      "path": "packages/contracts/intelligence/metric-definition.schema.json",
+      "sha256": "37e98499009b7f4583ca6be313e7854f7b17847fb43b61ac0db4467f09c6679c",
+      "bytes": 2763
+    },
+    {
+      "path": "packages/contracts/intelligence/metric-registry.v1.json",
+      "sha256": "190d35e029b1a2ed0de92876f3871b2327408d36d68feb4d0889627903a18aec",
+      "bytes": 20556
+    },
+    {
+      "path": "packages/contracts/intelligence/projection-registry.v1.json",
+      "sha256": "a5e90080b08d13151788e72a9c718418225fc6fdc37ac4ab452995ce8d3244ff",
+      "bytes": 1490
+    },
+    {
+      "path": "packages/contracts/intelligence/projection-row.schema.json",
+      "sha256": "e6fa2a1e0cbc249d7b60da6aafc008f30fef86a0efbbccba4acaae39f9e76551",
+      "bytes": 2443
+    },
+    {
+      "path": "packages/contracts/intelligence/query-plan.schema.json",
+      "sha256": "eb10b9c3ae14a1ba8b358ff3917910ca6d9f7d4912378fb4c9c25c8d43930865",
+      "bytes": 1191
+    },
+    {
+      "path": "packages/contracts/intelligence/report-definition.schema.json",
+      "sha256": "4595f1ff68f4be3601dd004d640793b238925463feb72edd084ef55787f51053",
+      "bytes": 1157
+    },
+    {
+      "path": "packages/contracts/intelligence/security-suppression.schema.json",
+      "sha256": "8274bf173bed9065be31a49797ae6a3b41b1c60ab371bd110f0ae59341915fe8",
+      "bytes": 863
+    },
+    {
+      "path": "packages/contracts/intelligence/semantic-entry.schema.json",
+      "sha256": "fab091b4499344f30df0e6fd5020a665ef31b7b13e294564cd6c7ed1e31fbcea",
+      "bytes": 1678
+    },
+    {
+      "path": "packages/contracts/intelligence/semantic-registry.v1.json",
+      "sha256": "8b5a7de5948208eb0de23b391f3b922729a9ef4839699f2373a34be37d61b549",
+      "bytes": 6260
+    },
+    {
+      "path": "packages/database/migrations/0014z_p1_08_rls_registry_metadata_compatibility.sql",
+      "sha256": "190e4c067c11745afa2a7d47d191943be1c4b6da8b3507693477e6a078a77e09",
+      "bytes": 1855
+    },
+    {
+      "path": "packages/database/migrations/0016_p1_09_intelligence_runtime_reconciliation.sql",
+      "sha256": "a800e38d1f32c5aacf76cd46d576b7fdb92fdbd9ec82f7ae97c937a5f7edbe76",
+      "bytes": 25624
+    },
+    {
+      "path": "packages/database/security/rls-registry.v1.json",
+      "sha256": "cb30a21fc42fffd8062b53223cbdcfa824e4c525a67ea92fd0389a8e35603d05",
+      "bytes": 18255
+    },
+    {
+      "path": "packages/intelligence-runtime/src/drilldown.ts",
+      "sha256": "aef3c62108f6c5196956f61b63d4ec8650ebfe5244b47139800ae41c82e5826d",
+      "bytes": 2197
+    },
+    {
+      "path": "packages/intelligence-runtime/src/exceptions.ts",
+      "sha256": "c21861f2188215f351ea2fe06b037240e27f5b0ca64b1cce018d084f3007132e",
+      "bytes": 2670
+    },
+    {
+      "path": "packages/intelligence-runtime/src/filters.ts",
+      "sha256": "34797aef0f0ab68ce693fdb7b8281b2854919f2b869fdfb7bad2e0f7e366cc05",
+      "bytes": 822
+    },
+    {
+      "path": "packages/intelligence-runtime/src/freshness.ts",
+      "sha256": "59acb54cc06a53ba4527287aef948f9fb5d8a4211a4b1b2655ec22be750bf128",
+      "bytes": 1711
+    },
+    {
+      "path": "packages/intelligence-runtime/src/index.ts",
+      "sha256": "a3bc714130665640dbbb07ac784add301cca4b8be8a8aed907c4551366d4957f",
+      "bytes": 298
+    },
+    {
+      "path": "packages/intelligence-runtime/src/insight.ts",
+      "sha256": "35b1c3d9e7a9d1b41ab1b631ac77a7e456709e59ffe000534619fc5430fbd875",
+      "bytes": 821
+    },
+    {
+      "path": "packages/intelligence-runtime/src/metric.ts",
+      "sha256": "0cfa4cdd9ae1c5a8cc9f8239bea7399a8a3b310fdb80d40e8f35291743511556",
+      "bytes": 5519
+    },
+    {
+      "path": "packages/intelligence-runtime/src/models.ts",
+      "sha256": "a036f739bfaa7cf24821a977ccd00aeadb86b4b8c2de0a2f285975507e10a577",
+      "bytes": 4205
+    },
+    {
+      "path": "packages/intelligence-runtime/src/projection.ts",
+      "sha256": "d094b739f3f33e1488a47a41d317e1ebe6ca7f29786544b53c463d1968c3b964",
+      "bytes": 5883
+    },
+    {
+      "path": "packages/intelligence-runtime/src/rebuild.ts",
+      "sha256": "fadfce672f320a539532d8b1685187426aa62404fb71aca6c14ac7752f89e79f",
+      "bytes": 1620
+    },
+    {
+      "path": "packages/intelligence-runtime/src/security.ts",
+      "sha256": "78285ad22e4c09b28ad42c24b7153fec5f38c61e07f0017afa4a5638227370b9",
+      "bytes": 1897
+    },
+    {
+      "path": "packages/intelligence-runtime/src/semantic.ts",
+      "sha256": "6c990492c08a673ccedb04ca91234b764c7fbba6b36a62d993d1a6f4fceef781",
+      "bytes": 2018
+    },
+    {
+      "path": "packages/intelligence-runtime/src/sql-plan.ts",
+      "sha256": "54219b52d7bf4b7dd677bc77636175ca8c0469455252798b3877e9d1977611a6",
+      "bytes": 821
+    },
+    {
+      "path": "packages/intelligence-runtime/src/util.ts",
+      "sha256": "257a3f11f1c14410348d0ccf7434b9daf992ea085887287685a561b763d465d9",
+      "bytes": 758
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/freshness/states.json",
+      "sha256": "21b535f2b885a32d4417696ba5cec8f95e5aac4169cf9162c8d34b3747f3d2c9",
+      "bytes": 145
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/metrics/golden-results.json",
+      "sha256": "29c02c88fcb1838cfeb6be89195a7dce3ad4a9f147c4f981bd78881f31cc74c0",
+      "bytes": 189
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/projection/agriculture-mappings.json",
+      "sha256": "255118fe2f64990d9137b823fc2363853448465fab3eb10bdbb3e33b499c6ce7",
+      "bytes": 1134
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/projection/agriculture-source.json",
+      "sha256": "0ddf317aa5e37d49955c0811337872abfaa7c38c234b49dbab77eabd1c8ba02e",
+      "bytes": 789
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/scenarios/agriculture.json",
+      "sha256": "79965159d560dbd2630c3a6d8cc5806903b3971616266f8125c0f9286c077c61",
+      "bytes": 275
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/scenarios/construction.json",
+      "sha256": "8ce85eb4952cc569c4df00d3f2cddec77ad71e791d5b09bd95398c5b9238b662",
+      "bytes": 267
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/scenarios/government-ngo.json",
+      "sha256": "79d4aeeeca88776059b962502bdf4063ebb04be2865b787e360de7b6a377195e",
+      "bytes": 267
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/scenarios/utilities.json",
+      "sha256": "c9d3d8e64095ac052b446b9d3cdf635ff0ba97c0817ca7dbf233f6c3fd3deaa9",
+      "bytes": 263
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/security/scope-cases.json",
+      "sha256": "567032bfa4fc783e2fa310f775c5d4a77b0724226aa9500e081e89855cd26c62",
+      "bytes": 229
+    },
+    {
+      "path": "packages/test-fixtures/intelligence/semantic/compatibility-cases.json",
+      "sha256": "481631bba3bcadd704232dcba53bc9bce8d8141c4edcd8b57adc9b76443ad7b4",
+      "bytes": 641
+    },
+    {
+      "path": "tools/batch5/intelligence-benchmark.ts",
+      "sha256": "2f62ec5dbfaa4c091bcbef6376f317fc12846932e86fb4159d3cd6319d65b3c7",
+      "bytes": 2004
+    },
+    {
+      "path": "tools/batch5/intelligence-runtime-smoke.ts",
+      "sha256": "625808fae551e41604b35f760c0e2328470496dd5a149e962f1a41859abf974e",
+      "bytes": 12593
+    },
+    {
+      "path": "tools/batch5/verify_contracts.py",
+      "sha256": "493564650f732dfc3d5bb1b0469da29d36b8cdf6a8fd0a7dca405f1c11ba337d",
+      "bytes": 4960
+    }
+  ],
+  "signature": "e75c4226bc44f4cb9e1d4b227923bb9804bf0a59e1d7d9d6568963ac4ece435c"
+}

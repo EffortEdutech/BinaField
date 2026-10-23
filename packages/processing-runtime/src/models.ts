@@ -1,0 +1,7 @@
+export type AssignmentLifecycle='PLANNED'|'ASSIGNED'|'IN_PROGRESS'|'SUBMITTED'|'COMPLETED'|'CANCELLED';
+export interface AssignmentSnapshot {organizationId:string;projectId:string;assignmentId:string;revision:number;state:AssignmentLifecycle;templateVersionId:string}
+export interface EvidenceManifestEntry {attachmentId:string;fieldId:string;required:boolean;sha256:string;byteSize:number}
+export interface SubmissionAttemptInput {organizationId:string;projectId:string;assignmentId:string;assignmentRevisionUsed:number;attemptId:string;idempotencyKey:string;requestHash:string;templateId:string;templateVersionId:string;blueprintHash:string;payload:Record<string,unknown>;evidenceManifest:EvidenceManifestEntry[];clientSubmittedAt:string;deviceId:string}
+export interface AcceptedSubmission {organizationId:string;projectId:string;assignmentId:string;attemptId:string;submissionId:string;state:'ACCEPTED';templateId:string;templateVersionId:string;blueprintHash:string;payload:Record<string,unknown>;acceptedAt:string;clientSubmittedAt:string;deviceId:string}
+export interface ProcessingResult {kind:'ACCEPTED'|'REPLAY'|'RECONCILIATION'|'BLOCKED';submission?:AcceptedSubmission;code?:string;replayed:boolean}
+export interface ProcessingEvent {eventId:string;eventType:'SubmissionReceived'|'SubmissionAccepted'|'AssignmentCompleted';organizationId:string;aggregateId:string;aggregateRevision:number;occurredAt:string;payload:Record<string,unknown>}

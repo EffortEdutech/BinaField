@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ToggleConfig",
+  "type": "object",
+  "properties": {
+    "true_label": {
+      "type": "string"
+    },
+    "false_label": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/components/toggle.config.schema.json"
+}

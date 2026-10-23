@@ -1,0 +1,15 @@
+{
+  "blueprint_schema_versions": [
+    "1.0"
+  ],
+  "component_registry_versions": [
+    "1.0.0"
+  ],
+  "local_schema_versions": [
+    1
+  ],
+  "offline_lease_max_days": 7,
+  "sync_protocol_versions": [
+    "1.0"
+  ]
+}

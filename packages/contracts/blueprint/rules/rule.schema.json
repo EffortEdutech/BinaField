@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.binafield.dev/bf-blueprint/1.0/rule.schema.json",
+  "type": "object",
+  "required": [
+    "rule_id",
+    "when",
+    "action",
+    "target_field_id"
+  ],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "when": {
+      "$ref": "https://schemas.binafield.dev/bf-blueprint/1.0/condition.schema.json"
+    },
+    "action": {
+      "enum": [
+        "SHOW",
+        "HIDE",
+        "ENABLE",
+        "DISABLE",
+        "REQUIRE",
+        "OPTIONAL",
+        "WARN",
+        "BLOCK_COMPLETE"
+      ]
+    },
+    "target_field_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

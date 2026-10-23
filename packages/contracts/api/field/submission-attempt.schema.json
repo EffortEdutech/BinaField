@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/field/submission-attempt/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "submission_attempt_version",
+    "attempt_id",
+    "organization_id",
+    "assignment_id",
+    "assignment_revision_used",
+    "template_version_id",
+    "blueprint_hash",
+    "session_id",
+    "submitted_by_membership_id",
+    "device_id",
+    "payload",
+    "payload_hash",
+    "attachment_manifest",
+    "client_submitted_at"
+  ],
+  "properties": {
+    "submission_attempt_version": {
+      "const": "1.0"
+    },
+    "attempt_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organization_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assignment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assignment_revision_used": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "template_version_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "blueprint_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "session_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "submitted_by_membership_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "device_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "attachment_manifest": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "client_submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profile": "LOCAL_IN_MEMORY_NON_RELEASE_BENCHMARK",
+  "facts": 10000,
+  "iterations": 30,
+  "p50_ms": 14.137017000000014,
+  "p95_ms": 17.32078100000001,
+  "note": "Not a PostgreSQL/API production SLO proof."
+}

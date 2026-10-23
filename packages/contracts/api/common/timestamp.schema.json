@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/common/timestamp/1.0",
+  "type": "string",
+  "format": "date-time"
+}

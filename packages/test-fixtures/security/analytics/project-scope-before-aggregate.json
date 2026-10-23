@@ -1,0 +1,10 @@
+{
+  "organization_id": "00000000-0000-7000-8000-100000000001",
+  "allowed_projects": [
+    "00000000-0000-7000-8000-200000000001"
+  ],
+  "denied_projects": [
+    "00000000-0000-7000-8000-200000000002"
+  ],
+  "assertion": "scope predicate must be applied before aggregate"
+}

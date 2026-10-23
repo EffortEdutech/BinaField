@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.binafield.io/api/field/assignment-package/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assignment_id",
+    "assignment_revision",
+    "template_version_id",
+    "blueprint_hash"
+  ],
+  "properties": {
+    "assignment_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assignment_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "template_version_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "blueprint_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

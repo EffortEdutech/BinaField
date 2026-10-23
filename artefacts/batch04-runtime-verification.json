@@ -1,0 +1,83 @@
+{
+  "batch": "BF-P1-Implementation-Batch-04",
+  "version": "0.4.0",
+  "status": "PASS_LOCAL_MACHINE_CONFORMANCE_WITH_EXTERNAL_INTEGRATION_PROOFS_PENDING",
+  "executed": {
+    "contract_schema_checks": {
+      "total": 67,
+      "passed": 67,
+      "failed": 0,
+      "failures": []
+    },
+    "sqlite_transactional_checks": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "typescript_compile": {
+      "status": "PASS",
+      "version": "5.8.3"
+    },
+    "typescript_evidence_runtime_smoke": {
+      "status": "PASS",
+      "known_sha256": "cfac2a5dee8d6405a8fe960299b1b990381f496e3435e4a10022c21a733aec58",
+      "multipart_sha256": "d2d423cb9cfba5f6d5a5a897ad5560bb8891b65e2fed3e497cb6c9136115c0e3",
+      "cases": [
+        "single upload SHA-256 verification",
+        "required evidence binding gate",
+        "cross-tenant binding denial",
+        "original/derivative separation",
+        "signed grant expiry",
+        "hold blocks purge",
+        "hash mismatch quarantine",
+        "out-of-order multipart reconstruction",
+        "expired upload-session replacement preserving attachment identity",
+        "scanner quarantine preserving expected hash"
+      ]
+    },
+    "kotlin_compile_runtime_smoke": {
+      "status": "PASS",
+      "kotlin": "1.9.0",
+      "java": "21.0.12.1",
+      "cases": [
+        "evidence-before-submission outbox dependency",
+        "retry/backoff classification",
+        "crash before cursor advancement retains prior cursor",
+        "safe replay advances cursor after durable apply",
+        "assignment cancellation tombstone",
+        "reconciliation creation",
+        "SHA-256 parity",
+        "Submission Attempt frozen revision"
+      ]
+    },
+    "json_parse": {
+      "status": "PASS",
+      "files_checked": 248
+    },
+    "yaml_parse": {
+      "status": "PASS",
+      "openapi": "packages/contracts/api/openapi.v1.yaml"
+    },
+    "shell_syntax": {
+      "status": "PASS"
+    }
+  },
+  "environment": {
+    "node": "22.16.0",
+    "typescript": "5.8.3",
+    "java": "21.0.12.1",
+    "kotlin": "1.9.0",
+    "sqlite": "3.46.1",
+    "postgresql_psql_available": false,
+    "docker_available": false
+  },
+  "contract_signature_sha256": "11018555f29e31c391c15295d74080b7de3c2b0b3e18491e5cfbf66686230455",
+  "pending_external_integration_proofs": [
+    "PostgreSQL 16 + PostGIS migrate-from-zero/RLS execution",
+    "real app_runtime/worker_runtime pooled-connection RLS leakage tests",
+    "Android Room migration/instrumentation and WorkManager scheduling",
+    "production S3-compatible presigned/multipart provider integration",
+    "production malware scanning/quarantine provider",
+    "backup/restore and live purge against object storage"
+  ]
+}

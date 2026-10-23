@@ -1,0 +1,60 @@
+{
+  "$id": "https://schemas.binafield.io/evidence/1.0/derivative.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "byte_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "parent_attachment_id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "processor_version": {
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "READY",
+        "FAILED"
+      ]
+    },
+    "transform_type": {
+      "enum": [
+        "THUMBNAIL",
+        "PREVIEW",
+        "WATERMARKED_PREVIEW",
+        "REDACTED_PREVIEW"
+      ]
+    },
+    "transform_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "attachment_id",
+    "parent_attachment_id",
+    "transform_type",
+    "transform_version",
+    "processor_version",
+    "sha256",
+    "byte_size",
+    "generated_at",
+    "status"
+  ],
+  "title": "EvidenceDerivative",
+  "type": "object"
+}
