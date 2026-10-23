@@ -1,0 +1,29 @@
+{
+  "name": "@binafield/field-pwa",
+  "private": true,
+  "version": "0.7.0-pwa-spike",
+  "type": "module",
+  "description": "BinaField Field Runtime delivered as a PWA (ADR-0001, accepted 2026-10-22). Dev port 3031.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3031 --strictPort",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 3031 --strictPort",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@sqlite.org/sqlite-wasm": "3.54.1-build1",
+    "react": "18",
+    "react-dom": "18"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "22",
+    "@types/react": "18",
+    "@types/react-dom": "18",
+    "@vitejs/plugin-react": "4",
+    "typescript": "5",
+    "vite": "5",
+    "vite-plugin-pwa": "^2.0.0",
+    "workbox-window": "^7.4.1"
+  }
+}
