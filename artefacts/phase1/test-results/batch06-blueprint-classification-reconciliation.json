@@ -1,0 +1,25 @@
+{
+  "finding_id": "B6-REC-001",
+  "title": "Blueprint sensitivity classification machine drift",
+  "severity": "CONFORMANCE-BLOCKER_FIXED",
+  "authority": [
+    "BF-P1-04 \u00a757",
+    "BF-P1-06 classification registry",
+    "BF-P1-09 analytical classification contract"
+  ],
+  "observed_machine_values": [
+    "PUBLIC",
+    "INTERNAL",
+    "CONFIDENTIAL",
+    "RESTRICTED"
+  ],
+  "canonical_values": [
+    "PUBLIC_OPERATIONAL",
+    "INTERNAL",
+    "CONFIDENTIAL",
+    "PERSONAL_DATA",
+    "SENSITIVE_OPERATIONAL"
+  ],
+  "resolution": "Correct generated Blueprint schema/bindings to the frozen P1-04 five-value vocabulary; no product semantic change.",
+  "history_policy": "No released SQL migration rewritten. Generated machine artefacts corrected in cumulative Batch 6 and signatures regenerated."
+}

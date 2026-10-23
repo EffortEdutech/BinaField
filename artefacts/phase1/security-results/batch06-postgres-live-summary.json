@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "postgres_version": "16.4 (Debian 16.4-1.pgdg110+2)",
+  "postgis_version": "3.4.3",
+  "migration_count": 18,
+  "rls_enabled_tables": 44,
+  "rls_forced_tables": 44,
+  "migration_from_zero": true,
+  "database_test_suite": "PASS",
+  "schema_snapshot": "artefacts/phase1/manifests/schema.sql"
+}

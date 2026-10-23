@@ -1,0 +1,104 @@
+== Batch 2 ==
+{
+  "status": "PASS",
+  "checks_executed": 228,
+  "failures": 0
+}
+DOMAIN=2c9476cffd22d9a76d1a0d8b5ed78a10b41230f1abc5944aad526142290781dc
+BLUEPRINT=d3c82c04e7af6a56d45b2168acc9916d5b9b7f62818b8ab8aaf2f9030514db7f
+PARITY=PASS
+== Batch 3 ==
+{
+  "status": "PASS",
+  "checks_executed": 218,
+  "failures": 0
+}
+SECURITY_SMOKE_PASS
+API_CONTRACT_SMOKE_PASS
+API_SECURITY_PARITY_PASS:9c30bafff38c0eb45b07df84ace1b39e80b54ad980d5b1a9dacef15776179594
+== Batch 4 ==
+PASS schema:packages/contracts/sync/protocol.v1/assignment-tombstone.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/cursor.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/delta-entry.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/delta-page.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/outbox-operation.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/reconciliation.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/reference-dataset.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/retry-policy.schema.json
+PASS schema:packages/contracts/sync/protocol.v1/submission-attempt.schema.json
+PASS schema:packages/contracts/evidence/attachment-status.schema.json
+PASS schema:packages/contracts/evidence/attachment.schema.json
+PASS schema:packages/contracts/evidence/derivative.schema.json
+PASS schema:packages/contracts/evidence/hold.schema.json
+PASS schema:packages/contracts/evidence/manifest-entry.schema.json
+PASS schema:packages/contracts/evidence/retention-policy.schema.json
+PASS schema:packages/contracts/evidence/upload-finalize.schema.json
+PASS schema:packages/contracts/evidence/upload-init.schema.json
+PASS schema:packages/contracts/evidence/upload-part.schema.json
+PASS schema:packages/contracts/evidence/upload-session.schema.json
+PASS sync-error-count
+PASS evidence-error-count
+PASS local-table:local_meta
+PASS local-table:organization_context
+PASS local-table:membership_snapshot
+PASS local-table:device_snapshot
+PASS local-table:project_cache
+PASS local-table:template_package
+PASS local-table:reference_dataset
+PASS local-table:reference_dataset_row
+PASS local-table:assignment_cache
+PASS local-table:assignment_tombstone
+PASS local-table:submission_session
+PASS local-table:submission_attempt
+PASS local-table:local_evidence
+PASS local-table:sync_inbox
+PASS local-table:sync_inbox_item
+PASS local-table:sync_outbox
+PASS local-table:sync_operation_dependency
+PASS local-table:sync_cursor
+PASS local-table:sync_event
+PASS local-table:reconciliation_case
+PASS local-table:reconciliation_action
+PASS local-table:diagnostic_event
+PASS local-semantic:SUBMITTED
+PASS local-semantic:RECONCILIATION_REQUIRED
+PASS local-semantic:CANCELLED_BY_POLICY
+PASS local-semantic:COMPLETED_ELSEWHERE
+PASS migration:UPLOAD_COMPLETE
+PASS migration:VERIFYING
+PASS migration:VERIFIED
+PASS migration:SIGNATURE_RENDER
+PASS migration:CREATE TABLE evidence.upload_parts
+PASS migration:FORCE ROW LEVEL SECURITY
+PASS migration:platform.rls_registry
+PASS hash:known-bytes.bin
+PASS hash:one-byte-corrupt.bin
+PASS batch1-migrations-preserved
+PASS evidence-runtime:timingSafeEqual
+PASS evidence-runtime:HASH_MISMATCH
+PASS evidence-runtime:RETENTION_BLOCKED
+PASS evidence-runtime:requiredEvidenceSatisfied
+PASS evidence-runtime:TENANT_MISMATCH
+PASS evidence-runtime:EVIDENCE_INTEGRITY_FAILED
+PASS evidence-runtime:MULTIPART
+PASS evidence-runtime:expiresAt
+PASS evidence-runtime:MALWARE_SUSPECTED
+PASS scanner-boundary
+{
+  "total": 67,
+  "passed": 67,
+  "failed": 0,
+  "failures": []
+}
+PASS sqlite-all-tables
+PASS rollback-preserves-old-cursor
+PASS rollback-business-row-not-partial
+PASS durable-cursor-after-apply
+PASS attempt-idempotency-unique
+PASS attempt-payload-immutable
+PASS attempt-server-outcome-mutable
+PASS submitted-session-no-reopen
+PASS original-stored
+PASS derivative-requires-parent
+{'total': 10, 'passed': 10, 'failed': 0}
+BATCH4_TS_EVIDENCE_RUNTIME_SMOKE_PASS sha256=cfac2a5dee8d6405a8fe960299b1b990381f496e3435e4a10022c21a733aec58 multipart_sha256=d2d423cb9cfba5f6d5a5a897ad5560bb8891b65e2fed3e497cb6c9136115c0e3

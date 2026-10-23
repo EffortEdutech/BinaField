@@ -1,0 +1,1097 @@
+{
+  "status": "PASS",
+  "checks_executed": 218,
+  "failures": 0,
+  "checks": [
+    {
+      "name": "schema:packages/contracts/api/admin/assignments.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/admin/deployments.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/admin/evidence.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/admin/intelligence.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/admin/projects.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/admin/submissions.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/admin/templates.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/actor-summary.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/command-result.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/identifiers.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/pagination.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/problem.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/query-result.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/revision.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/common/timestamp.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/evidence/attachment-status.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/evidence/upload-finalize.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/evidence/upload-init.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/field/assignment-package.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/field/bootstrap.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/field/delta.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/field/reconciliation.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/field/submission-attempt.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/intelligence/drilldown-query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/intelligence/insight.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/intelligence/metric-query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/api/intelligence/metric-result.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/barcode_qr.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/camera.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/computed_field.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/currency.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/date.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/datetime.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/file_attachment.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/gps.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/instruction.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/integer.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/multi_select.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/number.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/numeric_stepper.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/paragraph.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/repeat_group.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/signature.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/single_select.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/text.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/time.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/config/toggle.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/barcode_qr.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/camera.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/computed_field.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/currency.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/date.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/datetime.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/file_attachment.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/gps.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/instruction.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/integer.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/multi_select.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/number.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/numeric_stepper.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/paragraph.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/repeat_group.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/signature.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/single_select.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/text.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/time.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/components/value/toggle.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/rules/calculation.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/rules/condition.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/rules/rule.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/blueprint/schema/bf-blueprint.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/AcceptSubmission.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/AcknowledgeFieldDelta.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/AcknowledgeInsight.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/ActivateDeployment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/ArchiveProject.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/BindEvidence.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CancelAssignment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CloseDeployment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CreateAssignment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CreateDeployment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CreateProject.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CreateTemplate.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/CreateTemplateVersion.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/FinalizeEvidenceUpload.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/InitiateEvidenceUpload.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/IssueAssignment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/PauseDeployment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/PublishTemplateVersion.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/ReassignAssignment.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/RebuildProjection.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/ReceiveSubmissionAttempt.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/RejectSubmission.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/RequestEvidenceDownload.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/RetryWorkflowRun.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/RevokeDevice.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/RevokeMembership.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/StartWorkflowRun.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/SuspendMembership.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/UpdateDraftBlueprint.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/UpdateProject.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/commands/ValidateTemplateVersion.command.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/AnalyticalProjectionBuilt.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/AnalyticalProjectionFailed.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/AssignmentCancelled.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/AssignmentCompleted.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/AssignmentIssued.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/AssignmentReassigned.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/DeploymentActivated.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/DeploymentClosed.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/DeploymentPaused.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/DeviceRevoked.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/EvidenceBound.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/EvidencePurged.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/EvidenceQuarantined.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/EvidenceUploaded.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/EvidenceVerified.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/InsightGenerated.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/MembershipRevoked.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/ReferenceDatasetUpdated.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/SecurityPolicyUpdated.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/SubmissionAccepted.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/SubmissionReceived.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/SubmissionRejected.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/TemplateVersionActivated.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/TemplateVersionPublished.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/WorkflowRunFailed.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/WorkflowRunQueued.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/WorkflowRunStarted.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/WorkflowRunSucceeded.event.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/events/envelope.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/attachment-status.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/attachment.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/derivative.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/hold.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/manifest-entry.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/retention-policy.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/upload-finalize.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/upload-init.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/upload-part.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/evidence/upload-session.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/drilldown.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/exception-definition.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/freshness.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/insight.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/metric-definition.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/projection-row.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/query-plan.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/report-definition.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/security-suppression.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/intelligence/semantic-entry.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/DrilldownMetric.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/FieldBootstrap.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/FieldDelta.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetAssignment.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetEvidenceStatus.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetProject.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetSubmission.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetSubmissionAttemptOutcome.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetTemplate.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/GetTemplateVersion.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListAssignments.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListDeployments.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListInsights.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListMetrics.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListProjects.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListSubmissionEvidence.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListSubmissions.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/ListTemplates.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/queries/QueryMetric.query.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/security/authorization-decision.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/security/principal-context.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/security/security-policy.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/assignment-tombstone.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/cursor.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/delta-entry.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/delta-page.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/outbox-operation.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/reconciliation.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/reference-dataset.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/retry-policy.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "schema:packages/contracts/sync/protocol.v1/submission-attempt.schema.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "canonical organization spelling",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "all role permissions exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "standard 11 roles",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "analyst no submission.read",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "field worker has execute+submit+capture",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "openapi 3.1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "unique operationIds",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "all operations secured",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "all operations permission extension",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "all local OpenAPI refs resolve",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "operation/security profile exact parity",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "operation permission parity",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "command permissions exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "query permissions exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "all OpenAPI ops registry-backed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "internal-only commands absent from OpenAPI",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "event registry exact P1-03 parity",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "event payload schemas exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "manifest openapi hash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "manifest command hash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "manifest query hash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "manifest event hash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "forward migration canonical scope",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "scope migration drops old check before update",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "forward migration canonical permission",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "runtime roles NOBYPASSRLS",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "force rls present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "rls registry nonempty",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ts generated signature",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "kt generated signature",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no embedded obvious secrets",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture:packages/test-fixtures/api-events/idempotency-same-request.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture:packages/test-fixtures/api-events/idempotency-mismatch.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture:packages/test-fixtures/security/cross-tenant/foreign-organization.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture:packages/test-fixtures/security/scopes/project-outside-binding.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture:packages/test-fixtures/security/device-offline/revoked-device.json",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

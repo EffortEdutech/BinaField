@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "contract_checks": 228,
+  "contract_failures": 0,
+  "typescript": {
+    "version": "Version 5.8.3",
+    "compile": "PASS",
+    "runtime_smoke": "PASS"
+  },
+  "java": {
+    "version": "openjdk version \"21.0.12.1\" 2026-08-18"
+  },
+  "kotlin": {
+    "version": "info: kotlinc-jvm 1.9.0 (JRE 21.0.12.1+1-1-deb13u1-Debian)",
+    "compile": "PASS"
+  },
+  "parity": "PASS",
+  "domain_contract_signature": "2c9476cffd22d9a76d1a0d8b5ed78a10b41230f1abc5944aad526142290781dc",
+  "blueprint_contract_signature": "6e72c21cc2d85182102e2bfafb1072ef1ef216eaa2c9ed55b21341917c9bbe84",
+  "blueprint_manifest_files": 65
+}

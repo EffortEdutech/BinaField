@@ -1,0 +1,49 @@
+{
+  "batch": "BF-P1-Implementation-Batch-03",
+  "version": "0.3.0",
+  "status": "PASS_LOCAL_MACHINE_CONFORMANCE",
+  "generated_at_utc": "2026-10-21T15:17:13.347683+00:00",
+  "contract_verification": {
+    "checks_executed": 189,
+    "failures": 0,
+    "status": "PASS"
+  },
+  "typescript": {
+    "compile": "PASS",
+    "security_smoke": "PASS",
+    "api_contract_smoke": "PASS",
+    "covered": [
+      "authorisation decision order",
+      "tenant/project scope",
+      "classification/step-up",
+      "tenant-scoped idempotency",
+      "ETag revision conflict",
+      "duplicate event delivery",
+      "out-of-order aggregate revision"
+    ]
+  },
+  "kotlin": {
+    "compile": "PASS",
+    "contract_signature_parity": "PASS"
+  },
+  "api_security_contract_signature": "9c30bafff38c0eb45b07df84ace1b39e80b54ad980d5b1a9dacef15776179594",
+  "machine_inventory": {
+    "permissions": 59,
+    "roles": 11,
+    "commands": 31,
+    "queries": 19,
+    "events": 28,
+    "openapi_operations": 40,
+    "database_migrations": 14
+  },
+  "database_runtime": {
+    "postgresql_migrate_from_zero": "PENDING_ENVIRONMENT",
+    "rls_runtime_negative_suite": "PENDING_ENVIRONMENT",
+    "connection_pool_tenant_leakage": "PENDING_ENVIRONMENT",
+    "reason": "Preparation environment has no PostgreSQL psql/server or Docker."
+  },
+  "phase1_gate": {
+    "P1-B": "PENDING",
+    "P1-C": "PENDING"
+  }
+}

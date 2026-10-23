@@ -1,0 +1,13 @@
+{
+  "status": "PENDING_ENVIRONMENT",
+  "detail": "No live PostgreSQL execution path is available in this runtime.",
+  "tools": {
+    "psql": null,
+    "postgres": null,
+    "docker": null,
+    "podman": null
+  },
+  "database_url_present": false,
+  "database_version": null,
+  "required_reference": "PostgreSQL 16 + PostGIS 3.4"
+}

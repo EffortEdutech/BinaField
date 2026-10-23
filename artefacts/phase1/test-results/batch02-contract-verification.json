@@ -1,0 +1,1147 @@
+{
+  "status": "PASS",
+  "checks_executed": 228,
+  "failures": 0,
+  "checks": [
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/barcode_qr.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/camera.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/computed_field.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/currency.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/date.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/datetime.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/file_attachment.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/gps.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/instruction.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/integer.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/multi_select.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/number.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/numeric_stepper.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/paragraph.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/repeat_group.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/signature.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/single_select.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/text.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/time.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/config/toggle.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/barcode_qr.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/camera.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/computed_field.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/currency.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/date.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/datetime.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/file_attachment.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/gps.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/instruction.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/integer.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/multi_select.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/number.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/numeric_stepper.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/paragraph.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/repeat_group.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/signature.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/single_select.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/text.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/time.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/components/value/toggle.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/rules/calculation.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/rules/condition.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/rules/rule.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "schema-valid:packages/contracts/blueprint/schema/bf-blueprint.schema.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-registry-exact-v1-set",
+      "ok": true,
+      "detail": "['text', 'paragraph', 'number', 'integer', 'currency', 'numeric_stepper', 'single_select', 'multi_select', 'toggle', 'date', 'time', 'datetime', 'gps', 'camera', 'file_attachment', 'signature', 'barcode_qr', 'instruction', 'repeat_group', 'computed_field']"
+    },
+    {
+      "name": "component-registry-unique",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:paragraph",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:paragraph",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:integer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:integer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:currency",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:currency",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:numeric_stepper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:numeric_stepper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:single_select",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:single_select",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:multi_select",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:multi_select",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:toggle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:toggle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:date",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:date",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:datetime",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:datetime",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:gps",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:gps",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:camera",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:camera",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:file_attachment",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:file_attachment",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:signature",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:signature",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:barcode_qr",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:barcode_qr",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:instruction",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:instruction",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:repeat_group",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:repeat_group",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-config-exists:computed_field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "component-value-exists:computed_field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "rule-actions-exact",
+      "ok": true,
+      "detail": "['BLOCK_COMPLETE', 'DISABLE', 'ENABLE', 'HIDE', 'OPTIONAL', 'REQUIRE', 'SHOW', 'WARN']"
+    },
+    {
+      "name": "prohibited-rule-actions-absent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "domain-signature-current",
+      "ok": true,
+      "detail": "computed=2c9476cffd22d9a76d1a0d8b5ed78a10b41230f1abc5944aad526142290781dc recorded=2c9476cffd22d9a76d1a0d8b5ed78a10b41230f1abc5944aad526142290781dc"
+    },
+    {
+      "name": "lifecycle-transition-registry:Template",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Template:DRAFT->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Template:ACTIVE->SUSPENDED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Template:SUSPENDED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Template:ACTIVE->ARCHIVED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Template:SUSPENDED->ARCHIVED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Template:ARCHIVED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:TemplateVersion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:DRAFT->VALIDATED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:VALIDATED->DRAFT",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:VALIDATED->PUBLISHED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:PUBLISHED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:ACTIVE->SUPERSEDED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:PUBLISHED->ARCHIVED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:TemplateVersion:SUPERSEDED->ARCHIVED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:TemplateVersion:ARCHIVED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:Deployment",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:DRAFT->SCHEDULED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:DRAFT->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:SCHEDULED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:ACTIVE->PAUSED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:PAUSED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:ACTIVE->CLOSED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:PAUSED->CLOSED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Deployment:CLOSED->ARCHIVED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Deployment:ARCHIVED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:Assignment",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:PLANNED->ASSIGNED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:ASSIGNED->IN_PROGRESS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:IN_PROGRESS->SUBMITTED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:SUBMITTED->COMPLETED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:PLANNED->CANCELLED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:ASSIGNED->CANCELLED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Assignment:IN_PROGRESS->CANCELLED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Assignment:CANCELLED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "terminal-no-outgoing:Assignment:COMPLETED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:SubmissionSession",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:CREATED->IN_PROGRESS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:IN_PROGRESS->COMPLETE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:COMPLETE->IN_PROGRESS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:COMPLETE->SUBMITTED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:CREATED->ABANDONED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:IN_PROGRESS->ABANDONED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:SubmissionSession:COMPLETE->ABANDONED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:SubmissionSession:SUBMITTED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "terminal-no-outgoing:SubmissionSession:ABANDONED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:Sync",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:LOCAL_ONLY->QUEUED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:QUEUED->SYNCING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:SYNCING->SYNCED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:SYNCING->SYNC_FAILED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:SYNC_FAILED->QUEUED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:SYNCING->RECONCILIATION_REQUIRED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Sync:RECONCILIATION_REQUIRED->QUEUED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lifecycle-transition-registry:Submission",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Submission:RECEIVED->VALIDATING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Submission:VALIDATING->ACCEPTED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Submission:VALIDATING->REJECTED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Submission:REJECTED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "terminal-no-outgoing:Submission:ACCEPTED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:Evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:LOCAL_ONLY->UPLOAD_PENDING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:UPLOAD_PENDING->UPLOADING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:UPLOADING->UPLOADED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:UPLOADED->VERIFYING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:VERIFYING->VERIFIED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:VERIFYING->QUARANTINED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:VERIFIED->BOUND",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:BOUND->READY",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:QUARANTINED->PURGED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Evidence:READY->PURGED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Evidence:PURGED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:WorkflowRun",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:WorkflowRun:QUEUED->RUNNING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:WorkflowRun:RUNNING->SUCCEEDED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:WorkflowRun:RUNNING->FAILED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:WorkflowRun:QUEUED->CANCELLED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:WorkflowRun:RUNNING->CANCELLED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:WorkflowRun:FAILED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "terminal-no-outgoing:WorkflowRun:CANCELLED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "terminal-no-outgoing:WorkflowRun:SUCCEEDED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:AnalyticalProjection",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:PENDING->BUILDING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:BUILDING->CURRENT",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:BUILDING->FAILED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:CURRENT->STALE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:STALE->REBUILDING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:FAILED->REBUILDING",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:REBUILDING->CURRENT",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:AnalyticalProjection:REBUILDING->FAILED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lifecycle-transition-registry:Membership",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Membership:INVITED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Membership:INVITED->REVOKED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Membership:ACTIVE->SUSPENDED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Membership:SUSPENDED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Membership:ACTIVE->REVOKED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Membership:SUSPENDED->REVOKED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Membership:REVOKED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:Device",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Device:REGISTERED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Device:REGISTERED->REVOKED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Device:ACTIVE->SUSPENDED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Device:SUSPENDED->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Device:ACTIVE->REVOKED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Device:SUSPENDED->REVOKED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Device:REVOKED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "lifecycle-transition-registry:Project",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Project:DRAFT->ACTIVE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Project:ACTIVE->CLOSED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "transition-state-known:Project:CLOSED->ARCHIVED",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "terminal-no-outgoing:Project:ARCHIVED",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "overdue-not-assignment-state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "overdue-derived-condition",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "valid-fixture:01_one_step_numeric.json",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "valid-fixture:02_conditional_evidence.json",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "valid-fixture:03_selects.json",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "valid-fixture:04_dates_signature.json",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "valid-fixture:05_barcode_repeat_computed.json",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "invalid-fixture:01_unknown_component.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_SCHEMA_INVALID, actual=['BLUEPRINT_SCHEMA_INVALID']"
+    },
+    {
+      "name": "invalid-fixture:02_duplicate_field_id.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_DUPLICATE_FIELD_ID, actual=['BLUEPRINT_DUPLICATE_FIELD_ID']"
+    },
+    {
+      "name": "invalid-fixture:03_missing_root.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_SCHEMA_INVALID, actual=['BLUEPRINT_SCHEMA_INVALID']"
+    },
+    {
+      "name": "invalid-fixture:04_unresolved_rule_reference.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_UNRESOLVED_REFERENCE, actual=['BLUEPRINT_UNRESOLVED_REFERENCE']"
+    },
+    {
+      "name": "invalid-fixture:05_unresolved_rule_target.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_UNRESOLVED_REFERENCE, actual=['BLUEPRINT_UNRESOLVED_REFERENCE']"
+    },
+    {
+      "name": "invalid-fixture:06_calculation_cycle.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_CALCULATION_CYCLE, actual=['BLUEPRINT_CALCULATION_CYCLE']"
+    },
+    {
+      "name": "invalid-fixture:07_prohibited_rule_action.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_SCHEMA_INVALID, actual=['BLUEPRINT_SCHEMA_INVALID']"
+    },
+    {
+      "name": "invalid-fixture:08_invalid_component_config.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_COMPONENT_CONFIG_INVALID, actual=['BLUEPRINT_COMPONENT_CONFIG_INVALID']"
+    },
+    {
+      "name": "invalid-fixture:09_repeat_group_unbounded.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_COMPONENT_CONFIG_INVALID, actual=['BLUEPRINT_COMPONENT_CONFIG_INVALID']"
+    },
+    {
+      "name": "invalid-fixture:10_unsupported_live_lookup.json",
+      "ok": true,
+      "detail": "expected=BLUEPRINT_COMPONENT_CONFIG_INVALID, actual=['BLUEPRINT_COMPONENT_CONFIG_INVALID']"
+    },
+    {
+      "name": "value-valid:toggle:False",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "value-valid:number:0",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "value-valid:integer:0",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "value-valid:numeric_stepper:0",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "evidence-no-binary-field:camera",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "evidence-no-binary-field:file_attachment",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "evidence-no-binary-field:signature",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "domain-binding-signature:.ts",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "domain-binding-signature:.kt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "blueprint-binding-signature:.ts",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "blueprint-binding-signature:.kt",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

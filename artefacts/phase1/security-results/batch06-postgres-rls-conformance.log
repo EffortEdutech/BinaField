@@ -1,0 +1,67 @@
+VERIFY 001_schema_and_role_assertions.sql
+DO
+DO
+DO
+VERIFY 002_rls_isolation.sql
+BEGIN
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+DO
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+DO
+RESET
+ROLLBACK
+VERIFY 003_immutability_guards.sql
+BEGIN
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+ROLLBACK
+VERIFY 004_rls_crud_and_pool_safety.sql
+BEGIN
+SET
+              set_config              
+--------------------------------------
+ 00000000-0000-7000-8000-100000000001
+(1 row)
+
+DO
+ROLLBACK
+DO
+VERIFY 005_permission_registry_drift.sql
+DO
+VERIFY 006_intelligence_rls_and_freshness.sql
+BEGIN
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+SET
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+DO
+RESET
+ROLLBACK
