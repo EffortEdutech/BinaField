@@ -1,0 +1,100 @@
+== server ==
+PostgreSQL 17.11 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+== migrate ==
+SKIP  0001_platform_extensions_and_schemas.sql
+SKIP  0002_iam_and_security_registry.sql
+SKIP  0003_core_projects_teams.sql
+SKIP  0004_blueprint_templates.sql
+SKIP  0005_ops_deployments_assignments.sql
+SKIP  0006_field_submission_model.sql
+SKIP  0007_evidence_storage_model.sql
+SKIP  0008_sync_transport_model.sql
+SKIP  0009_processing_audit_outbox.sql
+SKIP  0010_intelligence_projection_model.sql
+SKIP  0011_runtime_roles_and_grants.sql
+SKIP  0012_rls_tenant_isolation.sql
+SKIP  0013_seed_permission_and_role_registry.sql
+SKIP  0014_p1_06_security_registry_reconciliation.sql
+SKIP  0014y_p1_08_security_namespace_compatibility.sql
+SKIP  0014z_p1_08_rls_registry_metadata_compatibility.sql
+SKIP  0015_p1_08_evidence_runtime_reconciliation.sql
+SKIP  0016_p1_09_intelligence_runtime_reconciliation.sql
+migrate exit: 0
+== summary ==
+18
+44|44|50
+== environment prerequisite (Supabase: postgres is not superuser) ==
+NOTICE:  role "postgres" has already been granted membership in role "app_runtime" by role "postgres"
+NOTICE:  role "postgres" has already been granted membership in role "worker_runtime" by role "postgres"
+GRANT ROLE
+== verify ==
+VERIFY 001_schema_and_role_assertions.sql
+DO
+DO
+DO
+VERIFY 002_rls_isolation.sql
+BEGIN
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+DO
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+DO
+RESET
+ROLLBACK
+VERIFY 003_immutability_guards.sql
+BEGIN
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+ROLLBACK
+VERIFY 004_rls_crud_and_pool_safety.sql
+BEGIN
+SET
+              set_config              
+--------------------------------------
+ 00000000-0000-7000-8000-100000000001
+(1 row)
+
+DO
+ROLLBACK
+DO
+VERIFY 005_permission_registry_drift.sql
+DO
+VERIFY 006_intelligence_rls_and_freshness.sql
+BEGIN
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+SET
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+DO
+RESET
+ROLLBACK
+verify exit: 0
+INNER EXIT: 0
+
