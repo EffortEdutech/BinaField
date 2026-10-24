@@ -5,5 +5,5 @@
     { "source": "/sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] },
     { "source": "/manifest.webmanifest", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
   ],
-  "rewrites": [{ "source": "/((?!assets/|sw\\.js|workbox-.*|manifest\\.webmanifest|icon.*|.*\\.wasm).*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/((?!api/|assets/|sw\\.js|workbox-.*|manifest\\.webmanifest|icon.*|.*\\.wasm).*)", "destination": "/index.html" }]
 }
