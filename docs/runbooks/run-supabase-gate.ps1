@@ -25,6 +25,14 @@ $url    = [Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
 [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
 if ($url -notmatch 'sslmode=') { $url += $(if ($url -match '\?') { '&sslmode=require' } else { '?sslmode=require' }) }
 
+# Show where we are about to connect (user and host only; the password is never printed).
+if ($url -match '^postgres(?:ql)?://([^:/@]+):(.*)@([^@/?]+)([/?].*)?$') {
+  $cUser = $Matches[1]; $cPass = $Matches[2]; $cHost = $Matches[3]
+  Write-Host "Connecting as '$cUser' to '$cHost'" -ForegroundColor Cyan
+  if ($cHost -match '^db\..*\.supabase\.co') { Write-Host 'NOTE: this is the DIRECT (IPv6) host. If it times out, use the Session pooler host (…pooler.supabase.com) with user postgres.<project-ref>.' -ForegroundColor Yellow }
+  if ($cPass -match '\[|\]') { Write-Host 'WARNING: the password still contains [ or ]. Remove the brackets.' -ForegroundColor Yellow }
+} else { Write-Host 'WARNING: could not parse the connection string; expected postgresql://user:password@host:port/db' -ForegroundColor Yellow; $cPass = '' }
+
 Copy-Item -Recurse -Force $Repo $Work -Exclude '.git','node_modules'
 # Normalise every shell script in the temp copy to LF (Git on Windows may have checked them out as CRLF).
 Get-ChildItem $Work -Recurse -Filter *.sh | ForEach-Object {
@@ -71,7 +79,16 @@ foreach ($f in 'schema.sql','schema.sha256') {
   if ((Test-Path $p) -and ((Get-Item $p).LastWriteTime -gt $Start)) { Copy-Item -Force $p $Out }
 }
 $text = (Get-Content $Log -Raw)
-if ($text) { ($text -replace [regex]::Escape($url), '<redacted>') | Set-Content $Log }
+if ($text) {
+  $text = $text -replace [regex]::Escape($url), '<redacted>'
+  if ($cPass) {
+    $decoded = try { [uri]::UnescapeDataString($cPass) } catch { $cPass }
+    foreach ($secret in @($cPass, $decoded) | Where-Object { $_ -and $_.Length -ge 4 } | Select-Object -Unique) { $text = $text -replace [regex]::Escape($secret), '<redacted>' }
+    # also scrub any prefix of the password up to a bad percent-escape (psql echoes the offending token)
+    $pre = ($cPass -split '%')[0]; if ($pre.Length -ge 4) { $text = $text -replace [regex]::Escape($pre), '<redacted>' }
+  }
+  $text | Set-Content $Log
+}
 $ok = ($code -eq 0) -and ($text -match 'INNER EXIT: 0') -and ($text -match 'verify exit: 0')
 if ($ok) { Write-Host "`nRESULT: PASS (bash exit 0, log confirms migrate + verify)   Evidence: $Out" -ForegroundColor Green }
 else     { Write-Host "`nRESULT: FAIL or INCOMPLETE (bash exit $code). Do not treat as a pass.   Evidence: $Out" -ForegroundColor Red }
