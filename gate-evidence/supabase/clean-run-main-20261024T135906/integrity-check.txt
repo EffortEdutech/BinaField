@@ -1,0 +1,1 @@
+Sealed-manifest integrity: 27 database files checked, 0 mismatched

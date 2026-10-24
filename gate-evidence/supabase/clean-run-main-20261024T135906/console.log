@@ -1,0 +1,455 @@
+== server ==
+PostgreSQL 17.11 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit
+== migrate ==
+APPLY 0001_platform_extensions_and_schemas.sql
+BEGIN
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0001_platform_extensions_and_schemas.sql:3: NOTICE:  extension "pgcrypto" already exists, skipping
+CREATE EXTENSION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0001_platform_extensions_and_schemas.sql:4: NOTICE:  extension "citext" already exists, skipping
+CREATE EXTENSION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0001_platform_extensions_and_schemas.sql:5: NOTICE:  extension "btree_gist" already exists, skipping
+CREATE EXTENSION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0001_platform_extensions_and_schemas.sql:6: NOTICE:  extension "postgis" already exists, skipping
+CREATE EXTENSION
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE SCHEMA
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+CREATE TABLE
+CREATE TABLE
+INSERT 0 1
+COMMIT
+INSERT 0 1
+APPLY 0002_iam_and_security_registry.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0003_core_projects_teams.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0004_blueprint_templates.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0004_blueprint_templates.sql:94: NOTICE:  trigger "trg_guard_published_template_version" for relation "blueprint.template_versions" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+INSERT 0 1
+APPLY 0005_ops_deployments_assignments.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0006_field_submission_model.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0006_field_submission_model.sql:75: NOTICE:  trigger "trg_submission_attempt_immutable_update" for relation "field.submission_attempts" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0007_evidence_storage_model.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE FUNCTION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0007_evidence_storage_model.sql:139: NOTICE:  trigger "trg_guard_evidence_storage_identity" for relation "evidence.attachments" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0008_sync_transport_model.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0009_processing_audit_outbox.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0010_intelligence_projection_model.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+APPLY 0011_runtime_roles_and_grants.sql
+BEGIN
+DO
+REVOKE
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+GRANT
+REVOKE
+COMMIT
+INSERT 0 1
+APPLY 0012_rls_tenant_isolation.sql
+BEGIN
+CREATE TABLE
+INSERT 0 41
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:57: NOTICE:  policy "tenant_isolation" for relation "iam.organizations" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:64: NOTICE:  policy "metric_definition_visibility" for relation "intel.metric_definitions" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:71: NOTICE:  policy "role_visibility" for relation "iam.roles" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:78: NOTICE:  policy "role_permission_visibility" for relation "iam.role_permissions" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "audit.audit_events" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "blueprint.template_fields" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "blueprint.template_versions" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "blueprint.templates" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "core.projects" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "core.team_members" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "core.teams" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "evidence.attachments" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "evidence.bindings" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "evidence.holds" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "evidence.upload_sessions" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "field.submission_attempts" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "field.submissions" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "iam.membership_project_scopes" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "iam.membership_roles" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "iam.memberships" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "iam.registered_devices" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_boolean" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_currency" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_date" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_datetime" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_geo" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_numeric" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.fact_text" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.insights" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.projection_facts" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.projection_runs" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "intel.semantic_compatibility" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "ops.assignments" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "ops.deployments" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "processing.consumer_receipts" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "processing.idempotency_records" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "processing.outbox_events" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "processing.workflow_runs" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "sync.change_log" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "sync.device_cursors" does not exist, skipping
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0012_rls_tenant_isolation.sql:108: NOTICE:  policy "tenant_isolation" for relation "sync.sync_events" does not exist, skipping
+DO
+GRANT
+COMMIT
+INSERT 0 1
+APPLY 0013_seed_permission_and_role_registry.sql
+BEGIN
+INSERT 0 43
+INSERT 0 11
+INSERT 0 43
+INSERT 0 58
+COMMIT
+INSERT 0 1
+APPLY 0014_p1_06_security_registry_reconciliation.sql
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+INSERT 0 59
+DELETE 2
+DELETE 96
+INSERT 0 182
+COMMIT
+INSERT 0 1
+APPLY 0014y_p1_08_security_namespace_compatibility.sql
+BEGIN
+CREATE SCHEMA
+CREATE FUNCTION
+COMMENT
+COMMIT
+INSERT 0 1
+APPLY 0014z_p1_08_rls_registry_metadata_compatibility.sql
+BEGIN
+ALTER TABLE
+UPDATE 41
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE FUNCTION
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0014z_p1_08_rls_registry_metadata_compatibility.sql:22: NOTICE:  trigger "trg_sync_rls_registry_schema_names" for relation "platform.rls_registry" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+INSERT 0 1
+APPLY 0015_p1_08_evidence_runtime_reconciliation.sql
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE POLICY
+CREATE POLICY
+CREATE POLICY
+CREATE POLICY
+GRANT
+INSERT 0 1
+COMMIT
+INSERT 0 1
+APPLY 0016_p1_09_intelligence_runtime_reconciliation.sql
+BEGIN
+UPDATE 0
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0016_p1_09_intelligence_runtime_reconciliation.sql:9: NOTICE:  constraint "semantic_registry_classification_default_check" of relation "semantic_registry" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0016_p1_09_intelligence_runtime_reconciliation.sql:11: NOTICE:  constraint "projection_facts_classification_check" of relation "projection_facts" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0016_p1_09_intelligence_runtime_reconciliation.sql:13: NOTICE:  constraint "metric_definitions_classification_check" of relation "metric_definitions" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0016_p1_09_intelligence_runtime_reconciliation.sql:20: NOTICE:  constraint "projection_facts_value_presence_check" of relation "projection_facts" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+psql:C:/Users/user/AppData/Local/Temp/bf-supabase-20261024T135906/packages/database/migrations/0016_p1_09_intelligence_runtime_reconciliation.sql:22: NOTICE:  constraint "projection_facts_grain_check" of relation "projection_facts" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+CREATE FUNCTION
+CREATE TRIGGER
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+CREATE POLICY
+GRANT
+GRANT
+INSERT 0 2
+INSERT 0 8
+INSERT 0 18
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMIT
+INSERT 0 1
+migrate exit: 0
+== summary ==
+18
+44|44|50
+== environment prerequisite (Supabase: postgres is not superuser) ==
+NOTICE:  role "postgres" has already been granted membership in role "app_runtime" by role "postgres"
+NOTICE:  role "postgres" has already been granted membership in role "worker_runtime" by role "postgres"
+GRANT ROLE
+== verify ==
+VERIFY 001_schema_and_role_assertions.sql
+DO
+DO
+DO
+VERIFY 002_rls_isolation.sql
+BEGIN
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+DO
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+DO
+RESET
+ROLLBACK
+VERIFY 003_immutability_guards.sql
+BEGIN
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+ROLLBACK
+VERIFY 004_rls_crud_and_pool_safety.sql
+BEGIN
+SET
+              set_config              
+--------------------------------------
+ 00000000-0000-7000-8000-100000000001
+(1 row)
+
+DO
+ROLLBACK
+DO
+VERIFY 005_permission_registry_drift.sql
+DO
+VERIFY 006_intelligence_rls_and_freshness.sql
+BEGIN
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+SET
+DO
+RESET
+ROLLBACK
+BEGIN
+SET
+DO
+RESET
+ROLLBACK
+verify exit: 0
+INNER EXIT: 0
+
