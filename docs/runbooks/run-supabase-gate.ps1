@@ -6,6 +6,7 @@
  so verify.sh can never overwrite the sealed evidence files. Shell scripts in the copy are normalised to LF.
  PASS is only reported when the log itself contains "INNER EXIT: 0"; the process exit code alone is not trusted.
 #>
+param([switch]$Reset)
 $ErrorActionPreference = 'Continue'
 $Repo  = (Resolve-Path "$PSScriptRoot\..\..").Path
 $Stamp = Get-Date -Format 'yyyyMMddTHHmmss'
@@ -58,6 +59,18 @@ foreach ($e in $entries) {
 }
 "Sealed-manifest integrity: $checked database files checked, $($bad.Count) mismatched" | Tee-Object -FilePath (Join-Path $Out 'integrity-check.txt')
 if ($checked -lt 20 -or $bad.Count -gt 0) { $bad | ForEach-Object { Write-Host "MISMATCH: $_" -ForegroundColor Red }; Write-Host 'STOPPED: database files differ from the sealed manifest (or the manifest could not be read). No database was touched.' -ForegroundColor Red; return }
+
+if ($Reset) {
+  Write-Host ''
+  Write-Host "RESET requested: this will DROP the BinaField schemas (platform, iam, core, blueprint, ops, field, evidence, sync, processing, audit, intel) on:" -ForegroundColor Yellow
+  Write-Host "  host '$cHost'  user '$cUser'" -ForegroundColor Yellow
+  $answer = Read-Host "Type YES to continue (anything else cancels)"
+  if ($answer -ne 'YES') { Write-Host 'Cancelled. Nothing was changed.'; return }
+  $env:PGCONNECT_TIMEOUT = '20'
+  & psql $url -v ON_ERROR_STOP=1 -c "DROP SCHEMA IF EXISTS intel, audit, processing, sync, evidence, field, ops, blueprint, core, iam, platform CASCADE;" 2>&1 | Tee-Object -FilePath (Join-Path $Out 'reset.log')
+  if ($LASTEXITCODE -ne 0) { Write-Host 'RESET FAILED. Nothing further was run.' -ForegroundColor Red; return }
+  Write-Host 'Reset done.' -ForegroundColor Green
+}
 
 $inner = @'
 set -uo pipefail
