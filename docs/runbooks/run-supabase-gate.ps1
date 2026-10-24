@@ -37,6 +37,7 @@ foreach ($f in 'schema.sql','schema.sha256') { $p = Join-Path $Work "artefacts\p
 
 $inner = @'
 set -uo pipefail
+exec 2>&1
 cd "$BF_WORK"
 rc=0
 echo "== server =="; psql "$DATABASE_URL" -Atc "select version()" || rc=1
@@ -47,7 +48,10 @@ if [ "$rc" -eq 0 ]; then
   echo "== summary =="
   psql "$DATABASE_URL" -Atc "select count(*) as migrations from platform.schema_migrations"
   psql "$DATABASE_URL" -Atc "select count(*) filter (where c.relrowsecurity) as rls_enabled, count(*) filter (where c.relforcerowsecurity) as rls_forced, count(*) as tables from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in ('r','p') and n.nspname in ('platform','iam','core','blueprint','ops','field','evidence','sync','processing','audit','intel')"
-  echo "== verify =="; bash scripts/db/verify.sh; rc=$?
+  echo "== environment prerequisite (Supabase: postgres is not superuser) =="
+  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "GRANT app_runtime, worker_runtime TO CURRENT_USER WITH SET TRUE, INHERIT FALSE" || rc=$?
+  echo "== verify =="
+  if [ "$rc" -eq 0 ]; then bash scripts/db/verify.sh; rc=$?; fi
   echo "verify exit: $rc"
 fi
 echo "INNER EXIT: $rc"
