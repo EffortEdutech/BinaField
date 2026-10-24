@@ -6,3 +6,7 @@ Result on both: G1-G6 PASS (SQLite 3.54.1, 22 tables, 3 triggers; reopen persist
 outbox dependency + reconciliation persistence; cursor apply-before-advance; evidence identity immutability).
 Not yet covered: iPhone/Safari, installed-to-home-screen run, persistent-storage result, the four ADR risk spikes.
 Phase 1 formal closure remains open.
+
+## Addendum 2026-10-24 15:20 MYT
+iPhone (Safari): operator reports all six gates green. Model/iOS version, installed-to-home-screen run and
+persistent-storage result not yet recorded. iOS storage durability over days remains a separate risk spike.
