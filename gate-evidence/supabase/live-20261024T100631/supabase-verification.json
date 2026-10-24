@@ -1,0 +1,14 @@
+{
+  "note": "Independent read-only query of the BinaField-test project through the Supabase connector, run after the script reported PASS. Not produced by the script.",
+  "project": "BinaField-test (kwofxlfysdcpwpggukax), region ap-northeast-1",
+  "queried_on": "2026-10-24",
+  "server": "PostgreSQL 17.11 (Supabase)",
+  "client": "psql/pg_dump 18.4 on the operator PC",
+  "migrations_recorded": 18,
+  "tables_in_binafield_schemas": 50,
+  "tables_rls_enabled_and_forced": 44,
+  "runtime_roles": "app_runtime, worker_runtime, bf_readonly, bf_owner, bf_migrator: all superuser=false, bypassrls=false, login=false",
+  "extensions": "btree_gist 1.7, citext 1.6, pgcrypto 1.3, postgis 3.3.7",
+  "schema_comparison_vs_sealed_pg16_dump": "423 BinaField-schema statements each side after whitespace/comment normalisation; 0 only-in-sealed, 0 only-in-supabase",
+  "environment_prerequisite": "GRANT app_runtime, worker_runtime TO postgres WITH SET TRUE, INHERIT FALSE (Supabase postgres is not superuser; tests use SET ROLE)"
+}
