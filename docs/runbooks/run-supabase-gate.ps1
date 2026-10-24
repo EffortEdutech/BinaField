@@ -62,12 +62,12 @@ if ($checked -lt 20 -or $bad.Count -gt 0) { $bad | ForEach-Object { Write-Host "
 
 if ($Reset) {
   Write-Host ''
-  Write-Host "RESET requested: this will DROP the BinaField schemas (platform, iam, core, blueprint, ops, field, evidence, sync, processing, audit, intel) on:" -ForegroundColor Yellow
+  Write-Host "RESET requested: this will DROP the BinaField schemas (platform, iam, core, blueprint, ops, field, evidence, sync, processing, audit, intel, security) on:" -ForegroundColor Yellow
   Write-Host "  host '$cHost'  user '$cUser'" -ForegroundColor Yellow
   $answer = Read-Host "Type YES to continue (anything else cancels)"
   if ($answer -ne 'YES') { Write-Host 'Cancelled. Nothing was changed.'; return }
   $env:PGCONNECT_TIMEOUT = '20'
-  & psql $url -v ON_ERROR_STOP=1 -c "DROP SCHEMA IF EXISTS intel, audit, processing, sync, evidence, field, ops, blueprint, core, iam, platform CASCADE;" 2>&1 | Tee-Object -FilePath (Join-Path $Out 'reset.log')
+  & psql $url -v ON_ERROR_STOP=1 -c "DROP SCHEMA IF EXISTS security, intel, audit, processing, sync, evidence, field, ops, blueprint, core, iam, platform CASCADE;" 2>&1 | Tee-Object -FilePath (Join-Path $Out 'reset.log')
   if ($LASTEXITCODE -ne 0) { Write-Host 'RESET FAILED. Nothing further was run.' -ForegroundColor Red; return }
   Write-Host 'Reset done.' -ForegroundColor Green
 }
