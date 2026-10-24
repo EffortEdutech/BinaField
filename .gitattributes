@@ -1,0 +1,7 @@
+# Keep every text file LF on every OS. Windows autocrlf converted the released SQL migrations to CRLF,
+# which changed their SHA-256 away from the sealed manifest values. This file adds no content to sealed files.
+* text=auto eol=lf
+*.png binary
+*.pb binary
+*.bin binary
+*.wasm binary

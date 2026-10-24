@@ -35,13 +35,29 @@ if ($url -match '^postgres(?:ql)?://([^:/@]+):(.*)@([^@/?]+)([/?].*)?$') {
 
 Copy-Item -Recurse -Force $Repo $Work -Exclude '.git','node_modules'
 # Normalise every shell script in the temp copy to LF (Git on Windows may have checked them out as CRLF).
-Get-ChildItem $Work -Recurse -Filter *.sh | ForEach-Object {
+Get-ChildItem $Work -Recurse -File | Where-Object { $_.Extension -in '.sh','.sql' } | ForEach-Object {
   $t = [IO.File]::ReadAllText($_.FullName) -replace "`r`n","`n"
   [IO.File]::WriteAllText($_.FullName, $t, (New-Object Text.UTF8Encoding($false)))
 }
 # Delete the sealed schema copies from the temp copy so only a file produced by THIS run can be reported.
 foreach ($f in 'schema.sql','schema.sha256') { $p = Join-Path $Work "artefacts\phase1\manifests\$f"; if (Test-Path $p) { Remove-Item -Force $p } }
 & psql --version | Set-Content (Join-Path $Out 'client-version.txt')
+
+# Integrity gate: every database file in the temp copy must match the SEALED manifest hash, or we stop before touching any database.
+$manifest = Get-Content (Join-Path $Work 'artefacts\phase1\manifests\batch06b-files.sha256.json') -Raw | ConvertFrom-Json
+$entries = New-Object System.Collections.ArrayList
+function Walk($o) { if ($null -eq $o) { return }; if ($o -is [System.Array]) { foreach ($i in $o) { Walk $i } } elseif ($o.PSObject -and $o.PSObject.Properties.Name -contains 'path' -and $o.PSObject.Properties.Name -contains 'sha256') { [void]$entries.Add($o) } elseif ($o.PSObject) { foreach ($p in $o.PSObject.Properties) { if ($p.Value -isnot [string] -and $p.Value -isnot [ValueType]) { Walk $p.Value } } } }
+Walk $manifest
+$checked = 0; $bad = @()
+foreach ($e in $entries) {
+  if ($e.path -match '^(packages/database/(migrations|tests)/.*\.sql|scripts/db/.*\.sh)$') {
+    $f = Join-Path $Work ($e.path -replace '/','\')
+    $h = (Get-FileHash -Algorithm SHA256 $f).Hash.ToLower(); $checked++
+    if ($h -ne $e.sha256.ToLower()) { $bad += $e.path }
+  }
+}
+"Sealed-manifest integrity: $checked database files checked, $($bad.Count) mismatched" | Tee-Object -FilePath (Join-Path $Out 'integrity-check.txt')
+if ($checked -lt 20 -or $bad.Count -gt 0) { $bad | ForEach-Object { Write-Host "MISMATCH: $_" -ForegroundColor Red }; Write-Host 'STOPPED: database files differ from the sealed manifest (or the manifest could not be read). No database was touched.' -ForegroundColor Red; return }
 
 $inner = @'
 set -uo pipefail
