@@ -1,4 +1,4 @@
-import pg from 'pg';
+import { Pool } from 'pg';
 
 // Minimal database seam so handlers can be tested without a database.
 export interface Queryable { query<T = Record<string, unknown>>(sql: string, params?: readonly unknown[]): Promise<{ rows: T[] }> }
@@ -10,7 +10,7 @@ export interface Db {
 
 /** Real implementation over a pg Pool. The connection string comes from the environment only. */
 export function createPgDb(connectionString: string): Db {
-  const pool = new pg.Pool({ connectionString, max: 3, idleTimeoutMillis: 10_000, ssl: { rejectUnauthorized: false } });
+  const pool = new Pool({ connectionString, max: 3, idleTimeoutMillis: 10_000, ssl: { rejectUnauthorized: false } });
   return {
     async tx(fn) {
       const client = await pool.connect();

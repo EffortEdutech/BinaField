@@ -2,7 +2,6 @@
   "name": "@binafield/api",
   "version": "0.8.0-sprint1",
   "private": true,
-  "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
