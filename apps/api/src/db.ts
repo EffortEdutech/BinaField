@@ -5,7 +5,8 @@ export interface Queryable { query<T = Record<string, unknown>>(sql: string, par
 export interface Db {
   /** Runs fn in one transaction as the restricted runtime role. Commits on success, rolls back on error. */
   tx<T>(fn: (q: Queryable) => Promise<T>): Promise<T>;
-  ping(): Promise<boolean>;
+  /** Reachability check. `reason` is only a coarse error code (for example 28P01 or ENOTFOUND), never a message or secret. */
+  ping(): Promise<{ ok: boolean; reason?: string }>;
 }
 
 /** Real implementation over a pg Pool. The connection string comes from the environment only. */
@@ -25,6 +26,9 @@ export function createPgDb(connectionString: string): Db {
         throw e;
       } finally { client.release(); }
     },
-    async ping() { try { await pool.query('SELECT 1'); return true; } catch { return false; } }
+    async ping() {
+      try { await pool.query('SELECT 1'); return { ok: true }; }
+      catch (e) { const c = (e as { code?: unknown }).code; return { ok: false, reason: typeof c === 'string' && /^[A-Z0-9_]{3,16}$/.test(c) ? c : 'UNKNOWN' }; }
+    }
   };
 }

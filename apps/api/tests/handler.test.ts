@@ -24,7 +24,7 @@ function fakeDb(opts: { memberState?: string; deviceState?: string | null; known
       throw new Error('unexpected sql: ' + s);
     }
   };
-  const db: Db = { tx: (fn) => fn(q), ping: async () => true };
+  const db: Db = { tx: (fn) => fn(q), ping: async () => ({ ok: true }) };
   return { db, settings };
 }
 const verify = async (t: string) => { if (t !== 'good') throw new Error('bad'); return { sub: 'sb-user-1', authenticationStrength: 'PASSWORD' }; };
@@ -37,8 +37,10 @@ const auth = { authorization: 'Bearer good' };
 describe('api handler', () => {
   it('health reports ok and degraded', async () => {
     expect((await call('/api/health')).status).toBe(200);
-    const down: Db = { tx: async () => { throw new Error('x'); }, ping: async () => false };
-    expect((await call('/api/health', { db: down })).status).toBe(503);
+    const down: Db = { tx: async () => { throw new Error('x'); }, ping: async () => ({ ok: false, reason: '28P01' }) };
+    const bad = await call('/api/health', { db: down });
+    expect(bad.status).toBe(503);
+    expect(await bad.json()).toMatchObject({ database: false, reason: '28P01' });
   });
   it('rejects missing and invalid tokens with 401 problem+json', async () => {
     for (const headers of [{} as Record<string, string>, { authorization: 'Bearer nope' }]) {
@@ -76,7 +78,7 @@ describe('api handler', () => {
     expect((await r.json()).device_state).toBe('NOT_REGISTERED');
   });
   it('maps database failure to a retryable 503', async () => {
-    const broken: Db = { tx: async () => { throw new Error('boom'); }, ping: async () => true };
+    const broken: Db = { tx: async () => { throw new Error('boom'); }, ping: async () => ({ ok: true }) };
     const r = await call(`/api/organizations/${ORG}/me`, { headers: auth, db: broken });
     expect(r.status).toBe(503); expect((await r.json()).retryable).toBe(true);
   });

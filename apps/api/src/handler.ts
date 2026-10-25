@@ -20,8 +20,8 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
   const correlationId = incoming && UUID.test(incoming) ? incoming : crypto.randomUUID();
 
   if (req.method === 'GET' && path === '/health') {
-    const db = await deps.db.ping();
-    return json(db ? 200 : 503, { status: db ? 'ok' : 'degraded', database: db }, { 'x-correlation-id': correlationId });
+    const p = await deps.db.ping();
+    return json(p.ok ? 200 : 503, { status: p.ok ? 'ok' : 'degraded', database: p.ok, ...(p.ok ? {} : { reason: p.reason ?? 'UNKNOWN' }) }, { 'x-correlation-id': correlationId });
   }
 
   const me = /^\/organizations\/([^/]+)\/me$/.exec(path);
