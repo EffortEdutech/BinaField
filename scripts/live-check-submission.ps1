@@ -44,3 +44,14 @@ Show 'no token'                        (Call Post $u @{ 'X-Device-Id' = $dev; 'I
 Show 'other organisation concealed'    (Call Post "/organizations/22222222-2222-4222-8222-222222222222/field/submission-attempts" (& $IK ('live-' + [guid]::NewGuid().ToString('N'))) (Body ([guid]::NewGuid()) $payload $hash $dev)) 404
 $o = Call Get "/organizations/$org/field/submission-attempts/$att/outcome" $H $null
 Show 'outcome of stored attempt'       $o 200; $o.b
+
+# --- field delta (Sprint 1) ---
+$d1 = Call Get "/organizations/$org/field/delta" $H $null
+Show 'delta from empty cursor'         $d1 200
+$j = $d1.b | ConvertFrom-Json
+"entries: $($j.entries.Count)  next_cursor: $($j.next_cursor)  first: $($j.entries[0].change_type) $($j.entries[0].payload.assignment_id)"
+$d2 = Call Get "/organizations/$org/field/delta?cursor=$($j.next_cursor)" $H $null
+Show 'delta from next cursor is empty' $d2 200
+"second page entries: $((($d2.b | ConvertFrom-Json).entries).Count)"
+Show 'bad cursor'                      (Call Get "/organizations/$org/field/delta?cursor=zzz" $H $null) 400
+Show 'delta without device header'     (Call Get "/organizations/$org/field/delta" @{ Authorization = "Bearer $tok" } $null) 403

@@ -57,6 +57,53 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     }
   }
 
+  const delta = /^\/organizations\/([^/]+)\/field\/delta$/.exec(path);
+  if (req.method === 'GET' && delta) {
+    const organizationId = delta[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const deviceId = req.headers.get('x-device-id');
+    if (deviceId && !UUID.test(deviceId)) return problem(400, 'INVALID_DEVICE_ID', 'X-Device-Id must be a UUID', correlationId);
+    const cur = url.searchParams.get('cursor') ?? '';
+    const m = cur === '' ? ['', '0'] : /^c1:(\d{1,15})$/.exec(cur);
+    if (!m) return problem(400, 'INVALID_CURSOR', 'cursor must be empty or a value returned by this endpoint', correlationId);
+    const after = Number(m[1]);
+    const lim = url.searchParams.get('limit');
+    const limit = lim === null ? 100 : Number(lim);
+    if (!Number.isInteger(limit) || limit < 1 || limit > 500) return problem(400, 'INVALID_LIMIT', 'limit must be an integer from 1 to 500', correlationId);
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a0 = authorize(r.principal, { organizationId, permission: 'assignment.read', deviceRequired: true });
+        if (a0.decision === 'DENY') return problem(403, a0.reasonCode, 'Access denied', correlationId);
+        // Only this person's changes are read; the pull never moves the device cursor (the acknowledgement does, after apply).
+        const rows = await q.query<{ sequence_id: string; entity_type: string; entity_id: string; entity_revision: string | null; change_type: string; payload_json: Record<string, unknown>; occurred_at: string }>(
+          `SELECT sequence_id, entity_type, entity_id, entity_revision, change_type, payload_json, occurred_at FROM sync.change_log
+            WHERE organization_id = $1 AND sequence_id > $2 AND entity_type = 'assignment' AND payload_json->>'assignee_membership_id' = $3
+            ORDER BY sequence_id LIMIT $4`, [organizationId, after, r.membershipId, limit + 1]);
+        const hasMore = rows.rows.length > limit;
+        const page = rows.rows.slice(0, limit);
+        const entries = page.filter((e) => authorize(r.principal, { organizationId, permission: 'assignment.read', projectId: String(e.payload_json.project_id) }).decision === 'ALLOW').map((e) => {
+          const pj = e.payload_json; const seq = Number(e.sequence_id);
+          const rev = e.entity_revision === null ? null : Number(e.entity_revision);
+          return {
+            delta_id: '00000000-0000-4000-8000-' + seq.toString(16).padStart(12, '0'), entity_type: e.entity_type, entity_id: e.entity_id, organization_id: organizationId,
+            entity_revision: rev, change_type: e.change_type, occurred_at: new Date(e.occurred_at).toISOString(),
+            payload: e.change_type === 'UPSERT'
+              ? { assignment_id: pj.assignment_id, assignment_revision: pj.assignment_revision, template_version_id: pj.template_version_id, blueprint_hash: pj.blueprint_hash, payload: { project_id: pj.project_id, ...(pj.payload as object) } }
+              : { assignment_id: pj.assignment_id, organization_id: organizationId, authoritative_revision: rev ?? 0, tombstone_type: pj.tombstone_type, effective_at: new Date(e.occurred_at).toISOString() }
+          };
+        });
+        const last = page.length ? Number(page[page.length - 1]!.sequence_id) : after;
+        return json(200, { sync_protocol_version: '1.0', organization_id: organizationId, prior_cursor: cur, next_cursor: 'c1:' + last, has_more: hasMore, server_time: new Date().toISOString(), entries }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const sub = /^\/organizations\/([^/]+)\/field\/submission-attempts$/.exec(path);
   const outcome = /^\/organizations\/([^/]+)\/field\/submission-attempts\/([^/]+)\/outcome$/.exec(path);
   if ((req.method === 'POST' && sub) || (req.method === 'GET' && outcome)) {
