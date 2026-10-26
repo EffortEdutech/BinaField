@@ -1,6 +1,6 @@
 # ADR-0005 - Supabase Auth as the identity provider
 
-- Status: **Proposed 25 Oct 2026** (direction chosen by eff on 24 Oct 2026: "Supabase Auth"); becomes Accepted when the Sprint 1 identity tests pass.
+- Status: **Accepted 26 Oct 2026** (direction chosen by eff on 24 Oct 2026: "Supabase Auth"); live login-to-principal check passed, see gate-evidence/api/sprint1-auth-chain-20261026.md.
 - Related: ADR-0003 (PWA-first), ADR-0004 (Supabase-only database).
 
 ## Decision
