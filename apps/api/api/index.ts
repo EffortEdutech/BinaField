@@ -8,7 +8,7 @@ function getDeps() {
   if (!deps) {
     const url = process.env.DATABASE_URL, supabase = process.env.SUPABASE_URL;
     if (!url || !supabase) throw new Error('MISSING_ENV');
-    deps = { db: createPgDb(url), verify: createSupabaseVerifier(supabase) };
+    deps = { db: createPgDb(url), verify: createSupabaseVerifier(supabase, process.env.SUPABASE_ANON_KEY) };
   }
   return deps;
 }
