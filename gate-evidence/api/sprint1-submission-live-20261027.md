@@ -15,3 +15,10 @@ Result: 9 of 9 PASS.
 
 Not yet covered live: revoked member, suspended device, project-restricted scope (covered by unit tests only).
 Test data remains in the main database and must be removed before real use.
+
+## Field delta, live (27 Oct 2026, same script, commit 60b7477)
+13 of 13 PASS in total (9 submission + 4 delta checks shown below).
+- delta from empty cursor: 200, 1 entry (UPSERT of assignment a0000000-0000-4000-8000-000000000014), next_cursor c1:1
+- delta from next cursor: 200, 0 entries
+- bad cursor: 400 INVALID_CURSOR
+- delta without device header: 403 DEVICE_NOT_REGISTERED

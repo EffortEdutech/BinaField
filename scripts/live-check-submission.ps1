@@ -55,3 +55,9 @@ Show 'delta from next cursor is empty' $d2 200
 "second page entries: $((($d2.b | ConvertFrom-Json).entries).Count)"
 Show 'bad cursor'                      (Call Get "/organizations/$org/field/delta?cursor=zzz" $H $null) 400
 Show 'delta without device header'     (Call Get "/organizations/$org/field/delta" @{ Authorization = "Bearer $tok" } $null) 403
+
+# --- acknowledgement (Sprint 1) ---
+$ak = @{ Authorization = "Bearer $tok"; 'X-Device-Id' = $dev; 'Idempotency-Key' = ('ack-' + [guid]::NewGuid().ToString('N')) }
+Show 'acknowledge delta cursor'        (Call Post "/organizations/$org/field/acknowledgements" $ak ('{"cursor":"' + $j.next_cursor + '"}')) 200
+Show 'older cursor never moves back'   (Call Post "/organizations/$org/field/acknowledgements" $ak '{"cursor":"c1:0"}') 200
+Show 'cursor beyond server refused'    (Call Post "/organizations/$org/field/acknowledgements" $ak '{"cursor":"c1:999999"}') 422

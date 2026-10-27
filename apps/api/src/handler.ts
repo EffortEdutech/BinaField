@@ -104,6 +104,44 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
+  const ack = /^\/organizations\/([^/]+)\/field\/acknowledgements$/.exec(path);
+  if (req.method === 'POST' && ack) {
+    const organizationId = ack[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const deviceId = req.headers.get('x-device-id');
+    if (deviceId && !UUID.test(deviceId)) return problem(400, 'INVALID_DEVICE_ID', 'X-Device-Id must be a UUID', correlationId);
+    const idem = req.headers.get('idempotency-key');
+    if (!idem || idem.length < 8 || idem.length > 200) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key header (8-200 characters) is required', correlationId);
+    let raw: Record<string, unknown> | null = null;
+    try { raw = (await req.json()) as Record<string, unknown>; } catch { /* handled below */ }
+    const c = raw && typeof raw === 'object' ? (raw.cursor ?? (raw.payload as Record<string, unknown> | undefined)?.cursor) : undefined;
+    const cm = typeof c === 'string' ? /^c1:(\d{1,15})$/.exec(c) : null;
+    if (!cm) return problem(400, 'INVALID_CURSOR', 'cursor must be a value returned by the delta endpoint', correlationId);
+    const acked = Number(cm[1]);
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a0 = authorize(r.principal, { organizationId, permission: 'assignment.execute', deviceRequired: true });
+        if (a0.decision === 'DENY') return problem(403, a0.reasonCode, 'Access denied', correlationId);
+        // A device can only confirm what the server has actually published.
+        const mx = await q.query<{ max: string | null }>('SELECT max(sequence_id) AS max FROM sync.change_log WHERE organization_id = $1', [organizationId]);
+        if (acked > Number(mx.rows[0]?.max ?? 0)) return problem(422, 'CURSOR_AHEAD_OF_SERVER', 'cursor is beyond the latest published change', correlationId);
+        // The stored cursor only moves forward; a repeat or an older acknowledgement changes nothing.
+        const up = await q.query<{ cursor_sequence: string }>(
+          `INSERT INTO sync.device_cursors(organization_id, device_id, cursor_sequence, acknowledged_at, updated_at) VALUES ($1, $2, $3, now(), now())
+           ON CONFLICT (organization_id, device_id) DO UPDATE SET cursor_sequence = GREATEST(sync.device_cursors.cursor_sequence, EXCLUDED.cursor_sequence),
+             acknowledged_at = now(), updated_at = now() RETURNING cursor_sequence`, [organizationId, deviceId, acked]);
+        const stored = Number(up.rows[0]!.cursor_sequence);
+        return json(200, { device_id: deviceId, acknowledged_cursor: 'c1:' + stored, advanced: stored === acked }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const sub = /^\/organizations\/([^/]+)\/field\/submission-attempts$/.exec(path);
   const outcome = /^\/organizations\/([^/]+)\/field\/submission-attempts\/([^/]+)\/outcome$/.exec(path);
   if ((req.method === 'POST' && sub) || (req.method === 'GET' && outcome)) {
