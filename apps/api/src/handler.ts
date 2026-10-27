@@ -92,6 +92,16 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
               : { assignment_id: pj.assignment_id, organization_id: organizationId, authoritative_revision: rev ?? 0, tombstone_type: pj.tombstone_type, effective_at: new Date(e.occurred_at).toISOString() }
           };
         });
+        // The template is immutable once published, so the form definition travels with the assignment it belongs to.
+        const tids = [...new Set(entries.filter((e) => e.change_type === 'UPSERT').map((e) => String((e.payload as { template_version_id: string }).template_version_id)))];
+        if (tids.length) {
+          const tvs = await q.query<{ id: string; blueprint_json: unknown; blueprint_hash: string }>('SELECT id, blueprint_json, blueprint_hash FROM blueprint.template_versions WHERE organization_id = $1 AND id = ANY($2::uuid[])', [organizationId, tids]);
+          for (const e of entries) {
+            if (e.change_type !== 'UPSERT') continue;
+            const t = tvs.rows.find((x) => x.id === (e.payload as { template_version_id: string }).template_version_id);
+            if (t) (e.payload as { payload: Record<string, unknown> }).payload.blueprint = t.blueprint_json;
+          }
+        }
         const last = page.length ? Number(page[page.length - 1]!.sequence_id) : after;
         return json(200, { sync_protocol_version: '1.0', organization_id: organizationId, prior_cursor: cur, next_cursor: 'c1:' + last, server_time: new Date().toISOString(), entries }, { 'x-correlation-id': correlationId });
       });
@@ -195,6 +205,8 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         const a1 = authorize(r.principal, { ...base, projectId: asg.project_id });
         if (a1.decision === 'DENY') return deny(a1.reasonCode);
         if (asg.template_version_id !== b.template_version_id) return problem(422, 'TEMPLATE_VERSION_MISMATCH', 'template_version_id does not match the assignment', correlationId);
+        const tv = await q.query<{ blueprint_hash: string }>('SELECT blueprint_hash FROM blueprint.template_versions WHERE id = $1 AND organization_id = $2', [b.template_version_id, organizationId]);
+        if (!tv.rows[0] || tv.rows[0].blueprint_hash !== b.blueprint_hash) return problem(422, 'BLUEPRINT_HASH_MISMATCH', 'blueprint_hash does not match the template version', correlationId);
         if (b.assignment_revision_used > Number(asg.revision)) return problem(422, 'ASSIGNMENT_REVISION_UNKNOWN', 'assignment_revision_used is newer than the server revision', correlationId);
 
         // Idempotency: the unique (organization, assignment, idempotency_key) row is the record. Same hash = replay, different = conflict.

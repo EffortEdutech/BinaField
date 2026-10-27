@@ -13,7 +13,7 @@ const PRJ = '88888888-8888-4888-8888-888888888888';
 const ATT = '99999999-9999-4999-8999-999999999999';
 const SES = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 
-function fake(o: { perms?: string[]; device?: string | null; assignee?: string | null; tpl?: string; rev?: number; existing?: { id: string; payload_hash: string } | null; scope?: 'ORG_WIDE' | 'PROJECT_RESTRICTED' } = {}) {
+function fake(o: { perms?: string[]; device?: string | null; assignee?: string | null; tpl?: string; rev?: number; existing?: { id: string; payload_hash: string } | null; bp?: string; scope?: 'ORG_WIDE' | 'PROJECT_RESTRICTED' } = {}) {
   const inserts: unknown[][] = [];
   const q: Queryable = {
     async query(sql: string, params: readonly unknown[] = []) {
@@ -26,6 +26,7 @@ function fake(o: { perms?: string[]; device?: string | null; assignee?: string |
       if (s.includes('membership_project_scopes')) return { rows: [] } as never;
       if (s.includes('registered_devices')) return { rows: o.device === null ? [] : [{ lifecycle_state: o.device ?? 'ACTIVE' }] } as never;
       if (s.includes('FROM ops.assignments')) return { rows: [{ project_id: PRJ, template_version_id: o.tpl ?? TPL, revision: String(o.rev ?? 3), assignee_membership_id: o.assignee === undefined ? MEM : o.assignee, lifecycle_state: 'ASSIGNED' }] } as never;
+      if (s.includes('FROM blueprint.template_versions')) return { rows: [{ blueprint_hash: o.bp ?? 'b'.repeat(64) }] } as never;
       if (s.includes('AND idempotency_key')) return { rows: o.existing ? [{ ...o.existing, received_at: 't0' }] : [] } as never;
       if (s.includes('FROM field.submission_attempts WHERE organization_id = $1 AND id = $2')) return { rows: [] } as never;
       if (s.startsWith('INSERT INTO field.submission_attempts')) { inserts.push([...params]); return { rows: [{ received_at: 't1' }] } as never; }
@@ -90,6 +91,9 @@ describe('POST submission-attempts', () => {
   it('rejects template mismatch and a revision newer than the server', async () => {
     expect((await (await post(fake({ tpl: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee' }).db, body())).json()).code).toBe('TEMPLATE_VERSION_MISMATCH');
     expect((await (await post(fake({ rev: 2 }).db, body())).json()).code).toBe('ASSIGNMENT_REVISION_UNKNOWN');
+  });
+  it('rejects a blueprint hash that is not the template version\'s', async () => {
+    expect((await (await post(fake({ bp: 'c'.repeat(64) }).db, body())).json()).code).toBe('BLUEPRINT_HASH_MISMATCH');
   });
   it('replays an identical retry and conflicts on a different request', async () => {
     const same = fake({ existing: { id: ATT, payload_hash: payloadHashOf(payload) } });
