@@ -3,16 +3,11 @@ import { bearerFrom, type TokenVerifier } from './auth';
 import { loadPrincipal } from './principal';
 import { authorize } from '../../../packages/security/src/authorization';
 import { parseAttempt, payloadHashOf } from './submission';
+import { UUID, json, problem } from './http';
+import { handleEvidence } from './evidence';
+import type { EvidenceStorage } from './storage';
 
-export interface Deps { db: Db; verify: TokenVerifier }
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const json = (status: number, body: unknown, extra: Record<string, string> = {}) =>
-  new Response(JSON.stringify(body), { status, headers: { 'content-type': status >= 400 ? 'application/problem+json' : 'application/json', 'cache-control': 'no-store', ...extra } });
-
-function problem(status: number, code: string, detail: string, correlationId: string, retryable = false) {
-  return json(status, { type: `https://contracts.binafield.io/problem/${code}`, title: code, status, code, detail, correlation_id: correlationId, retryable }, { 'x-correlation-id': correlationId });
-}
+export interface Deps { db: Db; verify: TokenVerifier; storage?: EvidenceStorage }
 
 /** Single entry point: maps Request to Response. Routes follow packages/contracts/api/openapi.v1.yaml paths under /api. */
 export async function handle(req: Request, deps: Deps): Promise<Response> {
@@ -223,6 +218,9 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       });
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
+
+  const ev = await handleEvidence(req, path, deps, correlationId);
+  if (ev) return ev;
 
   return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
 }
