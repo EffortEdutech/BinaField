@@ -122,7 +122,7 @@ export async function handleEvidence(req: Request, path: string, deps: Deps, cor
       if (raw && raw.attachment_id !== undefined && raw.attachment_id !== u.attachment_id) return problem(422, 'SESSION_MISMATCH', 'attachment_id does not belong to this upload', correlationId);
       const status = (lifecycle: string, integrity: string, code: string | null, verifiedAt: string | null) =>
         ({ attachment_id: u.attachment_id, lifecycle_state: lifecycle, integrity_state: integrity, binding_state: 'UNBOUND', bound_at: null, failure_code: code, verified_at: verifiedAt ? new Date(verifiedAt).toISOString() : null });
-      if (u.state === 'COMPLETED') return json(200, status('UPLOADED', 'VERIFIED', null, u.verified_at), hdr);
+      if (u.state === 'VERIFIED') return json(200, status('UPLOADED', 'VERIFIED', null, u.verified_at), hdr);
       if (u.state !== 'INITIALISED' && u.state !== 'UPLOADING') return problem(409, u.state === 'FAILED' ? 'QUARANTINED' : 'UPLOAD_SESSION_EXPIRED', `Upload session is ${u.state}`, correlationId);
       if (!u.live) {
         await q.query(`UPDATE evidence.upload_sessions SET state = 'EXPIRED', updated_at = now() WHERE id = $1 AND organization_id = $2`, [uploadId, organizationId]);
@@ -137,7 +137,7 @@ export async function handleEvidence(req: Request, path: string, deps: Deps, cor
         return json(422, { type: `https://contracts.binafield.io/problem/${failure}`, title: failure, status: 422, code: failure, detail: 'Stored file does not match the declared size or hash; the attachment is quarantined', correlation_id: correlationId, retryable: false }, { 'x-correlation-id': correlationId });
       }
       const done = await q.query<{ verified_at: string }>(`UPDATE evidence.attachments SET transfer_state = 'UPLOADED', integrity_state = 'VERIFIED', uploaded_at = now(), verified_at = now(), updated_at = now() WHERE id = $1 AND organization_id = $2 RETURNING verified_at`, [u.attachment_id, organizationId]);
-      await q.query(`UPDATE evidence.upload_sessions SET state = 'COMPLETED', updated_at = now() WHERE id = $1 AND organization_id = $2`, [uploadId, organizationId]);
+      await q.query(`UPDATE evidence.upload_sessions SET state = 'VERIFIED', updated_at = now() WHERE id = $1 AND organization_id = $2`, [uploadId, organizationId]);
       return json(200, status('UPLOADED', 'VERIFIED', null, done.rows[0]!.verified_at), hdr);
     });
   } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }

@@ -61,3 +61,26 @@ $ak = @{ Authorization = "Bearer $tok"; 'X-Device-Id' = $dev; 'Idempotency-Key' 
 Show 'acknowledge delta cursor'        (Call Post "/organizations/$org/field/acknowledgements" $ak ('{"cursor":"' + $j.next_cursor + '"}')) 200
 Show 'older cursor never moves back'   (Call Post "/organizations/$org/field/acknowledgements" $ak '{"cursor":"c1:0"}') 200
 Show 'cursor beyond server refused'    (Call Post "/organizations/$org/field/acknowledgements" $ak '{"cursor":"c1:999999"}') 422
+
+# --- evidence upload (Sprint 2); needs SUPABASE_SERVICE_ROLE_KEY set on the API and the 'evidence' bucket ---
+function NewPhoto($seedText) { $f = Join-Path $env:TEMP ('bf-' + [guid]::NewGuid().ToString('N') + '.jpg'); $bytes = New-Object byte[] 3000; (New-Object Random).NextBytes($bytes); [IO.File]::WriteAllBytes($f, $bytes); $f }
+function InitBody($att, $sha, $size) { '{"attachment_id":"' + $att + '","organization_id":"' + $org + '","assignment_id":"' + $asg + '","session_id":"' + $ses + '","evidence_type":"PHOTO","evidence_role":"ORIGINAL","byte_size":' + $size + ',"sha256":"' + $sha + '","claimed_mime_type":"image/jpeg","source_kind":"CAMERA_CAPTURE","upload_protocol_version":"1.0","field_id":"photos"}' }
+function EvH { @{ Authorization = "Bearer $tok"; 'X-Device-Id' = $dev; 'Idempotency-Key' = ('ev-' + [guid]::NewGuid().ToString('N')) } }
+function PutFile($url, $file) { try { $r = Invoke-WebRequest -Method Put -Uri $url -InFile $file -ContentType 'image/jpeg' -UseBasicParsing; [int]$r.StatusCode } catch { [int]$_.Exception.Response.StatusCode } }
+
+$f1 = NewPhoto; $sha1 = (Get-FileHash $f1 -Algorithm SHA256).Hash.ToLower(); $att1 = [guid]::NewGuid().ToString()
+$i1 = Call Post "/organizations/$org/evidence/uploads" (EvH) (InitBody $att1 $sha1 3000)
+Show 'initiate upload'                 $i1 201
+$s1 = $i1.b | ConvertFrom-Json
+Show 'finalize before file arrives'    (Call Post "/organizations/$org/evidence/uploads/$($s1.upload_id):finalize" (EvH) ('{"upload_id":"' + $s1.upload_id + '","attachment_id":"' + $att1 + '"}')) 409
+"PUT to storage: HTTP $(PutFile $s1.provider_upload_reference $f1)"
+Show 'finalize verifies the hash'      (Call Post "/organizations/$org/evidence/uploads/$($s1.upload_id):finalize" (EvH) ('{"upload_id":"' + $s1.upload_id + '","attachment_id":"' + $att1 + '"}')) 200
+Show 'finalize again is a replay'      (Call Post "/organizations/$org/evidence/uploads/$($s1.upload_id):finalize" (EvH) ('{"upload_id":"' + $s1.upload_id + '","attachment_id":"' + $att1 + '"}')) 200
+
+$f2 = NewPhoto; $f3 = NewPhoto; $sha3 = (Get-FileHash $f3 -Algorithm SHA256).Hash.ToLower(); $att2 = [guid]::NewGuid().ToString()
+$i2 = Call Post "/organizations/$org/evidence/uploads" (EvH) (InitBody $att2 $sha3 3000)   # declares file 3's hash...
+$s2 = $i2.b | ConvertFrom-Json
+"PUT of a different file: HTTP $(PutFile $s2.provider_upload_reference $f2)"                 # ...but uploads file 2
+Show 'wrong file is quarantined'       (Call Post "/organizations/$org/evidence/uploads/$($s2.upload_id):finalize" (EvH) ('{"upload_id":"' + $s2.upload_id + '","attachment_id":"' + $att2 + '"}')) 422
+Show 'oversize file refused'           (Call Post "/organizations/$org/evidence/uploads" (EvH) (InitBody ([guid]::NewGuid()) $sha1 30000000)) 413
+Remove-Item $f1, $f2, $f3 -ErrorAction SilentlyContinue

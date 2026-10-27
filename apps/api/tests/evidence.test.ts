@@ -116,7 +116,7 @@ describe('POST evidence/uploads/{id}:finalize', () => {
   });
   it('finalizing twice returns the same verified result without touching storage again', async () => {
     let reads = 0; const st: EvidenceStorage = { signUpload: async () => ({ url: 'u' }), hashObject: async () => { reads++; return null; } };
-    const r = await fin(fake({ session: sess({ state: 'COMPLETED', verified_at: '2026-10-27T05:01:00Z' }) }), undefined, st);
+    const r = await fin(fake({ session: sess({ state: 'VERIFIED', verified_at: '2026-10-27T05:01:00Z' }) }), undefined, st);
     expect(r.status).toBe(200); expect((await r.json()).integrity_state).toBe('VERIFIED'); expect(reads).toBe(0);
   });
   it('needs the permission', async () => {
