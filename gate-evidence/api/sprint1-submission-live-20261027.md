@@ -22,3 +22,6 @@ Test data remains in the main database and must be removed before real use.
 - delta from next cursor: 200, 0 entries
 - bad cursor: 400 INVALID_CURSOR
 - delta without device header: 403 DEVICE_NOT_REGISTERED
+
+## Acknowledgement, live (27 Oct 2026, commit 0be5c66)
+17 of 17 PASS in total. New: acknowledge delta cursor 200; older cursor never moves back 200; cursor beyond server refused 422 CURSOR_AHEAD_OF_SERVER.
