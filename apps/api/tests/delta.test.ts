@@ -38,7 +38,7 @@ describe('GET field/delta', () => {
   it('returns this person\'s changes after the cursor and a next cursor', async () => {
     const f = fake(); const r = await get(f.db, '?cursor=c1:4');
     expect(r.status).toBe(200); const b = await r.json();
-    expect(b).toMatchObject({ sync_protocol_version: '1.0', prior_cursor: 'c1:4', next_cursor: 'c1:6', has_more: false });
+    expect(b).toMatchObject({ sync_protocol_version: '1.0', prior_cursor: 'c1:4', next_cursor: 'c1:6' });
     expect(b.entries.map((e: { change_type: string }) => e.change_type)).toEqual(['UPSERT', 'TOMBSTONE']);
     expect(b.entries[0].payload).toMatchObject({ assignment_id: 'e1', blueprint_hash: 'h' });
     expect(b.entries[1].payload).toMatchObject({ tombstone_type: 'CANCELLED', authoritative_revision: 2 });
@@ -49,9 +49,9 @@ describe('GET field/delta', () => {
     expect(b).toMatchObject({ prior_cursor: '', next_cursor: 'c1:0', entries: [] });
     expect((await (await get(fake({ rows: [] }).db, '?cursor=c1:9')).json()).next_cursor).toBe('c1:9');
   });
-  it('pages: limit 1 reports has_more and stops at the last returned row', async () => {
+  it('pages: limit 1 returns one entry and a cursor that continues after it', async () => {
     const b = await (await get(fake().db, '?limit=1')).json();
-    expect(b).toMatchObject({ has_more: true, next_cursor: 'c1:5' }); expect(b.entries).toHaveLength(1);
+    expect(b).toMatchObject({ next_cursor: 'c1:5' }); expect(b.entries).toHaveLength(1);
   });
   it('rejects bad cursor and bad limit', async () => {
     expect((await (await get(fake().db, '?cursor=zzz')).json()).code).toBe('INVALID_CURSOR');

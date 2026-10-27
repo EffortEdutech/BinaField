@@ -85,7 +85,6 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
           `SELECT sequence_id, entity_type, entity_id, entity_revision, change_type, payload_json, occurred_at FROM sync.change_log
             WHERE organization_id = $1 AND sequence_id > $2 AND entity_type = 'assignment' AND payload_json->>'assignee_membership_id' = $3
             ORDER BY sequence_id LIMIT $4`, [organizationId, after, r.membershipId, limit + 1]);
-        const hasMore = rows.rows.length > limit;
         const page = rows.rows.slice(0, limit);
         const entries = page.filter((e) => authorize(r.principal, { organizationId, permission: 'assignment.read', projectId: String(e.payload_json.project_id) }).decision === 'ALLOW').map((e) => {
           const pj = e.payload_json; const seq = Number(e.sequence_id);
@@ -99,7 +98,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
           };
         });
         const last = page.length ? Number(page[page.length - 1]!.sequence_id) : after;
-        return json(200, { sync_protocol_version: '1.0', organization_id: organizationId, prior_cursor: cur, next_cursor: 'c1:' + last, has_more: hasMore, server_time: new Date().toISOString(), entries }, { 'x-correlation-id': correlationId });
+        return json(200, { sync_protocol_version: '1.0', organization_id: organizationId, prior_cursor: cur, next_cursor: 'c1:' + last, server_time: new Date().toISOString(), entries }, { 'x-correlation-id': correlationId });
       });
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
