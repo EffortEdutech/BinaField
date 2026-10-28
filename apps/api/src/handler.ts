@@ -21,6 +21,41 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     return json(p.ok ? 200 : 503, { status: p.ok ? 'ok' : 'degraded', database: p.ok, ...(p.ok ? {} : { reason: p.reason ?? 'UNKNOWN' }) }, { 'x-correlation-id': correlationId });
   }
 
+  const device = /^\/organizations\/([^/]+)\/devices$/.exec(path);
+  if (req.method === 'POST' && device) {
+    const organizationId = device[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let body: Record<string, unknown>;
+    try { const raw = await req.json(); if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error(); body = raw as Record<string, unknown>; }
+    catch { return problem(400, 'INVALID_JSON', 'Request body must be a JSON object', correlationId); }
+    const membershipId = body.membership_id;
+    const platform = body.platform;
+    if (typeof membershipId !== 'string' || !UUID.test(membershipId)) return problem(400, 'INVALID_MEMBERSHIP_ID', 'membership_id must be a UUID', correlationId);
+    if (typeof platform !== 'string' || !/^[A-Za-z0-9._-]{2,32}$/.test(platform)) return problem(400, 'INVALID_PLATFORM', 'platform must be 2-32 alphanumeric characters', correlationId);
+    const deviceId = typeof body.device_id === 'string' ? body.device_id : crypto.randomUUID();
+    if (!UUID.test(deviceId)) return problem(400, 'INVALID_DEVICE_ID', 'device_id must be a UUID', correlationId);
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a = authorize(r.principal, { organizationId, permission: 'organization.manage' });
+        if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+        const member = await q.query<{ id: string }>('SELECT id FROM iam.memberships WHERE id = $1 AND organization_id = $2 AND lifecycle_state = \'ACTIVE\'', [membershipId, organizationId]);
+        if (!member.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Membership not found', correlationId);
+        const inserted = await q.query<{ id: string; lifecycle_state: string }>(
+          `INSERT INTO iam.registered_devices (id, organization_id, membership_id, platform, app_version, runtime_version, lifecycle_state, security_policy_version)
+           VALUES ($1, $2, $3, $4, $5, $6, 'ACTIVE', $7)
+           RETURNING id, lifecycle_state`,
+          [deviceId, organizationId, membershipId, platform, typeof body.app_version === 'string' ? body.app_version : null, typeof body.runtime_version === 'string' ? body.runtime_version : null, typeof body.security_policy_version === 'string' ? body.security_policy_version : null]);
+        return json(201, { device_id: inserted.rows[0]!.id, organization_id: organizationId, membership_id: membershipId, platform, device_state: inserted.rows[0]!.lifecycle_state }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const me = /^\/organizations\/([^/]+)\/me$/.exec(path);
   if (req.method === 'GET' && me) {
     const organizationId = me[1]!;
