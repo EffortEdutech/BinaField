@@ -3,6 +3,7 @@ import { handle } from '../src/handler';
 import { createPgDb } from '../src/db';
 import { createSupabaseVerifier } from '../src/auth';
 import { createSupabaseStorage } from '../src/storage';
+import { allowedOrigins, preflight, withCors } from '../src/cors';
 
 let deps: Parameters<typeof handle>[1] | null = null;
 function getDeps() {
@@ -16,8 +17,11 @@ function getDeps() {
 }
 
 async function run(request: Request) {
-  try { return await handle(request, getDeps()); }
+  const origins = allowedOrigins(process.env.CORS_ORIGINS);
+  try { return withCors(request, await handle(request, getDeps()), origins); }
   catch { return new Response(JSON.stringify({ code: 'SERVICE_UNAVAILABLE', status: 503, retryable: true }), { status: 503, headers: { 'content-type': 'application/problem+json' } }); }
 }
-export const GET = run;
-export const POST = run;
+const entry = (request: Request) => preflight(request, allowedOrigins(process.env.CORS_ORIGINS)) ?? run(request);
+export const GET = entry;
+export const POST = entry;
+export const OPTIONS = entry;

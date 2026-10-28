@@ -20,6 +20,7 @@ function fake(o: { scope?: 'ORG_WIDE' | 'PROJECT_RESTRICTED'; perms?: string[]; 
       if (s.includes('FROM iam.membership_roles WHERE')) return { rows: [{ id: 'r1', scope_mode: o.scope ?? 'ORG_WIDE' }] } as never;
       if (s.includes('membership_project_scopes')) return { rows: [] } as never;
       if (s.includes('registered_devices')) return { rows: o.device === null ? [] : [{ lifecycle_state: 'ACTIVE' }] } as never;
+      if (s.includes('FROM blueprint.template_versions')) return { rows: [{ id: 't', blueprint_json: { schema: 'bf-blueprint/1.0' }, blueprint_hash: 'h' }] } as never;
       if (s.includes('FROM sync.change_log')) {
         seen.push({ sql: s, params });
         const all = (o.rows ?? [5, 6]).map((n) => ({ sequence_id: String(n), entity_type: 'assignment', entity_id: 'e1', entity_revision: '2', change_type: n === 6 ? 'TOMBSTONE' : 'UPSERT', occurred_at: '2026-10-27T00:00:00Z',
@@ -41,6 +42,7 @@ describe('GET field/delta', () => {
     expect(b).toMatchObject({ sync_protocol_version: '1.0', prior_cursor: 'c1:4', next_cursor: 'c1:6' });
     expect(b.entries.map((e: { change_type: string }) => e.change_type)).toEqual(['UPSERT', 'TOMBSTONE']);
     expect(b.entries[0].payload).toMatchObject({ assignment_id: 'e1', blueprint_hash: 'h' });
+    expect(b.entries[0].payload.payload.blueprint).toEqual({ schema: 'bf-blueprint/1.0' });
     expect(b.entries[1].payload).toMatchObject({ tombstone_type: 'CANCELLED', authoritative_revision: 2 });
     expect(f.seen[0]!.params).toEqual([ORG, 4, MEM, 101]);
   });

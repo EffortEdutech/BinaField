@@ -38,6 +38,8 @@ function fake(perms: string[]) {
       if (s.includes('FROM iam.membership_roles WHERE')) return { rows: [{ id: 'r', scope_mode: 'ORG_WIDE' }] } as never;
       if (s.includes('membership_project_scopes')) return { rows: [] } as never;
       if (s.includes('registered_devices')) return { rows: [{ lifecycle_state: 'ACTIVE' }] } as never;
+      if (s.includes('FROM blueprint.template_versions') && s.includes('ANY')) return { rows: [{ id: TPL, blueprint_json: { schema: 'bf-blueprint/1.0' }, blueprint_hash: 'h' }] } as never;
+      if (s.includes('FROM blueprint.template_versions')) return { rows: [{ blueprint_hash: 'b'.repeat(64) }] } as never;
       if (s.includes('FROM sync.change_log')) return { rows: [
         { sequence_id: '1', entity_type: 'assignment', entity_id: ASG, entity_revision: '1', change_type: 'UPSERT', occurred_at: '2026-10-27T00:00:00Z', payload_json: { assignment_id: ASG, assignment_revision: 1, template_version_id: TPL, blueprint_hash: 'h', project_id: PRJ, payload: { lifecycle_state: 'ASSIGNED' } } },
         { sequence_id: '2', entity_type: 'assignment', entity_id: ASG, entity_revision: '2', change_type: 'TOMBSTONE', occurred_at: '2026-10-27T00:01:00Z', payload_json: { assignment_id: ASG, project_id: PRJ, tombstone_type: 'CANCELLED' } }] } as never;

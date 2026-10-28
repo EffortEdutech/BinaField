@@ -5,8 +5,8 @@ $sb    = 'https://plpaixewllldutjrjljg.supabase.co'
 $anon  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBscGFpeGV3bGxsZHV0anJqbGpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3NTg2MjMsImV4cCI6MjEwODMzNDYyM30.gWgBwXKSTxeFxLR8uiPxl5dqmxhDF0pHp2gQCJRVcCE'
 $org   = 'a0000000-0000-4000-8000-000000000001'
 $dev   = 'a0000000-0000-4000-8000-000000000005'
-$asg   = 'a0000000-0000-4000-8000-000000000014'
-$tpl   = 'a0000000-0000-4000-8000-000000000012'
+$asg   = 'a0000000-0000-4000-8000-000000000017'
+$tpl   = 'a0000000-0000-4000-8000-000000000015'
 $pw    = $env:BF_PASSWORD; if (-not $pw) { throw 'Set $env:BF_PASSWORD first' }
 
 $login = Invoke-RestMethod -Method Post -Uri "$sb/auth/v1/token?grant_type=password" -Headers @{ apikey = $anon } -ContentType 'application/json' -Body (@{ email = 'tester@binafield.test'; password = $pw } | ConvertTo-Json)
@@ -30,7 +30,7 @@ $H = @{ Authorization = "Bearer $tok"; 'X-Device-Id' = $dev }
 $u  = '{0}/field/submission-attempts' -f "/organizations/$org"
 $payload = '{"a":1,"b":"x"}'; $hash = Sha $payload      # canonical JSON: sorted keys, no spaces
 $att = [guid]::NewGuid().ToString(); $key = 'live-' + [guid]::NewGuid().ToString('N'); $ses = [guid]::NewGuid().ToString()
-function Body($attemptId, $pl, $ph, $dv) { '{"attempt_id":"' + $attemptId + '","session_id":"' + $ses + '","assignment_id":"' + $asg + '","assignment_revision_used":1,"template_version_id":"' + $tpl + '","blueprint_hash":"' + ('b' * 64) + '","payload":' + $pl + ',"payload_hash":"' + $ph + '","evidence_manifest":[],"device_id":"' + $dv + '","client_submitted_at":"2026-10-27T02:00:00Z"}' }
+function Body($attemptId, $pl, $ph, $dv) { '{"attempt_id":"' + $attemptId + '","session_id":"' + $ses + '","assignment_id":"' + $asg + '","assignment_revision_used":1,"template_version_id":"' + $tpl + '","blueprint_hash":"' + 'e7fe58fcf8ebf276f137b54d6b1ded3a59286ead08c68f52b462c270d4104434' + '","payload":' + $pl + ',"payload_hash":"' + $ph + '","evidence_manifest":[],"device_id":"' + $dv + '","client_submitted_at":"2026-10-27T02:00:00Z"}' }
 $IK = { param($k) $H + @{ 'Idempotency-Key' = $k } }
 
 Show 'valid attempt stored'            (Call Post $u (& $IK $key) (Body $att $payload $hash $dev)) 201

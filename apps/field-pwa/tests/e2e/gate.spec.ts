@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('G1-G6 local-store gate checks all pass in the browser', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?diag');
   await page.getByTestId('run-gate').click();
   const panel = page.getByTestId('gate-results');
   await expect(panel).toBeVisible({ timeout: 60_000 });
