@@ -39,6 +39,14 @@ The temporary shareable URL was then exercised locally against the same route. I
 
 Authenticated `GET /api/organizations/a0000000-0000-4000-8000-000000000001/me` was then executed from the user's local PowerShell session with the bearer token kept local. It returned HTTP `200`. The response confirmed the requested organization, an `ACTIVE` membership, a populated membership ID, and the expected production permission set. It also confirmed `device_state: NOT_REGISTERED` and `device_id: null`; identity and tenant resolution are therefore validated, while device-bound field operations remain pending device registration.
 
+Live device-bound sync and field checks subsequently passed: delta pull returned HTTP `200` with two assignments and cursor `c1:2`; acknowledgement returned HTTP `200` and advanced the device cursor; submission returned HTTP `201`; exact replay returned HTTP `200` with `replayed: true`; and a changed payload under the same idempotency key returned HTTP `409`.
+
+Live evidence checks passed: an oversized evidence initiation returned HTTP `413`; a valid evidence initiation returned HTTP `201`; finalization without uploading the object returned HTTP `409` (`OBJECT_MISSING`), confirming the server does not mark missing evidence as verified.
+
+Cross-tenant delta access returned HTTP `404`. After the live test device was changed to `SUSPENDED`, delta access for its own organization returned HTTP `403`; the device was then restored to `ACTIVE`. The primary production API hardening checks are complete. Remaining limitation: device lifecycle administration is currently performed through the database; a dedicated suspend/revoke device-management endpoint is not yet implemented.
+
+After deployment of the secure registration route, the user registered a test Android device from local PowerShell. `POST /api/organizations/a0000000-0000-4000-8000-000000000001/devices` returned HTTP `201`, with the device bound to membership `a0000000-0000-4000-8000-000000000003` and `device_state: ACTIVE`. The device identifier is intentionally not repeated in this evidence record.
+
 ## Scope covered by the local suite
 
 The tests cover authentication and principal resolution, tenant context, device state, delta and acknowledgement cursor rules, submission validation and idempotency, evidence upload/finalization behavior, and contract-shaped responses.
