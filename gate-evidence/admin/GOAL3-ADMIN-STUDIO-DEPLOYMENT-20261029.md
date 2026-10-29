@@ -15,4 +15,26 @@ Date: 2026-10-29
 
 ## Pending live acceptance
 
-The Vercel fetch connector cannot authenticate through the project's deployment-protection share link. A user-browser run is still required with the existing local bearer token to prove template creation/publishing, assignment issuing, and submission review persistence through the Admin Studio screen.
+## Live smoke acceptance
+
+The authenticated local smoke runner passed all checks:
+
+```json
+{
+  "pass": true,
+  "checks": [
+    "organisation context",
+    "template creation",
+    "version validate and publish",
+    "assignment issued and persisted",
+    "submission review queue readable",
+    "supervisor decision and persisted outcome"
+  ],
+  "template_id": "8de0e6eb-f764-44c3-9bd5-78d2f4076939",
+  "version_id": "48705464-ebc3-4005-bcd1-c43fa7a01dc8",
+  "deployment_id": "6c53d871-f1d3-46f4-a300-6fd7c259b37a",
+  "assignment_id": "e899c1c7-01d5-4ca8-9cca-f42b632d53fe"
+}
+```
+
+The latest Admin Studio commit `150d987` also deployed successfully as `READY` deployment `dpl_7USSiKv3psGo9osAtLsdsYFQYaj5`.
