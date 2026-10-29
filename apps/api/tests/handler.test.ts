@@ -56,12 +56,22 @@ describe('api handler', () => {
       `/api/organizations/${ORG}/templates`,
       `/api/organizations/${ORG}/assignments`,
       `/api/organizations/${ORG}/submissions`,
+      `/api/organizations/${ORG}/memberships`,
+      `/api/organizations/${ORG}/roles`,
+      `/api/organizations/${ORG}/audit-events`,
+      `/api/organizations/${ORG}/projects`,
     ];
     for (const path of paths) {
       const r = await call(path);
       expect(r.status).toBe(401);
       expect((await r.json()).code).toBe('AUTHENTICATION_REQUIRED');
     }
+  });
+  it('rejects invalid administration mutation payloads before database mutation', async () => {
+    const invalidMembership = await call(`/api/organizations/${ORG}/memberships`, { method: 'POST', headers: { ...auth, 'content-type': 'application/json', 'idempotency-key': 'invite-test-001' }, body: JSON.stringify({ email: 'bad' }) });
+    expect(invalidMembership.status).toBe(403);
+    const invalidRole = await call(`/api/organizations/${ORG}/memberships/${MEM}/roles`, { method: 'POST', headers: { ...auth, 'content-type': 'application/json', 'idempotency-key': 'role-test-001' }, body: JSON.stringify({ role_id: 'bad', scope_mode: 'PROJECT_RESTRICTED', project_ids: [] }) });
+    expect(invalidRole.status).toBe(400);
   });
   it('rejects a malformed organisation id', async () => {
     expect((await call('/api/organizations/not-a-uuid/me', { headers: auth })).status).toBe(400);
