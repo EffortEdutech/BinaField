@@ -98,6 +98,73 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     }); } catch { return problem(409, 'PROJECT_CONFLICT', 'Project could not be created', correlationId); }
   }
 
+  const projectAction = /^\/organizations\/([^/]+)\/projects\/([^/]+)$/.exec(path);
+  if (req.method === 'PATCH' && projectAction) {
+    const organizationId = projectAction[1]!, projectId = projectAction[2]!;
+    if (!UUID.test(organizationId) || !UUID.test(projectId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and project_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    if (raw?.lifecycle_state && !['DRAFT','ACTIVE','SUSPENDED','COMPLETED','ARCHIVED'].includes(String(raw.lifecycle_state))) return problem(400, 'INVALID_PROJECT_STATE', 'lifecycle_state is invalid', correlationId);
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const a = authorize(r.principal, { organizationId, permission: 'project.update' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const u = await q.query<{ id: string; name: string; lifecycle_state: string; revision: number }>(`UPDATE core.projects SET name = COALESCE($3, name), lifecycle_state = COALESCE($4, lifecycle_state), starts_at = COALESCE($5, starts_at), ends_at = COALESCE($6, ends_at), updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 RETURNING id, name, lifecycle_state, revision`, [organizationId, projectId, typeof raw.name === 'string' ? raw.name.trim() : null, raw.lifecycle_state ?? null, raw.starts_at ?? null, raw.ends_at ?? null]); if (!u.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Project not found', correlationId);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'project.update', targetType: 'project', targetId: projectId, correlationId, metadata: { changes: raw } });
+      return json(200, { project_id: projectId, name: u.rows[0].name, lifecycle_state: u.rows[0].lifecycle_state, revision: u.rows[0].revision }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const memberships = /^\/organizations\/([^/]+)\/memberships$/.exec(path);
+  if (req.method === 'GET' && memberships) {
+    const organizationId = memberships[1]!; if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'membership.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const rows = await q.query(`SELECT m.id, m.organization_id, m.user_id, u.email, u.display_name, m.lifecycle_state, m.invited_at, m.activated_at, m.updated_at FROM iam.memberships m JOIN iam.users u ON u.id = m.user_id WHERE m.organization_id = $1 ORDER BY m.updated_at DESC`, [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const membershipAction = /^\/organizations\/([^/]+)\/memberships\/([^/]+)$/.exec(path);
+  if (req.method === 'PATCH' && membershipAction) {
+    const organizationId = membershipAction[1]!, membershipId = membershipAction[2]!; if (!UUID.test(organizationId) || !UUID.test(membershipId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and membership_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId); let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); } if (!['INVITED','ACTIVE','SUSPENDED','REVOKED'].includes(String(raw?.lifecycle_state))) return problem(400, 'INVALID_MEMBERSHIP_STATE', 'lifecycle_state is invalid', correlationId);
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'membership.suspend' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const u = await q.query<{ id: string; lifecycle_state: string }>(`UPDATE iam.memberships SET lifecycle_state = $3, activated_at = CASE WHEN $3='ACTIVE' THEN COALESCE(activated_at, now()) ELSE activated_at END, revoked_at = CASE WHEN $3='REVOKED' THEN now() ELSE revoked_at END, updated_at = now() WHERE organization_id = $1 AND id = $2 RETURNING id, lifecycle_state`, [organizationId, membershipId, raw.lifecycle_state]); if (!u.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Membership not found', correlationId); await audit(q, { organizationId, actorId: r.membershipId, action: 'membership.lifecycle.update', targetType: 'membership', targetId: membershipId, correlationId, metadata: { lifecycle_state: raw.lifecycle_state } }); return json(200, { membership_id: membershipId, lifecycle_state: u.rows[0].lifecycle_state }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const roles = /^\/organizations\/([^/]+)\/roles$/.exec(path);
+  if (req.method === 'GET' && roles) {
+    const organizationId = roles[1]!; if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'role.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const rows = await q.query('SELECT id, role_key, name, description, is_system FROM iam.roles WHERE is_system OR organization_id = $1 ORDER BY role_key', [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const roleAssignment = /^\/organizations\/([^/]+)\/memberships\/([^/]+)\/roles$/.exec(path);
+  if (req.method === 'POST' && roleAssignment) {
+    const organizationId = roleAssignment[1]!, membershipId = roleAssignment[2]!; if (!UUID.test(organizationId) || !UUID.test(membershipId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and membership_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const idem = req.headers.get('idempotency-key'); if (!idem || idem.length < 8) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key is required', correlationId);
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    const scopeMode = raw?.scope_mode === 'PROJECT_RESTRICTED' ? 'PROJECT_RESTRICTED' : raw?.scope_mode === 'ORG_WIDE' ? 'ORG_WIDE' : null;
+    if (!UUID.test(String(raw?.role_id)) || !scopeMode || (scopeMode === 'PROJECT_RESTRICTED' && (!Array.isArray(raw.project_ids) || raw.project_ids.length < 1 || raw.project_ids.some((id: unknown) => !UUID.test(String(id)))))) return problem(400, 'INVALID_ROLE_ASSIGNMENT', 'role_id, scope_mode, and valid project_ids are required', correlationId);
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'role.assign' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const valid = await q.query('SELECT 1 FROM iam.memberships WHERE organization_id=$1 AND id=$2 AND lifecycle_state <> \'REVOKED\' UNION ALL SELECT 1 FROM iam.roles WHERE id=$3 AND (is_system OR organization_id=$1)', [organizationId, membershipId, raw.role_id]); if (valid.rows.length < 2) return problem(404, 'RESOURCE_NOT_FOUND', 'Membership or role not found', correlationId);
+      if (scopeMode === 'PROJECT_RESTRICTED') { const p = await q.query('SELECT id FROM core.projects WHERE organization_id=$1 AND id = ANY($2::uuid[])', [organizationId, raw.project_ids]); if (p.rows.length !== raw.project_ids.length) return problem(404, 'RESOURCE_NOT_FOUND', 'Project scope contains an unknown project', correlationId); }
+      const inserted = await q.query<{ id: string }>('INSERT INTO iam.membership_roles (id, organization_id, membership_id, role_id, scope_mode) VALUES ($1,$2,$3,$4,$5) RETURNING id', [crypto.randomUUID(), organizationId, membershipId, raw.role_id, scopeMode]);
+      if (scopeMode === 'PROJECT_RESTRICTED') for (const projectId of raw.project_ids) await q.query('INSERT INTO iam.membership_project_scopes (organization_id, membership_role_id, project_id) VALUES ($1,$2,$3)', [organizationId, inserted.rows[0]!.id, projectId]);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'membership.role.assign', targetType: 'membership_role', targetId: inserted.rows[0]!.id, correlationId, metadata: { membership_id: membershipId, role_id: raw.role_id, scope_mode: scopeMode, project_ids: raw.project_ids ?? [] } });
+      return json(201, { membership_role_id: inserted.rows[0]!.id, membership_id: membershipId, role_id: raw.role_id, scope_mode: scopeMode, project_ids: raw.project_ids ?? [] }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(409, 'ROLE_ASSIGNMENT_CONFLICT', 'Role assignment could not be created', correlationId); }
+  }
+
+  const auditEvents = /^\/organizations\/([^/]+)\/audit-events$/.exec(path);
+  if (req.method === 'GET' && auditEvents) {
+    const organizationId = auditEvents[1]!; if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId); let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'audit.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const limit = Math.min(Number(new URL(req.url).searchParams.get('limit') ?? 100) || 100, 200); const rows = await q.query('SELECT id, action_key, target_type, target_id, result, reason_code, metadata_json, occurred_at, correlation_id FROM audit.audit_events WHERE organization_id=$1 ORDER BY occurred_at DESC LIMIT $2', [organizationId, limit]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const templates = /^\/organizations\/([^/]+)\/templates$/.exec(path);
   if ((req.method === 'GET' || req.method === 'POST') && templates) {
     const organizationId = templates[1]!;
