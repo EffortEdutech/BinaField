@@ -26,6 +26,14 @@ try {
   const assignment = await call(`/organizations/${org}/assignments`, { method: 'POST', headers: json({}, 'admin-smoke-assignment'), body: JSON.stringify({ project_id: project, deployment_id: deployment, template_version_id: version.id, assignee_membership_id: assignee, operational_subject_ref: { label: 'Admin Studio smoke' } }) });
   const assignments = await call(`/organizations/${org}/assignments`); result.checks.push({ name: 'assignment issued and persisted', pass: assignment.lifecycle_state === 'ASSIGNED' && assignments.items.some(x => x.id === assignment.id) });
   const submissions = await call(`/organizations/${org}/submissions`); result.checks.push({ name: 'submission review queue readable', pass: Array.isArray(submissions.items) });
+  const candidate = submissions.items.find(x => x.submission_id);
+  if (candidate) {
+    const decision = await call(`/organizations/${org}/submissions/${candidate.submission_id}/review`, { method: 'POST', headers: { ...headers(), 'content-type': 'application/json' }, body: JSON.stringify({ decision: 'ACCEPT' }) });
+    const outcome = await call(`/organizations/${org}/field/submission-attempts/${candidate.attempt_id}/outcome`);
+    result.checks.push({ name: 'supervisor decision and persisted outcome', pass: decision.status === 'ACCEPTED' && outcome.status === 'ACCEPTED' });
+  } else {
+    result.checks.push({ name: 'supervisor decision and persisted outcome', pass: false, pending: true, detail: 'No received submission exists to review' });
+  }
   result.pass = result.checks.every(x => x.pass); result.ids = { template_id: template.id, version_id: version.id, assignment_id: assignment.id };
   console.log(JSON.stringify(result, null, 2));
   process.exitCode = result.pass ? 0 : 1;
