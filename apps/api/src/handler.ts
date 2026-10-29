@@ -319,6 +319,23 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
   }
 
   const review = /^\/organizations\/([^/]+)\/submissions\/([^/]+)\/review$/.exec(path);
+  const submissions = /^\/organizations\/([^/]+)\/submissions$/.exec(path);
+  if (req.method === 'GET' && submissions) {
+    const organizationId = submissions[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+      if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const a = authorize(r.principal, { organizationId, permission: 'submission.read' });
+      if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const rows = await q.query<Record<string, unknown>>(`SELECT a.id AS attempt_id, a.assignment_id, a.project_id, a.received_at, s.id AS submission_id, COALESCE(s.lifecycle_state, 'RECEIVED') AS status, s.rejection_code, s.accepted_at, s.rejected_at FROM field.submission_attempts a LEFT JOIN field.submissions s ON s.organization_id = a.organization_id AND s.submission_attempt_id = a.id WHERE a.organization_id = $1 ORDER BY a.received_at DESC`, [organizationId]);
+      return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
   if (req.method === 'POST' && review) {
     const organizationId = review[1]!, submissionId = review[2]!;
     if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
