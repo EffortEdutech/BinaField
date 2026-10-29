@@ -118,6 +118,48 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch { return problem(409, 'TEMPLATE_VERSION_CONFLICT', 'Template version could not be created', correlationId); }
   }
 
+  const validateVersion = /^\/organizations\/([^/]+)\/template-versions\/([^/:]+):validate$/.exec(path);
+  const publishVersion = /^\/organizations\/([^/]+)\/template-versions\/([^/:]+):publish$/.exec(path);
+  if (req.method === 'POST' && (validateVersion || publishVersion)) {
+    const organizationId = (validateVersion ?? publishVersion)![1]!, versionId = (validateVersion ?? publishVersion)![2]!;
+    if (!UUID.test(organizationId) || !UUID.test(versionId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and template_version_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    if (publishVersion) { const idem = req.headers.get('idempotency-key'); if (!idem || idem.length < 8 || idem.length > 200) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key (8-200 characters) is required', correlationId); }
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const permission = publishVersion ? 'template.publish' : 'template.validate';
+        const a = authorize(r.principal, { organizationId, permission });
+        if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+        const rows = await q.query<{ id: string; lifecycle_state: string; revision: number; blueprint_json: any; blueprint_hash: string }>('SELECT id, lifecycle_state, revision, blueprint_json, blueprint_hash FROM blueprint.template_versions WHERE organization_id = $1 AND id = $2', [organizationId, versionId]);
+        const v = rows.rows[0]; if (!v) return problem(404, 'RESOURCE_NOT_FOUND', 'Template version not found', correlationId);
+        const bp = v.blueprint_json;
+        const fields = Array.isArray(bp?.fields) ? bp.fields : [];
+        const ids = fields.map((f: any) => f?.id);
+        const errors: string[] = [];
+        if (bp?.schema !== 'bf-blueprint/1.0') errors.push('schema must be bf-blueprint/1.0');
+        if (!fields.length) errors.push('at least one field is required');
+        if (ids.some((id: unknown) => typeof id !== 'string' || !/^[a-z][a-z0-9_]{1,63}$/.test(id))) errors.push('field ids must be lowercase identifier names');
+        if (new Set(ids).size !== ids.length) errors.push('field ids must be unique');
+        for (const f of fields) { if (!['select', 'text', 'photo'].includes(f?.type)) errors.push(`unsupported field type for ${String(f?.id)}`); if (typeof f?.label !== 'string' || !f.label.trim()) errors.push(`label is required for ${String(f?.id)}`); if (f?.type === 'select' && (!Array.isArray(f.options) || !f.options.length)) errors.push(`select options are required for ${String(f?.id)}`); }
+        if (errors.length) return json(422, { code: 'BLUEPRINT_INVALID', status: 422, errors, correlation_id: correlationId }, { 'x-correlation-id': correlationId });
+        if (validateVersion) {
+          const updated = await q.query<{ revision: number }>(`UPDATE blueprint.template_versions SET lifecycle_state = 'VALIDATED', updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 AND lifecycle_state = 'DRAFT' RETURNING revision`, [organizationId, versionId]);
+          if (!updated.rows[0]) return problem(409, 'TEMPLATE_VERSION_STATE_CONFLICT', 'Only draft versions can be validated', correlationId);
+          return json(200, { template_version_id: versionId, lifecycle_state: 'VALIDATED', revision: updated.rows[0].revision, errors: [] }, { 'x-correlation-id': correlationId });
+        }
+        if (!['VALIDATED', 'DRAFT'].includes(v.lifecycle_state)) return problem(409, 'TEMPLATE_VERSION_STATE_CONFLICT', 'Only validated or draft versions can be published', correlationId);
+        const updated = await q.query<{ revision: number }>(`UPDATE blueprint.template_versions SET lifecycle_state = 'PUBLISHED', published_at = now(), updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 AND lifecycle_state IN ('DRAFT','VALIDATED') RETURNING revision`, [organizationId, versionId]);
+        if (!updated.rows[0]) return problem(409, 'TEMPLATE_VERSION_STATE_CONFLICT', 'Template version changed before publish', correlationId);
+        return json(200, { template_version_id: versionId, lifecycle_state: 'PUBLISHED', revision: updated.rows[0].revision }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const me = /^\/organizations\/([^/]+)\/me$/.exec(path);
   if (req.method === 'GET' && me) {
     const organizationId = me[1]!;
