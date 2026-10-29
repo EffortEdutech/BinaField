@@ -6,8 +6,8 @@ Complete this form before inviting field users. Do not record passwords, bearer 
 
 - Pilot owner: `BinaField project owner (you)`
 - Supervisor/reviewer: `BinaField project owner (you)`
-- Field user(s): `Designated team field tester — actual name to be confirmed`
-- Support contact: `BinaField project owner (you); backup contact to be confirmed`
+- Field user(s): `Liana`
+- Support contact: `BinaField project owner (you); backup: 0122753757`
 - Review window and timezone: `3–5 November 2026, 09:00–17:00 MYT; daily review 16:00–17:00 MYT`
 - Device IDs checked in: `794b3e5e-c84c-49fe-82e4-07bed9875fc5 — assigned to field tester`
 

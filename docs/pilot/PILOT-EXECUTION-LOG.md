@@ -4,7 +4,7 @@ Release under test: `0.8.0-pilot.1`
 Pilot date/window: `3–5 November 2026, 09:00–17:00 MYT; daily review 16:00–17:00 MYT`
 Pilot owner: `BinaField project owner (you)`
 Supervisor: `BinaField project owner (you)`
-Support contact: `BinaField project owner (you); backup contact to be confirmed`
+Support contact: `BinaField project owner (you); backup: 0122753757`
 
 ## Named participants and devices
 
@@ -12,7 +12,7 @@ Support contact: `BinaField project owner (you); backup contact to be confirmed`
 |---|---|---|---|---|---|
 | Pilot owner | BinaField project owner (you) | a0000000-0000-4000-8000-000000000003 | — | Admin Studio/browser | 30 Oct 2026 |
 | Supervisor | BinaField project owner (you) | a0000000-0000-4000-8000-000000000003 | — | Admin Studio/browser | 30 Oct 2026 |
-| Field user | Designated team field tester — name to be confirmed | a0000000-0000-4000-8000-000000000003 | 794b3e5e-c84c-49fe-82e4-07bed9875fc5 | Android Chrome/PWA | 30 Oct 2026 |
+| Field user | Liana | a0000000-0000-4000-8000-000000000003 | 794b3e5e-c84c-49fe-82e4-07bed9875fc5 | Android Chrome/PWA | 30 Oct 2026 |
 
 Existing seeded pilot records:
 
