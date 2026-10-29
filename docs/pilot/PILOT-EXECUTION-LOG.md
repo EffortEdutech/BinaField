@@ -52,3 +52,7 @@ Existing seeded pilot records:
 Decision rationale: `____________________________________________________________`
 
 Decision owner: `____________________________`  Date: `____________________________`
+
+## Development-mode deferral
+
+Until the platform is declared ready for real pilot use, use `gate-evidence/SIMULATED-PILOT-20261030.md` for development validation. Do not mark the participant rows or release decision complete from simulated runs.
