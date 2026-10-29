@@ -153,6 +153,23 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     }); } catch { return problem(409, 'DEPLOYMENT_CONFLICT', 'Deployment could not be created', correlationId); }
   }
 
+  const deploymentAction = /^\/organizations\/([^/]+)\/deployments\/([^/]+)$/.exec(path);
+  if (req.method === 'PATCH' && deploymentAction) {
+    const organizationId = deploymentAction[1]!, deploymentId = deploymentAction[2]!;
+    if (!UUID.test(organizationId) || !UUID.test(deploymentId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and deployment_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    if (!['DRAFT','SCHEDULED','ACTIVE','PAUSED','CLOSED','ARCHIVED'].includes(String(raw?.lifecycle_state))) return problem(400, 'INVALID_DEPLOYMENT_STATE', 'lifecycle_state is invalid', correlationId);
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const a = authorize(r.principal, { organizationId, permission: 'deployment.update' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const u = await q.query<{ id: string; lifecycle_state: string }>(`UPDATE ops.deployments SET lifecycle_state = $3, updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 RETURNING id, lifecycle_state`, [organizationId, deploymentId, raw.lifecycle_state]); if (!u.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Deployment not found', correlationId);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'deployment.lifecycle.update', targetType: 'deployment', targetId: deploymentId, correlationId, metadata: { lifecycle_state: raw.lifecycle_state } });
+      return json(200, { deployment_id: deploymentId, lifecycle_state: u.rows[0].lifecycle_state }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const versions = /^\/organizations\/([^/]+)\/templates\/([^/]+)\/versions$/.exec(path);
   if (req.method === 'POST' && versions) {
     const organizationId = versions[1]!, templateId = versions[2]!;
@@ -256,6 +273,23 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       const id = crypto.randomUUID();
       const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO ops.assignments (id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9,$10,$11,CASE WHEN $10='ASSIGNED' THEN now() ELSE NULL END) RETURNING id, revision`, [id, organizationId, raw.project_id, raw.deployment_id, raw.template_version_id, raw.assignee_membership_id ?? null, raw.assignee_team_id ?? null, JSON.stringify(raw.operational_subject_ref ?? {}), ['LOW','NORMAL','HIGH','URGENT'].includes(raw.priority) ? raw.priority : 'NORMAL', 'ASSIGNED', raw.due_at ?? null]);
       return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, project_id: raw.project_id, deployment_id: raw.deployment_id, template_version_id: raw.template_version_id, lifecycle_state: 'ASSIGNED', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const assignmentAction = /^\/organizations\/([^/]+)\/assignments\/([^/]+)$/.exec(path);
+  if (req.method === 'PATCH' && assignmentAction) {
+    const organizationId = assignmentAction[1]!, assignmentId = assignmentAction[2]!;
+    if (!UUID.test(organizationId) || !UUID.test(assignmentId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and assignment_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    const state = raw?.lifecycle_state; if (!['ASSIGNED','IN_PROGRESS','SUBMITTED','COMPLETED','CANCELLED'].includes(String(state))) return problem(400, 'INVALID_ASSIGNMENT_STATE', 'lifecycle_state is invalid', correlationId);
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const a = authorize(r.principal, { organizationId, permission: state === 'CANCELLED' ? 'assignment.cancel' : state === 'COMPLETED' ? 'assignment.close' : 'assignment.reassign' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const u = await q.query<{ id: string; lifecycle_state: string; assignee_membership_id: string | null }>(`UPDATE ops.assignments SET lifecycle_state = $3, assignee_membership_id = COALESCE($4, assignee_membership_id), updated_at = now(), revision = revision + 1, issued_at = CASE WHEN $3='ASSIGNED' AND issued_at IS NULL THEN now() ELSE issued_at END, completed_at = CASE WHEN $3='COMPLETED' THEN now() ELSE completed_at END, cancelled_at = CASE WHEN $3='CANCELLED' THEN now() ELSE cancelled_at END WHERE organization_id = $1 AND id = $2 RETURNING id, lifecycle_state, assignee_membership_id`, [organizationId, assignmentId, state, raw.assignee_membership_id ?? null]); if (!u.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Assignment not found', correlationId);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'assignment.lifecycle.update', targetType: 'assignment', targetId: assignmentId, correlationId, metadata: { lifecycle_state: state, assignee_membership_id: raw.assignee_membership_id ?? null } });
+      return json(200, { assignment_id: assignmentId, lifecycle_state: u.rows[0].lifecycle_state, assignee_membership_id: u.rows[0].assignee_membership_id }, { 'x-correlation-id': correlationId });
     }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
