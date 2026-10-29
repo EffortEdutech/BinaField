@@ -181,6 +181,47 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
+  const review = /^\/organizations\/([^/]+)\/submissions\/([^/]+)\/review$/.exec(path);
+  if (req.method === 'POST' && review) {
+    const organizationId = review[1]!, submissionId = review[2]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    if (!UUID.test(submissionId)) return problem(400, 'INVALID_SUBMISSION_ID', 'submission_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any;
+    try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    const decision = raw?.decision;
+    if (decision !== 'ACCEPT' && decision !== 'REJECT') return problem(400, 'INVALID_REVIEW_DECISION', 'decision must be ACCEPT or REJECT', correlationId);
+    if (decision === 'REJECT' && (typeof raw.rejection_code !== 'string' || !raw.rejection_code)) return problem(400, 'REJECTION_CODE_REQUIRED', 'rejection_code is required when rejecting', correlationId);
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a0 = authorize(r.principal, { organizationId, permission: 'submission.review' });
+        if (a0.decision === 'DENY') return problem(403, a0.reasonCode, 'Access denied', correlationId);
+        const attempt = await q.query<{ id: string; project_id: string; assignment_id: string }>(
+          `SELECT a.id, a.project_id, a.assignment_id FROM field.submission_attempts a
+           LEFT JOIN field.submissions s ON s.organization_id = a.organization_id AND s.submission_attempt_id = a.id
+           WHERE a.organization_id = $1 AND (a.id = $2 OR s.id = $2)`, [organizationId, submissionId]);
+        const row = attempt.rows[0];
+        if (!row) return problem(404, 'RESOURCE_NOT_FOUND', 'Submission not found', correlationId);
+        const a1 = authorize(r.principal, { organizationId, permission: 'submission.review', projectId: row.project_id });
+        if (a1.decision === 'DENY') return problem(404, 'RESOURCE_NOT_FOUND', 'Submission not found', correlationId);
+        const state = decision === 'ACCEPT' ? 'ACCEPTED' : 'REJECTED';
+        const updated = await q.query<{ id: string; lifecycle_state: string; rejection_code: string | null; accepted_at: string | null; rejected_at: string | null }>(
+          `INSERT INTO field.submissions (id, organization_id, project_id, assignment_id, submission_attempt_id, lifecycle_state, rejection_code, accepted_at, rejected_at)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,CASE WHEN $6 = 'ACCEPTED' THEN now() ELSE NULL END,CASE WHEN $6 = 'REJECTED' THEN now() ELSE NULL END)
+           ON CONFLICT (organization_id, submission_attempt_id) DO UPDATE SET lifecycle_state = EXCLUDED.lifecycle_state, rejection_code = EXCLUDED.rejection_code,
+             accepted_at = EXCLUDED.accepted_at, rejected_at = EXCLUDED.rejected_at, updated_at = now(), revision = field.submissions.revision + 1
+           RETURNING id, lifecycle_state, rejection_code, accepted_at, rejected_at`,
+          [submissionId, organizationId, row.project_id, row.assignment_id, row.id, state, decision === 'REJECT' ? raw.rejection_code : null]);
+        return json(200, { submission_id: updated.rows[0]!.id, status: updated.rows[0]!.lifecycle_state, rejection_code: updated.rows[0]!.rejection_code, reviewed_at: updated.rows[0]!.accepted_at ?? updated.rows[0]!.rejected_at }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const sub = /^\/organizations\/([^/]+)\/field\/submission-attempts$/.exec(path);
   const outcome = /^\/organizations\/([^/]+)\/field\/submission-attempts\/([^/]+)\/outcome$/.exec(path);
   if ((req.method === 'POST' && sub) || (req.method === 'GET' && outcome)) {
