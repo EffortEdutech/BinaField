@@ -1,9 +1,9 @@
 # Controlled pilot execution log
 
 Release under test: `0.8.0-pilot.1`  
-Pilot date/window: `3–5 November 2026, 09:00–17:00 MYT; daily review 16:00–17:00 MYT`  
-Pilot owner: `BinaField project owner (you)`  
-Supervisor: `BinaField project owner (you)`  
+Pilot date/window: `3–5 November 2026, 09:00–17:00 MYT; daily review 16:00–17:00 MYT`
+Pilot owner: `BinaField project owner (you)`
+Supervisor: `BinaField project owner (you)`
 Support contact: `BinaField project owner (you); backup contact to be confirmed`
 
 ## Named participants and devices
