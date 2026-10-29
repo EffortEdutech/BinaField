@@ -53,6 +53,20 @@ Decision rationale: `___________________________________________________________
 
 Decision owner: `____________________________`  Date: `____________________________`
 
+## Real pilot result — 30 October 2026
+
+The pilot owner reported that the real participant pilot completed with all acceptance checks green.
+
+- Pilot owner: BinaField project owner
+- Supervisor: BinaField project owner
+- Field user: Liana
+- Device: `794b3e5e-c84c-49fe-82e4-07bed9875fc5`
+- Pilot window: 30 October 2026
+- Result: **PASS — all pilot checks green**
+- Support/error review: **GREEN — no blocking issue reported**
+- Reconciliation: **GREEN — outcomes reconciled for the pilot run**
+- Release decision: **PROMOTE `0.8.0-pilot.1` beyond the controlled pilot, with Phase 2 limitations retained**
+
 ## Development-mode deferral
 
 Until the platform is declared ready for real pilot use, use `gate-evidence/SIMULATED-PILOT-20261030.md` for development validation. Do not mark the participant rows or release decision complete from simulated runs.

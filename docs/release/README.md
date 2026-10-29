@@ -2,7 +2,7 @@
 
 Release: `0.8.0-pilot.1`  
 Release date: 2026-10-29  
-Decision: **CONDITIONAL — suitable for the controlled pilot scope only**
+Decision: **PROMOTE WITH LIMITATIONS — pilot passed; Phase 2 deferrals remain**
 
 ## Package contents
 
