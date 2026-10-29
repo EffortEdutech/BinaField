@@ -199,6 +199,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         if (typeof raw?.name !== 'string' || !raw.name.trim()) return problem(400, 'INVALID_TEMPLATE_NAME', 'name is required', correlationId);
         const id = crypto.randomUUID();
         const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO blueprint.templates (id, organization_id, template_key, name, description, lifecycle_state, created_by_membership_id) VALUES ($1,$2,$3,$4,$5,'DRAFT',$6) RETURNING id, revision`, [id, organizationId, raw.template_key, raw.name.trim(), typeof raw.description === 'string' ? raw.description : null, r.membershipId]);
+        await audit(q, { organizationId, actorId: r.membershipId, action: 'template.create', targetType: 'template', targetId: inserted.rows[0]!.id, correlationId, metadata: { template_key: raw.template_key } });
         return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, template_key: raw.template_key, name: raw.name.trim(), description: raw.description ?? null, lifecycle_state: 'DRAFT', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
       });
     } catch (e) { return problem(409, 'TEMPLATE_CONFLICT', 'Template could not be created because its key already exists or the request conflicts with current state', correlationId); }
@@ -224,6 +225,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       if (!context.rows[0]) return problem(422, 'DEPLOYMENT_CONTEXT_MISMATCH', 'project and template version must belong to the organisation', correlationId);
       const id = crypto.randomUUID();
       const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO ops.deployments (id, organization_id, project_id, template_version_id, name, lifecycle_state, effective_from, created_by_membership_id) VALUES ($1,$2,$3,$4,$5,'ACTIVE',now(),$6) RETURNING id, revision`, [id, organizationId, raw.project_id, raw.template_version_id, raw.name.trim(), r.membershipId]);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'deployment.create', targetType: 'deployment', targetId: inserted.rows[0]!.id, correlationId, metadata: { project_id: raw.project_id, template_version_id: raw.template_version_id } });
       return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, project_id: raw.project_id, template_version_id: raw.template_version_id, name: raw.name.trim(), lifecycle_state: 'ACTIVE', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
     }); } catch { return problem(409, 'DEPLOYMENT_CONFLICT', 'Deployment could not be created', correlationId); }
   }
@@ -271,6 +273,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         const versionNo = Number(max.rows[0]?.version_no ?? 0) + 1;
         const hash = payloadHashOf(blueprint);
         const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO blueprint.template_versions (id, organization_id, template_id, version_no, lifecycle_state, schema_version, component_registry_version, blueprint_json, blueprint_hash, created_by_membership_id) VALUES ($1,$2,$3,$4,'DRAFT','1.0','1.0',$5::jsonb,$6,$7) RETURNING id, revision`, [versionId, organizationId, templateId, versionNo, JSON.stringify(blueprint), hash, r.membershipId]);
+        await audit(q, { organizationId, actorId: r.membershipId, action: 'template_version.create', targetType: 'template_version', targetId: inserted.rows[0]!.id, correlationId, metadata: { template_id: templateId, version_no: versionNo, blueprint_hash: hash } });
         return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, template_id: templateId, version_no: versionNo, lifecycle_state: 'DRAFT', blueprint_json: blueprint, blueprint_hash: hash, revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
       });
     } catch { return problem(409, 'TEMPLATE_VERSION_CONFLICT', 'Template version could not be created', correlationId); }
@@ -324,11 +327,13 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         if (validateVersion) {
           const updated = await q.query<{ revision: number }>(`UPDATE blueprint.template_versions SET lifecycle_state = 'VALIDATED', updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 AND lifecycle_state = 'DRAFT' RETURNING revision`, [organizationId, versionId]);
           if (!updated.rows[0]) return problem(409, 'TEMPLATE_VERSION_STATE_CONFLICT', 'Only draft versions can be validated', correlationId);
+          await audit(q, { organizationId, actorId: r.membershipId, action: 'template_version.validate', targetType: 'template_version', targetId: versionId, correlationId });
           return json(200, { template_version_id: versionId, lifecycle_state: 'VALIDATED', revision: updated.rows[0].revision, errors: [] }, { 'x-correlation-id': correlationId });
         }
         if (!['VALIDATED', 'DRAFT'].includes(v.lifecycle_state)) return problem(409, 'TEMPLATE_VERSION_STATE_CONFLICT', 'Only validated or draft versions can be published', correlationId);
         const updated = await q.query<{ revision: number }>(`UPDATE blueprint.template_versions SET lifecycle_state = 'PUBLISHED', published_at = now(), updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 AND lifecycle_state IN ('DRAFT','VALIDATED') RETURNING revision`, [organizationId, versionId]);
         if (!updated.rows[0]) return problem(409, 'TEMPLATE_VERSION_STATE_CONFLICT', 'Template version changed before publish', correlationId);
+        await audit(q, { organizationId, actorId: r.membershipId, action: 'template_version.publish', targetType: 'template_version', targetId: versionId, correlationId });
         return json(200, { template_version_id: versionId, lifecycle_state: 'PUBLISHED', revision: updated.rows[0].revision }, { 'x-correlation-id': correlationId });
       });
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
@@ -363,6 +368,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       if (!refs.rows[0] || refs.rows[0].template_version_id !== raw.template_version_id) return problem(422, 'DEPLOYMENT_CONTEXT_MISMATCH', 'deployment does not match project and template version', correlationId);
       const id = crypto.randomUUID();
       const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO ops.assignments (id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9,$10,$11,CASE WHEN $10='ASSIGNED' THEN now() ELSE NULL END) RETURNING id, revision`, [id, organizationId, raw.project_id, raw.deployment_id, raw.template_version_id, raw.assignee_membership_id ?? null, raw.assignee_team_id ?? null, JSON.stringify(raw.operational_subject_ref ?? {}), ['LOW','NORMAL','HIGH','URGENT'].includes(raw.priority) ? raw.priority : 'NORMAL', 'ASSIGNED', raw.due_at ?? null]);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'assignment.create', targetType: 'assignment', targetId: inserted.rows[0]!.id, correlationId, metadata: { project_id: raw.project_id, assignee_membership_id: raw.assignee_membership_id ?? null } });
       return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, project_id: raw.project_id, deployment_id: raw.deployment_id, template_version_id: raw.template_version_id, lifecycle_state: 'ASSIGNED', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
     }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
