@@ -3,6 +3,7 @@
   "version": "0.8.0-sprint1",
   "private": true,
   "scripts": {
+    "build": "npm run typecheck",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
