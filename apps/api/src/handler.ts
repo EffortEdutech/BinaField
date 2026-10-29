@@ -9,6 +9,10 @@ import type { EvidenceStorage } from './storage';
 
 export interface Deps { db: Db; verify: TokenVerifier; storage?: EvidenceStorage }
 
+async function audit(q: import('./db').Queryable, args: { organizationId: string; actorId: string; action: string; targetType: string; targetId?: string; result?: string; correlationId: string; metadata?: unknown }) {
+  await q.query(`INSERT INTO audit.audit_events (id, organization_id, actor_type, actor_id, action_key, target_type, target_id, result, metadata_json, correlation_id) VALUES ($1,$2,'MEMBERSHIP',$3,$4,$5,$6,$7,$8::jsonb,$9)`, [crypto.randomUUID(), args.organizationId, args.actorId, args.action, args.targetType, args.targetId ?? null, args.result ?? 'SUCCEEDED', JSON.stringify(args.metadata ?? {}), args.correlationId]);
+}
+
 /** Single entry point: maps Request to Response. Routes follow packages/contracts/api/openapi.v1.yaml paths under /api. */
 export async function handle(req: Request, deps: Deps): Promise<Response> {
   const url = new URL(req.url);
@@ -21,8 +25,8 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     return json(p.ok ? 200 : 503, { status: p.ok ? 'ok' : 'degraded', database: p.ok, ...(p.ok ? {} : { reason: p.reason ?? 'UNKNOWN' }) }, { 'x-correlation-id': correlationId });
   }
 
-  const device = /^\/organizations\/([^/]+)\/devices$/.exec(path);
-  if (req.method === 'POST' && device) {
+  const device = /^\/organizations\/([^/]+)\/devices(?:\/([^/]+))?$/.exec(path);
+  if ((req.method === 'POST' || req.method === 'PATCH') && device) {
     const organizationId = device[1]!;
     if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
     const bearer = bearerFrom(req.headers.get('authorization'));
@@ -32,6 +36,22 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     let body: Record<string, unknown>;
     try { const raw = await req.json(); if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error(); body = raw as Record<string, unknown>; }
     catch { return problem(400, 'INVALID_JSON', 'Request body must be a JSON object', correlationId); }
+    if (req.method === 'PATCH') {
+      const deviceId = device[2];
+      if (!deviceId || !UUID.test(deviceId)) return problem(400, 'INVALID_DEVICE_ID', 'device_id must be a UUID', correlationId);
+      const next = body.lifecycle_state;
+      if (!['REGISTERED', 'ACTIVE', 'SUSPENDED', 'REVOKED'].includes(String(next))) return problem(400, 'INVALID_DEVICE_STATE', 'lifecycle_state is invalid', correlationId);
+      try { return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a = authorize(r.principal, { organizationId, permission: 'device.revoke' });
+        if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+        const updated = await q.query<{ id: string; lifecycle_state: string; revision?: number }>(`UPDATE iam.registered_devices SET lifecycle_state = $3, updated_at = now() WHERE organization_id = $1 AND id = $2 RETURNING id, lifecycle_state`, [organizationId, deviceId, next]);
+        if (!updated.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Device not found', correlationId);
+        await audit(q, { organizationId, actorId: r.membershipId, action: 'device.lifecycle.update', targetType: 'registered_device', targetId: deviceId, correlationId, metadata: { lifecycle_state: next } });
+        return json(200, { device_id: deviceId, organization_id: organizationId, lifecycle_state: updated.rows[0].lifecycle_state }, { 'x-correlation-id': correlationId });
+      }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+    }
     const membershipId = body.membership_id;
     const platform = body.platform;
     if (typeof membershipId !== 'string' || !UUID.test(membershipId)) return problem(400, 'INVALID_MEMBERSHIP_ID', 'membership_id must be a UUID', correlationId);
@@ -51,9 +71,31 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
            VALUES ($1, $2, $3, $4, $5, $6, 'ACTIVE', $7)
            RETURNING id, lifecycle_state`,
           [deviceId, organizationId, membershipId, platform, typeof body.app_version === 'string' ? body.app_version : null, typeof body.runtime_version === 'string' ? body.runtime_version : null, typeof body.security_policy_version === 'string' ? body.security_policy_version : null]);
+        await audit(q, { organizationId, actorId: r.membershipId, action: 'device.register', targetType: 'registered_device', targetId: inserted.rows[0]!.id, correlationId, metadata: { membership_id: membershipId, platform } });
         return json(201, { device_id: inserted.rows[0]!.id, organization_id: organizationId, membership_id: membershipId, platform, device_state: inserted.rows[0]!.lifecycle_state }, { 'x-correlation-id': correlationId });
       });
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const projects = /^\/organizations\/([^/]+)\/projects$/.exec(path);
+  if ((req.method === 'GET' || req.method === 'POST') && projects) {
+    const organizationId = projects[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+      if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const permission = req.method === 'POST' ? 'project.create' : 'project.read'; const a = authorize(r.principal, { organizationId, permission });
+      if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      if (req.method === 'GET') { const rows = await q.query('SELECT id, organization_id, project_code, name, lifecycle_state, starts_at, ends_at, revision, updated_at FROM core.projects WHERE organization_id = $1 ORDER BY updated_at DESC', [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }
+      const idem = req.headers.get('idempotency-key'); if (!idem || idem.length < 8) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key is required', correlationId);
+      let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+      if (typeof raw?.project_code !== 'string' || !/^[A-Z0-9_-]{2,32}$/.test(raw.project_code) || typeof raw?.name !== 'string' || !raw.name.trim()) return problem(400, 'INVALID_PROJECT', 'project_code and name are required', correlationId);
+      const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO core.projects (id, organization_id, project_code, name, lifecycle_state, starts_at, ends_at) VALUES ($1,$2,$3,$4,'DRAFT',$5,$6) RETURNING id, revision`, [crypto.randomUUID(), organizationId, raw.project_code, raw.name.trim(), raw.starts_at ?? null, raw.ends_at ?? null]);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'project.create', targetType: 'project', targetId: inserted.rows[0]!.id, correlationId, metadata: { project_code: raw.project_code } });
+      return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, project_code: raw.project_code, name: raw.name.trim(), lifecycle_state: 'DRAFT', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(409, 'PROJECT_CONFLICT', 'Project could not be created', correlationId); }
   }
 
   const templates = /^\/organizations\/([^/]+)\/templates$/.exec(path);
