@@ -51,6 +51,18 @@ describe('api handler', () => {
       expect(b.correlation_id).toMatch(/^[0-9a-f-]{36}$/);
     }
   });
+  it('protects Admin Studio routes before touching tenant data', async () => {
+    const paths = [
+      `/api/organizations/${ORG}/templates`,
+      `/api/organizations/${ORG}/assignments`,
+      `/api/organizations/${ORG}/submissions`,
+    ];
+    for (const path of paths) {
+      const r = await call(path);
+      expect(r.status).toBe(401);
+      expect((await r.json()).code).toBe('AUTHENTICATION_REQUIRED');
+    }
+  });
   it('rejects a malformed organisation id', async () => {
     expect((await call('/api/organizations/not-a-uuid/me', { headers: auth })).status).toBe(400);
   });
