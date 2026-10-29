@@ -87,6 +87,37 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch (e) { return problem(409, 'TEMPLATE_CONFLICT', 'Template could not be created because its key already exists or the request conflicts with current state', correlationId); }
   }
 
+  const versions = /^\/organizations\/([^/]+)\/templates\/([^/]+)\/versions$/.exec(path);
+  if (req.method === 'POST' && versions) {
+    const organizationId = versions[1]!, templateId = versions[2]!;
+    if (!UUID.test(organizationId) || !UUID.test(templateId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and template_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const idem = req.headers.get('idempotency-key');
+    if (!idem || idem.length < 8 || idem.length > 200) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key (8-200 characters) is required', correlationId);
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    const blueprint = raw?.blueprint_json ?? raw?.blueprint;
+    if (!blueprint || typeof blueprint !== 'object' || Array.isArray(blueprint)) return problem(400, 'INVALID_BLUEPRINT', 'blueprint_json must be an object', correlationId);
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a = authorize(r.principal, { organizationId, permission: 'template.create' });
+        if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+        const t = await q.query<{ id: string }>('SELECT id FROM blueprint.templates WHERE organization_id = $1 AND id = $2', [organizationId, templateId]);
+        if (!t.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Template not found', correlationId);
+        const max = await q.query<{ version_no: number }>('SELECT COALESCE(max(version_no),0) AS version_no FROM blueprint.template_versions WHERE organization_id = $1 AND template_id = $2', [organizationId, templateId]);
+        const versionId = crypto.randomUUID();
+        const versionNo = Number(max.rows[0]?.version_no ?? 0) + 1;
+        const hash = payloadHashOf(blueprint);
+        const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO blueprint.template_versions (id, organization_id, template_id, version_no, lifecycle_state, schema_version, component_registry_version, blueprint_json, blueprint_hash, created_by_membership_id) VALUES ($1,$2,$3,$4,'DRAFT','1.0','1.0',$5::jsonb,$6,$7) RETURNING id, revision`, [versionId, organizationId, templateId, versionNo, JSON.stringify(blueprint), hash, r.membershipId]);
+        return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, template_id: templateId, version_no: versionNo, lifecycle_state: 'DRAFT', blueprint_json: blueprint, blueprint_hash: hash, revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(409, 'TEMPLATE_VERSION_CONFLICT', 'Template version could not be created', correlationId); }
+  }
+
   const me = /^\/organizations\/([^/]+)\/me$/.exec(path);
   if (req.method === 'GET' && me) {
     const organizationId = me[1]!;
