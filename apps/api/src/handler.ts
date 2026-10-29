@@ -56,6 +56,37 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
+  const templates = /^\/organizations\/([^/]+)\/templates$/.exec(path);
+  if ((req.method === 'GET' || req.method === 'POST') && templates) {
+    const organizationId = templates[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token;
+    try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const permission = req.method === 'POST' ? 'template.create' : 'template.read';
+    const idem = req.method === 'POST' ? req.headers.get('idempotency-key') : null;
+    if (req.method === 'POST' && (!idem || idem.length < 8 || idem.length > 200)) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key (8-200 characters) is required', correlationId);
+    try {
+      return await deps.db.tx(async (q) => {
+        const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+        if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+        const a = authorize(r.principal, { organizationId, permission });
+        if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+        if (req.method === 'GET') {
+          const rows = await q.query<Record<string, unknown>>('SELECT id, organization_id, template_key, name, description, lifecycle_state, revision, updated_at FROM blueprint.templates WHERE organization_id = $1 ORDER BY updated_at DESC', [organizationId]);
+          return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+        }
+        let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+        if (typeof raw?.template_key !== 'string' || !/^[a-z0-9][a-z0-9._-]{1,63}$/.test(raw.template_key)) return problem(400, 'INVALID_TEMPLATE_KEY', 'template_key must be 2-64 lowercase characters', correlationId);
+        if (typeof raw?.name !== 'string' || !raw.name.trim()) return problem(400, 'INVALID_TEMPLATE_NAME', 'name is required', correlationId);
+        const id = crypto.randomUUID();
+        const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO blueprint.templates (id, organization_id, template_key, name, description, lifecycle_state, created_by_membership_id) VALUES ($1,$2,$3,$4,$5,'DRAFT',$6) RETURNING id, revision`, [id, organizationId, raw.template_key, raw.name.trim(), typeof raw.description === 'string' ? raw.description : null, r.membershipId]);
+        return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, template_key: raw.template_key, name: raw.name.trim(), description: raw.description ?? null, lifecycle_state: 'DRAFT', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
+      });
+    } catch (e) { return problem(409, 'TEMPLATE_CONFLICT', 'Template could not be created because its key already exists or the request conflicts with current state', correlationId); }
+  }
+
   const me = /^\/organizations\/([^/]+)\/me$/.exec(path);
   if (req.method === 'GET' && me) {
     const organizationId = me[1]!;
