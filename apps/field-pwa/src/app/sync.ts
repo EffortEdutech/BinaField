@@ -21,7 +21,13 @@ async function applyEntry(t: Tx, org: string, e: Entry, set: Settings): Promise<
     if (extra.blueprint) {
       // The form definition is accepted only if it hashes to the value the server published.
       const h = await sha256Text(canonicalJson(extra.blueprint));
-      if (h !== p.blueprint_hash) return { state: 'FAILED', error: 'BLUEPRINT_HASH_MISMATCH' };
+      if (!/^[a-f0-9]{64}$/.test(String(p.blueprint_hash)) || h !== p.blueprint_hash) {
+        // Do not poison the whole cursor batch: quarantine the malformed server entry and
+        // continue with valid assignments. The invalid entry remains visible for review.
+        await t.exec(`INSERT INTO reconciliation_case(organization_id,case_id,device_id,entity_type,entity_id,conflict_type,created_at,severity,allowed_actions_json,status) VALUES (?,?,?,?,?,?,?,?,?,?)`,
+          [org, crypto.randomUUID(), set.deviceId, 'assignment', e.entity_id, 'BLUEPRINT_HASH_MISMATCH', now(), 'BLOCKING', JSON.stringify(['RETRY_AFTER_SERVER_REPAIR']), 'OPEN']);
+        return { state: 'RECONCILIATION_REQUIRED', error: 'BLUEPRINT_HASH_MISMATCH' };
+      }
       await t.exec(`INSERT OR REPLACE INTO template_package(organization_id,template_version_id,template_id,blueprint_json,blueprint_hash,schema_version,component_registry_version,integrity_verified,downloaded_at) VALUES (?,?,?,?,?,?,?,1,?)`,
         [org, p.template_version_id, p.template_version_id, JSON.stringify(extra.blueprint), p.blueprint_hash, '1.0', '1.0', now()]);
     }
