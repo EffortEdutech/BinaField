@@ -161,20 +161,35 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
   }
 
   const assignments = /^\/organizations\/([^/]+)\/assignments$/.exec(path);
-  if (req.method === 'GET' && assignments) {
+  if ((req.method === 'GET' || req.method === 'POST') && assignments) {
     const organizationId = assignments[1]!;
     if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
     const bearer = bearerFrom(req.headers.get('authorization'));
     if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
     let token;
     try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const idem = req.method === 'POST' ? req.headers.get('idempotency-key') : null;
+    if (req.method === 'POST' && (!idem || idem.length < 8 || idem.length > 200)) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key (8-200 characters) is required', correlationId);
     try { return await deps.db.tx(async (q) => {
       const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
       if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
-      const a = authorize(r.principal, { organizationId, permission: 'assignment.read' });
+      const a = authorize(r.principal, { organizationId, permission: req.method === 'POST' ? 'assignment.create' : 'assignment.read' });
       if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
-      const rows = await q.query<Record<string, unknown>>('SELECT id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at, revision, updated_at FROM ops.assignments WHERE organization_id = $1 ORDER BY updated_at DESC', [organizationId]);
-      return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+      if (req.method === 'GET') {
+        const rows = await q.query<Record<string, unknown>>('SELECT id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at, revision, updated_at FROM ops.assignments WHERE organization_id = $1 ORDER BY updated_at DESC', [organizationId]);
+        return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+      }
+      let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+      const uuidFields = ['project_id', 'deployment_id', 'template_version_id'];
+      for (const k of uuidFields) if (typeof raw?.[k] !== 'string' || !UUID.test(raw[k])) return problem(400, 'INVALID_ASSIGNMENT', `${k} must be a UUID`, correlationId);
+      if (raw.assignee_membership_id && (!UUID.test(raw.assignee_membership_id))) return problem(400, 'INVALID_ASSIGNMENT', 'assignee_membership_id must be a UUID', correlationId);
+      if (raw.assignee_team_id && (!UUID.test(raw.assignee_team_id))) return problem(400, 'INVALID_ASSIGNMENT', 'assignee_team_id must be a UUID', correlationId);
+      if (!raw.assignee_membership_id && !raw.assignee_team_id) return problem(400, 'ASSIGNEE_REQUIRED', 'assignee_membership_id or assignee_team_id is required', correlationId);
+      const refs = await q.query<{ project_id: string; template_version_id: string }>('SELECT d.project_id, d.template_version_id FROM ops.deployments d WHERE d.organization_id = $1 AND d.id = $2 AND d.project_id = $3', [organizationId, raw.deployment_id, raw.project_id]);
+      if (!refs.rows[0] || refs.rows[0].template_version_id !== raw.template_version_id) return problem(422, 'DEPLOYMENT_CONTEXT_MISMATCH', 'deployment does not match project and template version', correlationId);
+      const id = crypto.randomUUID();
+      const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO ops.assignments (id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9,$10,$11,CASE WHEN $10='ASSIGNED' THEN now() ELSE NULL END) RETURNING id, revision`, [id, organizationId, raw.project_id, raw.deployment_id, raw.template_version_id, raw.assignee_membership_id ?? null, raw.assignee_team_id ?? null, JSON.stringify(raw.operational_subject_ref ?? {}), ['LOW','NORMAL','HIGH','URGENT'].includes(raw.priority) ? raw.priority : 'NORMAL', 'ASSIGNED', raw.due_at ?? null]);
+      return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, project_id: raw.project_id, deployment_id: raw.deployment_id, template_version_id: raw.template_version_id, lifecycle_state: 'ASSIGNED', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
     }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
