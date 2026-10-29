@@ -24,6 +24,8 @@ try {
     call(`/organizations/${org}/audit-events?limit=20`),
   ]);
   result.checks.push({ name: 'organisation administration reads', pass: Array.isArray(projects.items) && Array.isArray(memberships.items) && Array.isArray(roles.items) && Array.isArray(auditEvents.items) });
+  const exportsCheck = await Promise.all(['assignments', 'submissions', 'evidence', 'audit'].map(resource => call(`/organizations/${org}/exports/${resource}?format=json&limit=10`)));
+  result.checks.push({ name: 'supervisor exports readable', pass: exportsCheck.every(x => Array.isArray(x.items)) });
   const template = await call(`/organizations/${org}/templates`, { method: 'POST', headers: json({}, 'admin-smoke-template'), body: JSON.stringify({ template_key: `admin-smoke-${Date.now()}`, name: 'Admin Studio smoke template' }) });
   result.checks.push({ name: 'template creation', pass: template.lifecycle_state === 'DRAFT' });
   const version = await call(`/organizations/${org}/templates/${template.id}/versions`, { method: 'POST', headers: json({}, 'admin-smoke-version'), body: JSON.stringify({ blueprint_json: blueprint }) });
