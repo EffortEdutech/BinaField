@@ -8,7 +8,7 @@ const blueprint = { schema: 'bf-blueprint/1.0', title: 'Site inspection', fields
 
 export default function AdminStudio() {
   const [token, setToken] = useState(''), [context, setContext] = useState<any>(), [templates, setTemplates] = useState<any[]>([]), [template, setTemplate] = useState<any>(), [versions, setVersions] = useState<any[]>([]), [assignments, setAssignments] = useState<any[]>([]), [submissions, setSubmissions] = useState<any[]>([]), [message, setMessage] = useState('');
-  const [assignee, setAssignee] = useState('a0000000-0000-4000-8000-000000000002');
+  const [assignee, setAssignee] = useState('a0000000-0000-4000-8000-000000000003');
   const h = () => ({ authorization: `Bearer ${token}` });
   const read = async (r: Response) => { const b = await r.json(); if (!r.ok) throw new Error(`${b.code ?? r.status}: ${b.detail ?? ''}`); return b; };
   const refresh = async () => { try { const head = await read(await fetch(`${API}/organizations/${ORG}/me`, { headers: h() })); setContext(head); const [t, a, s] = await Promise.all([fetch(`${API}/organizations/${ORG}/templates`, { headers: h() }), fetch(`${API}/organizations/${ORG}/assignments`, { headers: h() }), fetch(`${API}/organizations/${ORG}/submissions`, { headers: h() })]); setTemplates((await read(t)).items ?? []); setAssignments((await read(a)).items ?? []); setSubmissions((await read(s)).items ?? []); setMessage('Context and operations refreshed'); } catch (e) { setMessage(String(e)); } };

@@ -3,7 +3,7 @@ const token = process.env.BINAField_TOKEN;
 const org = process.env.BINAFIELD_ORG ?? 'a0000000-0000-4000-8000-000000000001';
 const project = process.env.BINAFIELD_PROJECT ?? 'a0000000-0000-4000-8000-000000000010';
 const deployment = process.env.BINAFIELD_DEPLOYMENT ?? 'a0000000-0000-4000-8000-000000000016';
-const assignee = process.env.BINAFIELD_ASSIGNEE ?? 'a0000000-0000-4000-8000-000000000002';
+const assignee = process.env.BINAFIELD_ASSIGNEE ?? 'a0000000-0000-4000-8000-000000000003';
 if (!token) throw new Error('Set BINAField_TOKEN in the local shell; the token is never printed.');
 const headers = () => ({ authorization: `Bearer ${token}` });
 async function call(path, init = {}) {
