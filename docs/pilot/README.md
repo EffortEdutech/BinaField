@@ -18,5 +18,6 @@ Pilot scope: one organisation, one project, one supervisor, one field user/devic
 - `SUPPORT-MONITORING-RUNBOOK.md` — support triage, monitoring, and error review.
 - `KNOWN-LIMITATIONS.md` — limitations, pilot treatment, and stop conditions.
 - `PILOT-OWNER-SIGNOFF.md` — named-owner acceptance form.
+- `PILOT-EXECUTION-LOG.md` — participant assignment, run results, incidents, reconciliation, and release decision.
 
 Secrets, access tokens, database URLs, and service-role keys must remain in local or Vercel environment settings and must never be committed.
