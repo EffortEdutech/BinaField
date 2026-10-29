@@ -203,6 +203,22 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
 
   const validateVersion = /^\/organizations\/([^/]+)\/template-versions\/([^/:]+):validate$/.exec(path);
   const publishVersion = /^\/organizations\/([^/]+)\/template-versions\/([^/:]+):publish$/.exec(path);
+  const versionAction = /^\/organizations\/([^/]+)\/template-versions\/([^/]+)$/.exec(path);
+  if (req.method === 'PATCH' && versionAction) {
+    const organizationId = versionAction[1]!, versionId = versionAction[2]!;
+    if (!UUID.test(organizationId) || !UUID.test(versionId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and template_version_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    if (!['SUPERSEDED','ARCHIVED'].includes(String(raw?.lifecycle_state))) return problem(400, 'INVALID_TEMPLATE_VERSION_STATE', 'lifecycle_state must be SUPERSEDED or ARCHIVED', correlationId);
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const permission = raw.lifecycle_state === 'ARCHIVED' ? 'template.archive' : 'template.publish'; const a = authorize(r.principal, { organizationId, permission }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const u = await q.query<{ id: string; lifecycle_state: string }>(`UPDATE blueprint.template_versions SET lifecycle_state = $3, updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 AND lifecycle_state IN ('PUBLISHED','ACTIVE','SUPERSEDED') RETURNING id, lifecycle_state`, [organizationId, versionId, raw.lifecycle_state]); if (!u.rows[0]) return problem(404, 'RESOURCE_NOT_FOUND', 'Template version not found or state cannot change', correlationId);
+      await audit(q, { organizationId, actorId: r.membershipId, action: 'template_version.lifecycle.update', targetType: 'template_version', targetId: versionId, correlationId, metadata: { lifecycle_state: raw.lifecycle_state } });
+      return json(200, { template_version_id: versionId, lifecycle_state: u.rows[0].lifecycle_state }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
   if (req.method === 'POST' && (validateVersion || publishVersion)) {
     const organizationId = (validateVersion ?? publishVersion)![1]!, versionId = (validateVersion ?? publishVersion)![2]!;
     if (!UUID.test(organizationId) || !UUID.test(versionId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and template_version_id must be UUIDs', correlationId);
