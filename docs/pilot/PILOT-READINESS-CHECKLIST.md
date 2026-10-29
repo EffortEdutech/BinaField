@@ -18,6 +18,7 @@ Date prepared: 2026-10-29
 
 - [x] API production deployment is reachable and ready.
 - [x] Admin Studio production deployment is reachable and ready.
+- [x] Production API environment contains the four required protected Supabase/database variables; values were not exposed.
 - [x] Authentication and tenant authorization have automated coverage.
 - [x] Template creation, validation, and publishing pass live smoke.
 - [x] Deployment and assignment creation persist in the tenant.
