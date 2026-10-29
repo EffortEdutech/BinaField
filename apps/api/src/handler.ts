@@ -522,6 +522,14 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
+  const bulkReview = /^\/organizations\/([^/]+)\/submissions:bulk-review$/.exec(path);
+  if (req.method === 'POST' && bulkReview) {
+    const organizationId = bulkReview[1]!; if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId); let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); } if (!Array.isArray(raw?.submission_ids) || raw.submission_ids.length < 1 || raw.submission_ids.length > 100 || !['ACCEPT','REJECT'].includes(raw.decision) || raw.submission_ids.some((id: unknown) => !UUID.test(String(id)))) return problem(400, 'INVALID_BULK_REVIEW', 'submission_ids and decision are required', correlationId);
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'submission.review' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const results: { submission_id: string; status: string }[] = []; for (const submissionId of raw.submission_ids) { const u = await q.query<{ id: string; lifecycle_state: string }>(`UPDATE field.submissions SET lifecycle_state=$3, rejection_code=CASE WHEN $3='REJECTED' THEN 'SUPERVISOR_REJECTED' ELSE NULL END, accepted_at=CASE WHEN $3='ACCEPTED' THEN COALESCE(accepted_at,now()) ELSE accepted_at END, rejected_at=CASE WHEN $3='REJECTED' THEN COALESCE(rejected_at,now()) ELSE rejected_at END, updated_at=now(), revision=revision+1 WHERE organization_id=$1 AND id=$2 RETURNING id, lifecycle_state`, [organizationId, submissionId, raw.decision === 'ACCEPT' ? 'ACCEPTED' : 'REJECTED']); if (u.rows[0]) { results.push({ submission_id: u.rows[0].id, status: u.rows[0].lifecycle_state }); await audit(q, { organizationId, actorId: r.membershipId, action: 'submission.review.bulk', targetType: 'submission', targetId: submissionId, correlationId, metadata: { decision: raw.decision } }); } } return json(200, { decision: raw.decision, processed: results.length, results }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const review = /^\/organizations\/([^/]+)\/submissions\/([^/]+)\/review$/.exec(path);
   const submissions = /^\/organizations\/([^/]+)\/submissions$/.exec(path);
   if (req.method === 'GET' && submissions) {
@@ -578,6 +586,13 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         return json(200, { submission_id: updated.rows[0]!.id, status: updated.rows[0]!.lifecycle_state, rejection_code: updated.rows[0]!.rejection_code, reviewed_at: updated.rows[0]!.accepted_at ?? updated.rows[0]!.rejected_at }, { 'x-correlation-id': correlationId });
       });
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
+  const outcomeHistory = /^\/organizations\/([^/]+)\/submissions\/([^/]+)\/history$/.exec(path);
+  if (req.method === 'GET' && outcomeHistory) {
+    const organizationId = outcomeHistory[1]!, submissionId = outcomeHistory[2]!; if (!UUID.test(organizationId) || !UUID.test(submissionId)) return problem(400, 'INVALID_IDENTIFIER', 'organization_id and submission_id must be UUIDs', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId); let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'submission.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const rows = await q.query('SELECT id, action_key, result, metadata_json, occurred_at, correlation_id FROM audit.audit_events WHERE organization_id=$1 AND target_type=\'submission\' AND target_id=$2 ORDER BY occurred_at ASC', [organizationId, submissionId]); return json(200, { submission_id: submissionId, items: rows.rows }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
 
   const sub = /^\/organizations\/([^/]+)\/field\/submission-attempts$/.exec(path);
