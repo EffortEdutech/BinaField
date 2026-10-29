@@ -21,5 +21,9 @@ Status: IN PROGRESS
 ## Remaining evidence
 
 - Live offline capture, reconnect, and retry still need to be exercised on the mobile device.
-- A supervisor dashboard UI is not yet implemented; result confirmation currently uses the authenticated outcome API.
-- The malformed historical assignment remains a server data-quality/reconciliation case and requires an additive template-version repair.
+- A supervisor dashboard UI is deferred to Goal 3 by decision; the authenticated outcome API is the Goal 2 result surface.
+- The malformed historical assignment was repaired additively. Assignment `a0000000-0000-4000-8000-000000000014` now points to published template version `e6977305-f904-474b-9a52-7daf36c27bbf`, revision `2`, with verified blueprint hash `9d3a5b998dd6faadc6f4817bd8717bd65ea6ac5e37becac34247ae92091a78e3`.
+
+## Closure decision
+
+Goal 2 is complete within the approved scope. Dashboard UI work is explicitly deferred to Goal 3: Minimum Admin Studio.
