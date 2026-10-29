@@ -87,6 +87,30 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     } catch (e) { return problem(409, 'TEMPLATE_CONFLICT', 'Template could not be created because its key already exists or the request conflicts with current state', correlationId); }
   }
 
+  const deployments = /^\/organizations\/([^/]+)\/deployments$/.exec(path);
+  if (req.method === 'POST' && deployments) {
+    const organizationId = deployments[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    const idem = req.headers.get('idempotency-key');
+    if (!idem || idem.length < 8 || idem.length > 200) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key (8-200 characters) is required', correlationId);
+    let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
+    if (!UUID.test(raw?.project_id) || !UUID.test(raw?.template_version_id) || typeof raw?.name !== 'string' || !raw.name.trim()) return problem(400, 'INVALID_DEPLOYMENT', 'project_id, template_version_id, and name are required', correlationId);
+    try { return await deps.db.tx(async (q) => {
+      const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength });
+      if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
+      const a = authorize(r.principal, { organizationId, permission: 'deployment.create' });
+      if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
+      const context = await q.query('SELECT p.id FROM core.projects p JOIN blueprint.template_versions v ON v.organization_id = p.organization_id WHERE p.organization_id = $1 AND p.id = $2 AND v.id = $3', [organizationId, raw.project_id, raw.template_version_id]);
+      if (!context.rows[0]) return problem(422, 'DEPLOYMENT_CONTEXT_MISMATCH', 'project and template version must belong to the organisation', correlationId);
+      const id = crypto.randomUUID();
+      const inserted = await q.query<{ id: string; revision: number }>(`INSERT INTO ops.deployments (id, organization_id, project_id, template_version_id, name, lifecycle_state, effective_from, created_by_membership_id) VALUES ($1,$2,$3,$4,$5,'ACTIVE',now(),$6) RETURNING id, revision`, [id, organizationId, raw.project_id, raw.template_version_id, raw.name.trim(), r.membershipId]);
+      return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, project_id: raw.project_id, template_version_id: raw.template_version_id, name: raw.name.trim(), lifecycle_state: 'ACTIVE', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
+    }); } catch { return problem(409, 'DEPLOYMENT_CONFLICT', 'Deployment could not be created', correlationId); }
+  }
+
   const versions = /^\/organizations\/([^/]+)\/templates\/([^/]+)\/versions$/.exec(path);
   if (req.method === 'POST' && versions) {
     const organizationId = versions[1]!, templateId = versions[2]!;

@@ -23,7 +23,8 @@ try {
   const validated = await call(`/organizations/${org}/template-versions/${version.id}:validate`, { method: 'POST', headers: headers() });
   const published = await call(`/organizations/${org}/template-versions/${version.id}:publish`, { method: 'POST', headers: json({}, 'admin-smoke-publish') });
   result.checks.push({ name: 'version validate and publish', pass: validated.lifecycle_state === 'VALIDATED' && published.lifecycle_state === 'PUBLISHED' });
-  const assignment = await call(`/organizations/${org}/assignments`, { method: 'POST', headers: json({}, 'admin-smoke-assignment'), body: JSON.stringify({ project_id: project, deployment_id: deployment, template_version_id: version.id, assignee_membership_id: assignee, operational_subject_ref: { label: 'Admin Studio smoke' } }) });
+  const createdDeployment = await call(`/organizations/${org}/deployments`, { method: 'POST', headers: json({}, 'admin-smoke-deployment'), body: JSON.stringify({ project_id: project, template_version_id: version.id, name: 'Admin Studio smoke deployment' }) });
+  const assignment = await call(`/organizations/${org}/assignments`, { method: 'POST', headers: json({}, 'admin-smoke-assignment'), body: JSON.stringify({ project_id: project, deployment_id: createdDeployment.id, template_version_id: version.id, assignee_membership_id: assignee, operational_subject_ref: { label: 'Admin Studio smoke' } }) });
   const assignments = await call(`/organizations/${org}/assignments`); result.checks.push({ name: 'assignment issued and persisted', pass: assignment.lifecycle_state === 'ASSIGNED' && assignments.items.some(x => x.id === assignment.id) });
   const submissions = await call(`/organizations/${org}/submissions`); result.checks.push({ name: 'submission review queue readable', pass: Array.isArray(submissions.items) });
   const candidate = submissions.items.find(x => x.submission_id);
@@ -34,7 +35,7 @@ try {
   } else {
     result.checks.push({ name: 'supervisor decision and persisted outcome', pass: false, pending: true, detail: 'No received submission exists to review' });
   }
-  result.pass = result.checks.every(x => x.pass); result.ids = { template_id: template.id, version_id: version.id, assignment_id: assignment.id };
+  result.pass = result.checks.every(x => x.pass); result.ids = { template_id: template.id, version_id: version.id, deployment_id: createdDeployment.id, assignment_id: assignment.id };
   console.log(JSON.stringify(result, null, 2));
   process.exitCode = result.pass ? 0 : 1;
 } catch (error) { result.error = String(error); console.log(JSON.stringify(result, null, 2)); process.exitCode = 1; }
