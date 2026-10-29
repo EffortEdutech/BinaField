@@ -17,6 +17,13 @@ const blueprint = { schema: 'bf-blueprint/1.0', title: 'Admin Studio smoke inspe
 const result = { pass: false, checks: [] };
 try {
   const me = await call(`/organizations/${org}/me`); result.checks.push({ name: 'organisation context', pass: me.organization_id === org });
+  const [projects, memberships, roles, auditEvents] = await Promise.all([
+    call(`/organizations/${org}/projects`),
+    call(`/organizations/${org}/memberships`),
+    call(`/organizations/${org}/roles`),
+    call(`/organizations/${org}/audit-events?limit=20`),
+  ]);
+  result.checks.push({ name: 'organisation administration reads', pass: Array.isArray(projects.items) && Array.isArray(memberships.items) && Array.isArray(roles.items) && Array.isArray(auditEvents.items) });
   const template = await call(`/organizations/${org}/templates`, { method: 'POST', headers: json({}, 'admin-smoke-template'), body: JSON.stringify({ template_key: `admin-smoke-${Date.now()}`, name: 'Admin Studio smoke template' }) });
   result.checks.push({ name: 'template creation', pass: template.lifecycle_state === 'DRAFT' });
   const version = await call(`/organizations/${org}/templates/${template.id}/versions`, { method: 'POST', headers: json({}, 'admin-smoke-version'), body: JSON.stringify({ blueprint_json: blueprint }) });
