@@ -3,12 +3,12 @@ import process from 'node:process';
 import pg from 'pg';
 
 const { Pool } = pg;
-const args = new Map(process.argv.slice(2).map((value) => {
+const args = new Map(process.argv.slice(2).filter((value) => value.startsWith('--')).map((value) => {
   const [key, ...rest] = value.replace(/^--/, '').split('=');
   return [key, rest.join('=') || 'true'];
 }));
-const org = args.get('organization');
-const environment = args.get('environment');
+const org = args.get('organization') || process.env.npm_config_organization;
+const environment = args.get('environment') || process.env.npm_config_environment;
 const write = args.get('write') === 'true';
 const expected = org && environment ? `${org}:${environment}` : '';
 
