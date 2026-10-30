@@ -1,0 +1,35 @@
+:root { color: #173027; background: #f4f7f5; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input, select, textarea { font: inherit; }
+button { min-height: 44px; border: 0; border-radius: 10px; padding: 10px 14px; background: #0f5132; color: white; font-weight: 650; cursor: pointer; }
+button.secondary { background: #e4eee8; color: #173027; }
+button.danger { background: #9b2c2c; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.field-shell { max-width: 760px; margin: 0 auto; padding: 16px; }
+.field-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.field-header h1 { margin: 0; font-size: 1.35rem; }
+.status-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
+.status-pill { border-radius: 999px; padding: 6px 10px; font-size: .86rem; font-weight: 700; background: #e4eee8; }
+.status-pill.offline { background: #fff1cc; color: #704d00; }
+.status-pill.alert { background: #fde2e2; color: #8a1c1c; }
+.card { background: white; border: 1px solid #d7e2db; border-radius: 14px; padding: 16px; margin: 12px 0; box-shadow: 0 2px 8px #1730270d; }
+.card h2, .card h3 { margin: 0 0 10px; }
+.assignment-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.muted { color: #5b6c63; font-size: .9rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.field { margin: 18px 0; }
+.field label { display: block; font-weight: 700; margin-bottom: 7px; }
+.field input, .field select, .field textarea, .settings input { width: 100%; border: 1px solid #9db1a5; border-radius: 9px; padding: 10px; background: white; }
+.field textarea { min-height: 90px; resize: vertical; }
+.field-error { color: #8a1c1c; font-size: .9rem; margin: 6px 0 0; }
+.photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.photo-card { width: 120px; border: 1px solid #c7d7cc; border-radius: 10px; overflow: hidden; background: #f7faf8; }
+.photo-card img { width: 100%; height: 86px; object-fit: cover; display: block; background: #dfe9e2; }
+.photo-card .photo-meta { padding: 7px; font-size: .78rem; }
+.photo-card button { width: 100%; border-radius: 0; min-height: 36px; padding: 6px; font-size: .8rem; }
+.notice { border-radius: 10px; padding: 10px 12px; background: #edf5ef; margin: 10px 0; }
+.notice.error { background: #fde2e2; color: #8a1c1c; }
+.outbox { list-style: none; padding: 0; margin: 0; }
+.outbox li { padding: 9px 0; border-bottom: 1px solid #e5eee8; font-size: .9rem; }
+@media (max-width: 480px) { .field-shell { padding: 12px; } .assignment-head { display: block; } .field-header { align-items: center; } }

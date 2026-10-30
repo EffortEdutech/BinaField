@@ -213,6 +213,13 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
   }
 
   const deployments = /^\/organizations\/([^/]+)\/deployments$/.exec(path);
+  if (req.method === 'GET' && deployments) {
+    const organizationId = deployments[1]!;
+    if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
+    const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'deployment.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const rows = await q.query('SELECT id, organization_id, project_id, template_version_id, name, lifecycle_state, effective_from, revision, updated_at FROM ops.deployments WHERE organization_id=$1 ORDER BY updated_at DESC', [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
   if (req.method === 'POST' && deployments) {
     const organizationId = deployments[1]!;
     if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);

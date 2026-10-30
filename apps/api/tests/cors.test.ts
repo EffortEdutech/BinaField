@@ -20,7 +20,7 @@ describe('cors', () => {
     expect(withCors(req('GET', 'https://evil.test'), new Response('x'), O).headers.get('access-control-allow-origin')).toBeNull();
   });
   it('reads the origin list from the environment', () => {
-    expect(allowedOrigins('https://a.test, https://b.test')).toEqual(['https://a.test', 'https://b.test']);
-    expect(allowedOrigins(undefined)).toContain('https://bina-field.vercel.app');
+    expect(allowedOrigins('https://a.test, https://b.test')).toEqual(expect.arrayContaining(['https://a.test', 'https://b.test', 'https://binafield-admin-studio.vercel.app']));
+    expect(allowedOrigins(undefined)).toEqual(expect.arrayContaining(['https://bina-field.vercel.app', 'https://binafield-admin-studio.vercel.app']));
   });
 });

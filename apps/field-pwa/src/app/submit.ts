@@ -40,8 +40,8 @@ export async function addPhoto(set: Settings, sessionId: string, assignmentId: s
     [set.organizationId, attachmentId, assignmentId, sessionId, fieldId, name, file.size, sha, file.type || 'image/jpeg', now(), set.deviceId]);
   return attachmentId;
 }
-export const listPhotos = (sessionId: string) => q<{ attachment_id: string; field_id: string; byte_size: number; sha256: string; lifecycle_state: string }>(
-  'SELECT attachment_id, field_id, byte_size, sha256, lifecycle_state FROM local_evidence WHERE session_id=? ORDER BY device_captured_at', [sessionId]);
+export const listPhotos = (sessionId: string) => q<{ attachment_id: string; field_id: string; byte_size: number; sha256: string; lifecycle_state: string; local_file_path: string; claimed_mime_type: string }>(
+  'SELECT attachment_id, field_id, byte_size, sha256, lifecycle_state, local_file_path, claimed_mime_type FROM local_evidence WHERE session_id=? ORDER BY device_captured_at', [sessionId]);
 export const removePhoto = (attachmentId: string) => q("DELETE FROM local_evidence WHERE attachment_id=? AND lifecycle_state='LOCAL_CAPTURED'", [attachmentId]);
 
 /** Finds what the person still has to fill in. */

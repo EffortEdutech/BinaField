@@ -1,7 +1,8 @@
 // CORS for the browser clients (field PWA, later admin web). Origins come from the CORS_ORIGINS environment variable (comma separated).
-const DEFAULT_ORIGINS = ['https://bina-field.vercel.app', 'http://localhost:3031', 'http://127.0.0.1:3031'];
+const DEFAULT_ORIGINS = ['https://bina-field.vercel.app', 'https://binafield-admin-studio.vercel.app', 'http://localhost:3031', 'http://127.0.0.1:3031', 'http://localhost:3032', 'http://127.0.0.1:3032'];
 export function allowedOrigins(env: string | undefined): string[] {
-  return env ? env.split(',').map((s) => s.trim()).filter(Boolean) : DEFAULT_ORIGINS;
+  const configured = env ? env.split(',').map((s) => s.trim()).filter(Boolean) : [];
+  return [...new Set([...DEFAULT_ORIGINS, ...configured])];
 }
 const HEADERS = 'authorization, content-type, x-device-id, x-correlation-id, idempotency-key';
 

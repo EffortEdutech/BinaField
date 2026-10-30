@@ -60,8 +60,10 @@ test('offline capture, reconnect, server has exactly one record', async ({ page 
   await page.getByTestId('add-photos').click();
   await (await chooser).setFiles({ name: 'p.jpg', mimeType: 'image/jpeg', buffer: Buffer.from(Array.from({ length: 4096 }, (_, i) => i % 251)) });
   await expect(page.getByTestId('photo')).toHaveCount(1);
+  await expect(page.getByTestId('photo').getByRole('img', { name: 'Captured evidence preview' })).toBeVisible();
+  await expect(page.getByTestId('photo').getByRole('button', { name: 'Remove photo' })).toBeVisible();
   await page.getByTestId('submit').click();
-  await expect(page.getByTestId('exec-status')).toHaveText('SUBMITTED_PENDING_SYNC');
+  await expect(page.getByTestId('exec-status')).toHaveText('Submitted — waiting to sync');
   expect(srv.attempts.size).toBe(0);
   expect(Number(await page.getByTestId('pending').innerText())).toBeGreaterThanOrEqual(4);
 
@@ -84,7 +86,7 @@ test('offline capture, reconnect, server has exactly one record', async ({ page 
 
   // survive a reload: local state persisted, still one record, nothing queued
   await page.reload();
-  await expect(page.getByTestId('exec-status')).toHaveText('SUBMITTED_PENDING_SYNC');
+  await expect(page.getByTestId('exec-status')).toHaveText('Submitted — waiting to sync');
   await page.getByTestId('sync').click();
   expect(srv.attempts.size).toBe(1);
 });
