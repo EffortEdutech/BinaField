@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npm run typecheck",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "seed:operational": "node scripts/seed-operational-data.mjs"
   },
   "dependencies": {
     "jose": "5.9.6",
