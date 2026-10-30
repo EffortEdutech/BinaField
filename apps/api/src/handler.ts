@@ -9,6 +9,16 @@ import type { EvidenceStorage } from './storage';
 
 export interface Deps { db: Db; verify: TokenVerifier; storage?: EvidenceStorage }
 
+function pageParams(url: URL, max = 100) {
+  const limit = Math.min(Math.max(Number(url.searchParams.get('limit') ?? 25) || 25, 1), max);
+  const offset = Math.max(Number(url.searchParams.get('offset') ?? 0) || 0, 0);
+  return { limit, offset };
+}
+
+function pageResult<T>(items: T[], limit: number, offset: number) {
+  return { items, next_cursor: items.length === limit ? String(offset + limit) : null };
+}
+
 async function audit(q: import('./db').Queryable, args: { organizationId: string; actorId: string; action: string; targetType: string; targetId?: string; result?: string; correlationId: string; metadata?: unknown }) {
   await q.query(`INSERT INTO audit.audit_events (id, organization_id, actor_type, actor_id, action_key, target_type, target_id, result, metadata_json, correlation_id) VALUES ($1,$2,'MEMBERSHIP',$3,$4,$5,$6,$7,$8::jsonb,$9)`, [crypto.randomUUID(), args.organizationId, args.actorId, args.action, args.targetType, args.targetId ?? null, args.result ?? 'SUCCEEDED', JSON.stringify(args.metadata ?? {}), args.correlationId]);
 }
@@ -31,7 +41,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
     const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
     let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
-    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'device.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const rows = await q.query('SELECT id, organization_id, membership_id, platform, app_version, runtime_version, lifecycle_state, updated_at FROM iam.registered_devices WHERE organization_id=$1 ORDER BY updated_at DESC', [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'device.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const { limit, offset } = pageParams(url); const state = url.searchParams.get('lifecycle_state'); const params: unknown[] = [organizationId]; const where = ['organization_id=$1']; if (state && ['REGISTERED','ACTIVE','SUSPENDED','REVOKED'].includes(state)) { params.push(state); where.push(`lifecycle_state=$${params.length}`); } params.push(limit, offset); const rows = await q.query('SELECT id, organization_id, membership_id, platform, app_version, runtime_version, lifecycle_state, updated_at FROM iam.registered_devices WHERE ' + where.join(' AND ') + ' ORDER BY updated_at DESC LIMIT $' + (params.length - 1) + ' OFFSET $' + params.length, params); return json(200, pageResult(rows.rows, limit, offset), { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
   if ((req.method === 'POST' || req.method === 'PATCH') && device) {
     const organizationId = device[1]!;
@@ -95,7 +105,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
       const permission = req.method === 'POST' ? 'project.create' : 'project.read'; const a = authorize(r.principal, { organizationId, permission });
       if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
-      if (req.method === 'GET') { const rows = await q.query('SELECT id, organization_id, project_code, name, lifecycle_state, starts_at, ends_at, revision, updated_at FROM core.projects WHERE organization_id = $1 ORDER BY updated_at DESC', [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }
+      if (req.method === 'GET') { const { limit, offset } = pageParams(url); const params = [organizationId, limit, offset]; const rows = await q.query('SELECT id, organization_id, project_code, name, lifecycle_state, starts_at, ends_at, revision, updated_at FROM core.projects WHERE organization_id = $1 ORDER BY updated_at DESC LIMIT $2 OFFSET $3', params); return json(200, pageResult(rows.rows, limit, offset), { 'x-correlation-id': correlationId }); }
       const idem = req.headers.get('idempotency-key'); if (!idem || idem.length < 8) return problem(400, 'IDEMPOTENCY_KEY_REQUIRED', 'Idempotency-Key is required', correlationId);
       let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
       if (typeof raw?.project_code !== 'string' || !/^[A-Z0-9_-]{2,32}$/.test(raw.project_code) || typeof raw?.name !== 'string' || !raw.name.trim()) return problem(400, 'INVALID_PROJECT', 'project_code and name are required', correlationId);
@@ -225,7 +235,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     if (!UUID.test(organizationId)) return problem(400, 'INVALID_ORGANIZATION_ID', 'organization_id must be a UUID', correlationId);
     const bearer = bearerFrom(req.headers.get('authorization')); if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
     let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
-    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'deployment.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const rows = await q.query('SELECT id, organization_id, project_id, template_version_id, name, lifecycle_state, effective_from, revision, updated_at FROM ops.deployments WHERE organization_id=$1 ORDER BY updated_at DESC', [organizationId]); return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+    try { return await deps.db.tx(async (q) => { const r = await loadPrincipal(q, { sub: token.sub, organizationId, deviceId: null, correlationId, authenticationStrength: token.authenticationStrength }); if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId); const a = authorize(r.principal, { organizationId, permission: 'deployment.read' }); if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId); const { limit, offset } = pageParams(url); const state = url.searchParams.get('lifecycle_state'); const params: unknown[] = [organizationId]; const where = ['organization_id=$1']; if (state && ['ACTIVE','PAUSED','CLOSED'].includes(state)) { params.push(state); where.push(`lifecycle_state=$${params.length}`); } params.push(limit, offset); const rows = await q.query('SELECT id, organization_id, project_id, template_version_id, name, lifecycle_state, effective_from, revision, updated_at FROM ops.deployments WHERE ' + where.join(' AND ') + ' ORDER BY updated_at DESC LIMIT $' + (params.length - 1) + ' OFFSET $' + params.length, params); return json(200, pageResult(rows.rows, limit, offset), { 'x-correlation-id': correlationId }); }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
   if (req.method === 'POST' && deployments) {
     const organizationId = deployments[1]!;
@@ -376,8 +386,9 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       const a = authorize(r.principal, { organizationId, permission: req.method === 'POST' ? 'assignment.create' : 'assignment.read' });
       if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
       if (req.method === 'GET') {
-        const rows = await q.query<Record<string, unknown>>('SELECT id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at, revision, updated_at FROM ops.assignments WHERE organization_id = $1 ORDER BY updated_at DESC', [organizationId]);
-        return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+        const { limit, offset } = pageParams(url); const state = url.searchParams.get('lifecycle_state'); const projectId = url.searchParams.get('project_id'); const params: unknown[] = [organizationId]; const where = ['organization_id = $1']; if (state && ['ASSIGNED','IN_PROGRESS','SUBMITTED','COMPLETED','CANCELLED'].includes(state)) { params.push(state); where.push(`lifecycle_state = $${params.length}`); } if (projectId && UUID.test(projectId)) { params.push(projectId); where.push(`project_id = $${params.length}`); } params.push(limit, offset);
+        const rows = await q.query<Record<string, unknown>>('SELECT id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, assignee_team_id, operational_subject_ref, priority, lifecycle_state, due_at, issued_at, revision, updated_at FROM ops.assignments WHERE ' + where.join(' AND ') + ' ORDER BY updated_at DESC LIMIT $' + (params.length - 1) + ' OFFSET $' + params.length, params);
+        return json(200, pageResult(rows.rows, limit, offset), { 'x-correlation-id': correlationId });
       }
       let raw: any; try { raw = await req.json(); } catch { return problem(400, 'INVALID_REQUEST', 'Body must be valid JSON', correlationId); }
       const uuidFields = ['project_id', 'deployment_id', 'template_version_id'];
@@ -558,8 +569,9 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
       if (!r.ok) return problem(404, 'RESOURCE_NOT_FOUND', 'Not found', correlationId);
       const a = authorize(r.principal, { organizationId, permission: 'submission.read' });
       if (a.decision === 'DENY') return problem(403, a.reasonCode, 'Access denied', correlationId);
-      const rows = await q.query<Record<string, unknown>>(`SELECT a.id AS attempt_id, a.assignment_id, a.project_id, a.received_at, s.id AS submission_id, COALESCE(s.lifecycle_state, 'RECEIVED') AS status, s.rejection_code, s.accepted_at, s.rejected_at FROM field.submission_attempts a LEFT JOIN field.submissions s ON s.organization_id = a.organization_id AND s.submission_attempt_id = a.id WHERE a.organization_id = $1 ORDER BY a.received_at DESC`, [organizationId]);
-      return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+      const { limit, offset } = pageParams(url); const status = url.searchParams.get('status'); const projectId = url.searchParams.get('project_id'); const params: unknown[] = [organizationId]; const where = ['a.organization_id = $1']; if (status && ['RECEIVED','ACCEPTED','REJECTED'].includes(status)) { params.push(status); where.push(`COALESCE(s.lifecycle_state, 'RECEIVED') = $${params.length}`); } if (projectId && UUID.test(projectId)) { params.push(projectId); where.push(`a.project_id = $${params.length}`); } params.push(limit, offset);
+      const rows = await q.query<Record<string, unknown>>(`SELECT a.id AS attempt_id, a.assignment_id, a.project_id, a.received_at, s.id AS submission_id, COALESCE(s.lifecycle_state, 'RECEIVED') AS status, s.rejection_code, s.accepted_at, s.rejected_at FROM field.submission_attempts a LEFT JOIN field.submissions s ON s.organization_id = a.organization_id AND s.submission_attempt_id = a.id WHERE ${where.join(' AND ')} ORDER BY a.received_at DESC LIMIT $${params.length - 1} OFFSET $${params.length}`, params);
+      return json(200, pageResult(rows.rows, limit, offset), { 'x-correlation-id': correlationId });
     }); } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
   }
   if (req.method === 'POST' && review) {
