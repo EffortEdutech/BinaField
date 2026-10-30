@@ -28,6 +28,13 @@ if (!process.env.DATABASE_URL) {
   console.error('DATABASE_URL is required and is never read from a committed file.');
   process.exit(2);
 }
+try {
+  const connectionUrl = new URL(process.env.DATABASE_URL);
+  if (!['postgres:', 'postgresql:'].includes(connectionUrl.protocol) || connectionUrl.hostname === '*****REDACTED*****') throw new Error();
+} catch {
+  console.error('DATABASE_URL must be a real postgresql:// or postgres:// connection string in the current shell. The redacted value shown in logs cannot be used.');
+  process.exit(2);
+}
 
 const stableId = (key) => {
   const hex = crypto.createHash('sha256').update(`${org}:${environment}:${key}`).digest('hex').slice(0, 32);
