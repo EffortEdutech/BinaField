@@ -1,7 +1,7 @@
 # Goal 9 — Supervisor Operations, Dashboards, Audit, and Exports
 
 Date: 2026-10-30
-Status: IMPLEMENTED — LIVE AUTHENTICATED SMOKE PENDING
+Status: PASS — LIVE AUTHENTICATED SMOKE PASSED
 
 ## Scope delivered
 
@@ -27,6 +27,16 @@ Status: IMPLEMENTED — LIVE AUTHENTICATED SMOKE PENDING
 - API TypeScript typecheck: passed.
 - Admin Studio production build: passed.
 
-## Remaining gate
+## Live smoke evidence
 
-Run the authenticated `npm run smoke` script from `apps/admin-web` with `BINAField_TOKEN` set. The script verifies organisation administration reads, supervisor JSON exports, template/version workflow, assignment persistence, submission review queue, and supervisor outcome persistence.
+- Result: `pass: true`.
+- Organisation context: passed.
+- Organisation administration reads: passed.
+- Supervisor exports readable: passed.
+- Template creation: passed.
+- Version validation and publishing: passed.
+- Assignment issued and persisted: passed.
+- Submission review queue readable: passed.
+- Supervisor decision and persisted outcome: passed.
+- Live smoke IDs: template `d5354c4f-2520-4fcc-af8a-3bd0fd203c02`, version `202bdb45-8c5d-4df4-ba8b-cce4a2b87759`, deployment `ba913040-fd80-4391-8da6-3975e3737442`, assignment `c8886bb0-ea55-4c45-a4fa-8f276d0eeec2`.
+
