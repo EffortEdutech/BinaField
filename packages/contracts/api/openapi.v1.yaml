@@ -974,6 +974,38 @@ paths:
       x-binafield-registry-key: GetSubmission
       x-binafield-device-required: false
       x-binafield-idempotency: NONE
+  /organizations/{organization_id}/reports/kebuniti/{submission_id}:
+    get:
+      operationId: getKebunitiReport
+      summary: getKebunitiReport
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Structured Kebuniti field report projection with calculations and provenance
+        '400':
+          description: Invalid report identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Report export permission denied
+        '404':
+          description: Absent or concealed report
+      x-binafield-permission: report.export
+      x-binafield-scope: PROJECT_AWARE
+      x-binafield-kind: QUERY
+      x-binafield-registry-key: GetKebunitiReport
+      x-binafield-device-required: false
+      x-binafield-idempotency: NONE
   /organizations/{organization_id}/submissions/{submission_id}/evidence:
     get:
       operationId: listSubmissionEvidence
