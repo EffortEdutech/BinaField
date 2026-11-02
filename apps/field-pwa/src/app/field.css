@@ -32,4 +32,9 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .notice.error { background: #fde2e2; color: #8a1c1c; }
 .outbox { list-style: none; padding: 0; margin: 0; }
 .outbox li { padding: 9px 0; border-bottom: 1px solid #e5eee8; font-size: .9rem; }
+.repeat-group { border: 1px solid #d7e2db; border-radius: 10px; padding: 12px; background: #f8fbf9; }
+.repeat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; align-items: end; padding: 10px 0; border-bottom: 1px solid #dfe9e2; }
+.repeat-row label { font-size: .78rem; font-weight: 700; text-transform: capitalize; }
+.repeat-row input { width: 100%; margin-top: 4px; border: 1px solid #9db1a5; border-radius: 7px; padding: 8px; background: white; }
+.repeat-row button { min-height: 38px; padding: 8px 10px; }
 @media (max-width: 480px) { .field-shell { padding: 12px; } .assignment-head { display: block; } .field-header { align-items: center; } }
