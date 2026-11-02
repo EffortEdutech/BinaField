@@ -51,6 +51,11 @@ export default function FieldApp() {
   const verifyIdentity = useCallback(async () => {
     const result = await api<Row>(set, "GET", "/me");
     if (result.status !== 200 || !result.body) {
+      if (result.status === 401) {
+        setSignedIn(false);
+        setDeviceState("UNKNOWN");
+        setMsg("Your session expired. Please sign in again.");
+      }
       setDeviceState(result.status === 403 ? "PENDING" : "UNKNOWN");
       return false;
     }
