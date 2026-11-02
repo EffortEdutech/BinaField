@@ -15,6 +15,7 @@ export default function SupervisorDashboardV2() {
     [deployments, setDeployments] = useState<any[]>([]),
     [selected, setSelected] = useState<string[]>([]),
     [history, setHistory] = useState<any[]>([]),
+    [kebunitiReport, setKebunitiReport] = useState<any>(null),
     [filter, setFilter] = useState("ALL"),
     [project, setProject] = useState(""),
     [message, setMessage] = useState(""),
@@ -157,6 +158,15 @@ export default function SupervisorDashboardV2() {
     } catch (e) {
       setMessage(String(e));
     }
+  };
+  const showKebunitiReport = async (id: string) => {
+    try {
+      setMessage("Loading Kebuniti report…");
+      const b = await read(await fetch(`${API}/organizations/${org}/reports/kebuniti/${id}`, { headers: h() }));
+      setKebunitiReport(b);
+      setMessage("Kebuniti report loaded");
+      window.location.hash = "reports";
+    } catch (e) { setMessage(`Could not load Kebuniti report: ${String(e)}`); }
   };
   const exportData = (resource: string, format: string) =>
     window.open(
@@ -472,6 +482,7 @@ export default function SupervisorDashboardV2() {
               <div className="report-stat"><small>Reconciled total</small><strong>{assignments.length + submissions.length}</strong><span>assignments + submissions</span></div>
               <div className="report-stat"><small>Accepted rate</small><strong>{submissions.length ? `${Math.round((submissions.filter((s) => s.status === "ACCEPTED").length / submissions.length) * 100)}%` : "—"}</strong><span>of received submissions</span></div>
               <div className="report-stat"><small>Data freshness</small><strong>Live</strong><span>{assignments.length + submissions.length} records loaded</span></div>
+              {kebunitiReport && <div className="kebuniti-report" aria-label="Kebuniti report preview"><div className="section-heading"><div><p className="eyebrow">Kebuniti Field Data Log</p><h3>{kebunitiReport.identity?.community_group || "Community field visit"}</h3><p className="muted">{kebunitiReport.identity?.form_id || "No form ID"} · {kebunitiReport.identity?.entry_date || "Date unavailable"}</p></div><button type="button" onClick={() => window.print()}>Print Kebuniti report</button></div><div className="report-stat"><small>Report readiness</small><strong>{kebunitiReport.calculations?.report_ready ? "Ready" : "Incomplete"}</strong><span>{kebunitiReport.calculations?.evidence_count ?? 0} evidence item(s)</span></div><div className="report-stat"><small>Field activity</small><strong>{kebunitiReport.calculations?.activity_count ?? 0}</strong><span>{kebunitiReport.calculations?.total_hours ?? 0} hours · {kebunitiReport.calculations?.total_participants ?? 0} participants</span></div><div className="report-stat"><small>Harvest</small><strong>{kebunitiReport.calculations?.total_harvest_kg ?? 0} kg</strong><span>{kebunitiReport.sections?.harvest_records?.length ?? 0} crop record(s)</span></div><h4>Daily field activities</h4>{kebunitiReport.sections?.activities?.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Activity</th><th>Status</th><th>Hours</th><th>Participants</th></tr></thead><tbody>{kebunitiReport.sections.activities.map((x: any, i: number) => <tr key={i}><td>{x.activity_type ?? x.activity ?? "—"}</td><td>{x.status ?? "—"}</td><td>{x.hours_spent ?? "—"}</td><td>{x.participants ?? "—"}</td></tr>)}</tbody></table></div> : <p className="muted">No activity rows submitted.</p>}<h4>Validation</h4><p className="muted">Prepared by: {kebunitiReport.sections?.validation?.prepared_by_signature || "Not signed"} · DOA verification: {kebunitiReport.sections?.validation?.doa_verification_signature || "Not signed"}</p></div>}
             </div>
             <label>
               Status
@@ -563,9 +574,7 @@ export default function SupervisorDashboardV2() {
                         </>
                       )}{" "}
                       {s.submission_id && (
-                        <button onClick={() => showHistory(s.submission_id)}>
-                          History
-                        </button>
+                        <><button onClick={() => showHistory(s.submission_id)}>History</button><button onClick={() => showKebunitiReport(s.submission_id)}>Open Kebuniti report</button></>
                       )}
                     </li>
                   );
