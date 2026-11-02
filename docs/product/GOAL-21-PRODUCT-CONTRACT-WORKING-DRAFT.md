@@ -1,7 +1,7 @@
 # Goal 21 — Product contract working draft
 
 Date: 2026-11-02  
-Status: Working draft — awaiting real reference reports and product-owner sign-off
+Status: Grounded working draft — real reference report selected; product-owner sign-off pending
 
 ## Working product statement
 
@@ -15,7 +15,7 @@ The original product documents already support this direction:
 - `BF-01` defines the operating chain as Blueprint → Assignment → Field Execution → Evidence → Validation → Submission → Processing → Intelligence, and states that the mobile runtime dynamically renders governed workflows.
 - `BF-03` defines Blueprint Studio, 1..N workflow steps, assigned work as the mobile home experience, evidence capture, offline status, sync, reporting, and final customer-facing intelligence as the intended architecture.
 
-These documents establish the product direction. They do not yet provide the concrete first project report, approved jobsheet layout, field vocabulary, or final report example required to sign off Goal 21.
+These documents establish the product direction. The supplied Fire Protection System Monthly Service Report now provides the concrete first report example needed to define the first BinaField contract.
 
 ## Candidate reference scenarios found
 
@@ -26,6 +26,71 @@ The retained architecture material names three representative scenarios:
 - Utility Pump Preventive Maintenance — asset scan, readings, calculations, and photo.
 
 These are suitable candidates for the first vertical slice, but they are design scenarios rather than confirmed customer report files. One must be selected and matched to a real report before the contract is signed off.
+
+## Selected reference report
+
+The first reference workflow is based on the supplied report:
+
+`C:\Users\user\Documents\00-NHL Global Solution\P08-FireMaint\tests\sample report\KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN SERVICE REPORT-4G10-OCTOBER 2026.pdf`
+
+Reference characteristics observed in the 50-page PDF:
+
+- Fire Protection System Monthly Service Report, October 2026, code 4G10.
+- Customer/project: Kementerian Perumahan dan Kerajaan Tempatan (KPKT).
+- Service provider: FA Success Technology; accepting organisation: HBS Engineering Sdn Bhd.
+- Cover includes prepared-by and accepted-by signature areas.
+- Summary page contains seven system rows with system, trouble, action, and remark information.
+- Detailed pages contain system-specific checklists, normal/faulty status, remarks, equipment status tables, issue details, photographs, service-team certification, and customer acceptance.
+
+This is the first concrete report-to-jobsheet reference. The PDF remains a confidential source example; BinaField stores its structured contract and generated output, not an uncontrolled document copy.
+
+## Reference workflow derived from the report
+
+Working name: **Fire Protection System Monthly Service Report**
+
+1. **Job and reporting period** — customer/project, report code, service month, service date, site/location, assigned service team.
+2. **System summary** — repeat one row for each fire-protection system; record condition, trouble, action, and remark.
+3. **Detailed inspection** — complete each governed system checklist; record Normal/Faulty or Pass/Fail and remarks.
+4. **Issue register** — capture trouble, supervisory signal, defective device, reading, location, recommended action, and related system.
+5. **Evidence** — attach photos/supporting evidence with capture time and integrity metadata.
+6. **Service completion** — service team declares completion and submits the jobsheet.
+7. **Review and acceptance** — supervisor reviews/corrects/approves; customer or accepting organisation signs or acknowledges.
+
+### Report-specific field contract
+
+| Area | Fields or rules |
+|---|---|
+| Report identity | Report title, report code, service month, service date, revision, prepared-by, accepted-by |
+| Customer/site | Customer/project, site/location, address, service area, control-room/building reference |
+| System summary | Repeatable system, condition/status, trouble, action, remark; seven systems are represented in the reference |
+| Detailed checklist | System, component/check item, Normal/Faulty or Pass/Fail, required state, technician remark |
+| Equipment status | Equipment/component, status, remark, related system |
+| Issue register | Issue type, device/component, location, severity, status, description, recommended action, related system |
+| Evidence | Photo/file, caption, captured time, optional location, source device, integrity/hash metadata |
+| Completion | Service team members, completion declaration, completion time, outstanding work |
+| Approval | Supervisor decision, correction note, reviewer, review time, customer acknowledgement, signature/date/stamp |
+| Follow-up | Corrective action reference, target date, next service date, unresolved issue state |
+
+### Report-specific calculations
+
+- Systems inspected; normal/pass/faulty/fail counts; open trouble count.
+- Required checklist completion and evidence completeness.
+- Report readiness only when required sections, evidence, declarations, and approval prerequisites are complete.
+
+### Report-specific output layout
+
+1. Branded cover and report identity
+2. Customer, project, site, and service details
+3. Seven-system monthly summary
+4. Detailed system inspection sections
+5. Equipment/component status tables
+6. Trouble, supervisory, and issue register
+7. Photo and supporting evidence
+8. Service-team certification
+9. Supervisor review and customer acceptance
+10. Corrective actions, next service, outstanding items, and audit appendix
+
+This replaces the earlier generic maintenance slice as the concrete Goal 21 reference. The generic asset/checklist/finding model below remains reusable, but the first vertical slice must honour the system-summary, detailed checklist, issue-register, and acceptance structure above.
 
 ## Internal reference workflow found
 
@@ -43,8 +108,8 @@ The FireMaint report-engine documentation separates canonical report data from a
 
 ## Proposed first vertical slice
 
-Working name: **Maintenance Service Report**
-Source reference: FireMaint maintenance-report contract and controlled field pilot runbook
+Working name: **Fire Protection System Monthly Service Report**
+Source reference: supplied KPKT 4G10 October 2026 PDF, FireMaint maintenance-report contract, and controlled field pilot runbook
 
 ### Jobsheet workflow
 
@@ -195,18 +260,18 @@ The concrete report and project are intentionally not invented in this draft.
 
 ## Current assumptions requiring confirmation
 
-- First reference report: **not supplied**.
-- First project type: **not supplied**.
-- Required output format: PDF, HTML, or both — **not confirmed**.
-- Import priority: Excel, Word, PDF, or existing BinaField report — **not ranked**.
-- Signature roles and approval sequence — **not confirmed**.
-- Required calculations and conditional rules — **not confirmed**.
-- Customer sharing/download policy — **not confirmed**.
+- First reference report: **supplied and selected** — KPKT 4G10 October 2026.
+- First project type: **fire protection system monthly servicing**.
+- Required output format: **PDF and browser-readable HTML recommended; final choice pending**.
+- Import priority: **reference PDF used for contract mapping; structured template authoring is first implementation path**.
+- Signature sequence: **service team declaration → supervisor review → customer/accepting organisation acknowledgement; confirm whether customer signature is mandatory**.
+- Calculations: **system/checklist completion, status counts, open trouble count, evidence completeness, and report readiness; confirm thresholds**.
+- Customer sharing: **approved report only; confirm link, download, or both**.
 
 ## Sign-off checklist
 
-- [ ] Real reference report attached or linked.
-- [ ] Report sections and fields mapped.
+- [x] Real reference report attached or linked.
+- [x] Report sections and fields mapped.
 - [ ] Jobsheet layout approved.
 - [ ] Evidence and signature rules approved.
 - [ ] Supervisor workflow approved.
@@ -217,4 +282,8 @@ The concrete report and project are intentionally not invented in this draft.
 
 ## Next input required
 
-Provide one real report file or representative image/PDF, plus the project type and who completes/reviews it. That material will be used to replace the assumptions above with the first signed-off BinaField contract.
+Confirm these three product decisions so the grounded draft can become the signed contract:
+
+1. Should BinaField reproduce the full detailed structure, or is the summary/checklist/issue/evidence subset sufficient for the first release?
+2. Is customer/accepting-organisation signature mandatory before finalisation, or may supervisor approval issue the report first?
+3. Should approved reports be delivered as PDF, HTML, or both?
