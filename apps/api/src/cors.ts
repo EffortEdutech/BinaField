@@ -6,8 +6,15 @@ export function allowedOrigins(env: string | undefined): string[] {
 }
 const HEADERS = 'authorization, content-type, x-device-id, x-correlation-id, idempotency-key';
 
+function originAllowed(origin: string, origins: string[]): boolean {
+  if (origins.includes(origin)) return true;
+  // Git-connected Vercel previews have a generated middle segment. Keep the
+  // allow-list scoped to BinaField's two known projects and team domain.
+  return /^https:\/\/(?:binafield-admin-studio|bina-field)-[a-z0-9-]+-eff-edus-projects\.vercel\.app$/.test(origin);
+}
+
 function corsHeaders(origin: string | null, origins: string[]): Record<string, string> {
-  if (!origin || !origins.includes(origin)) return {};
+  if (!origin || !originAllowed(origin, origins)) return {};
   return { 'access-control-allow-origin': origin, vary: 'Origin', 'access-control-expose-headers': 'x-correlation-id' };
 }
 /** Answers a preflight request, or returns null when the request is not a preflight. */

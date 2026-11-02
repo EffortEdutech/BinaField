@@ -11,6 +11,12 @@ describe('cors', () => {
     expect(r.headers.get('access-control-allow-origin')).toBe('https://bina-field.vercel.app');
     for (const h of ['authorization', 'x-device-id', 'idempotency-key', 'content-type']) expect(r.headers.get('access-control-allow-headers')).toContain(h);
   });
+  it('answers preflight from a generated BinaField Vercel preview', () => {
+    const origin = 'https://binafield-admin-studio-7l8cr7202-eff-edus-projects.vercel.app';
+    const r = preflight(req('OPTIONS', origin), O)!;
+    expect(r.status).toBe(204);
+    expect(r.headers.get('access-control-allow-origin')).toBe(origin);
+  });
   it('refuses a preflight from another origin and ignores non-preflight requests', () => {
     expect(preflight(req('OPTIONS', 'https://evil.test'), O)!.status).toBe(403);
     expect(preflight(req('GET', 'https://bina-field.vercel.app'), O)).toBeNull();
