@@ -300,3 +300,32 @@ Confirm these three product decisions so the grounded draft can become the signe
 1. Should BinaField reproduce the full PDF/XLSX structure as the first jobsheet, including all repeatable rows?
 2. Is DOA representative verification mandatory before finalisation, or may an administrator approve first?
 3. Should approved reports be delivered as PDF, HTML, or both?
+
+## Live acceptance runbook
+
+The remaining evidence must be captured with a fresh pilot token; tokens must not be committed or written into evidence files.
+
+From `apps/admin-web`:
+
+```powershell
+$env:BINAField_TOKEN = Read-Host "Pilot token"
+npm run smoke
+```
+
+Then execute the Kebuniti acceptance path:
+
+1. Create or select the Kebuniti template and publish the Blueprint fixture.
+2. Create a Kebuniti deployment and issue an assignment to the registered field membership/device.
+3. Sign in to the Field PWA using the normal user login and sync the assignment.
+4. Complete visit context, at least one activity row, one harvest row, one resource row, crop-progress photo, prepared-by signature, and DOA verification signature.
+5. Save once offline, reload/restore the draft, reconnect, and sync the evidence and submission.
+6. In Admin Studio, confirm the submission, review history, and accept the submission.
+7. Open the Kebuniti report preview and verify the structured rows, calculations, evidence count, readiness state, provenance, and print layout.
+
+Required evidence bundle:
+
+- Admin authenticated desktop screenshot showing the issued Kebuniti assignment.
+- PWA desktop/mobile screenshots showing login, generated jobsheet, structured repeat rows, photo/signature capture, offline status, and successful sync.
+- Admin review screenshot showing the accepted submission and history.
+- Kebuniti report preview/print screenshot showing calculated totals and provenance.
+- `npm run check:kebuniti` output and the existing Admin/PWA build outputs.
