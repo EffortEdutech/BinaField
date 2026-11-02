@@ -17,6 +17,16 @@ The original product documents already support this direction:
 
 These documents establish the product direction. They do not yet provide the concrete first project report, approved jobsheet layout, field vocabulary, or final report example required to sign off Goal 21.
 
+## Candidate reference scenarios found
+
+The retained architecture material names three representative scenarios:
+
+- Agriculture Farm Audit — GPS, yield, irrigation, photo, and signature.
+- Construction Site Safety Inspection — pass/fail checks, hazards, repeat items, and evidence.
+- Utility Pump Preventive Maintenance — asset scan, readings, calculations, and photo.
+
+These are suitable candidates for the first vertical slice, but they are design scenarios rather than confirmed customer report files. One must be selected and matched to a real report before the contract is signed off.
+
 ## Reference workflow to finalize
 
 The first accepted workflow will be:
