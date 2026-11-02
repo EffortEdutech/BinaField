@@ -1,0 +1,97 @@
+{
+  "schema": "bf-blueprint/1.0",
+  "schema_version": "1.0",
+  "compatibility": {
+    "min_runtime_version": "1.0.0",
+    "component_registry_version": "1.0.0"
+  },
+  "template": {
+    "template_id": "tpl-kebuniti-field-data-log",
+    "version_id": "tv-kebuniti-field-data-log-v1",
+    "name": "Kebuniti Field Data Log"
+  },
+  "settings": { "locale": "en-MY", "on_hide": "retain" },
+  "workflow_steps": [
+    {
+      "step_id": "visit-context",
+      "title": "Visit context",
+      "sections": [
+        {
+          "section_id": "identity",
+          "title": "Field visit identity",
+          "components": [
+            { "field_id": "form_id", "component": "text", "label": "Form ID", "required": true, "config": { "default": "KEBUNITI/RAW/2026/W44" }, "analytics": { "enabled": true, "semantic_key": "kebuniti.form_id", "classification": "INTERNAL" } },
+            { "field_id": "entry_date", "component": "date", "label": "Date of entry", "required": true, "config": {}, "analytics": { "enabled": true, "semantic_key": "kebuniti.entry_date", "classification": "INTERNAL" } },
+            { "field_id": "recording_officer", "component": "text", "label": "Recording officer", "required": true, "config": {}, "analytics": { "enabled": false } },
+            { "field_id": "community_group", "component": "text", "label": "Community group", "required": true, "config": {}, "analytics": { "enabled": true, "semantic_key": "kebuniti.community_group", "classification": "INTERNAL" } },
+            { "field_id": "plot_zone", "component": "text", "label": "Location / plot zone", "required": true, "config": {}, "analytics": { "enabled": true, "semantic_key": "kebuniti.plot_zone", "classification": "SENSITIVE_OPERATIONAL" } },
+            { "field_id": "state_district", "component": "text", "label": "State / district", "required": true, "config": {}, "analytics": { "enabled": true, "semantic_key": "kebuniti.state_district", "classification": "INTERNAL" } }
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "activities",
+      "title": "Daily field activity",
+      "sections": [
+        {
+          "section_id": "activity-log",
+          "title": "Activity log",
+          "components": [
+            { "field_id": "activities", "component": "repeat_group", "label": "Daily activities", "required": true, "config": { "min_items": 1, "columns": ["activity_type", "status", "hours_spent", "participants", "field_notes", "target_blocks"], "options": ["Land prep & tilling", "Sowing / transplanting", "Weeding & pruning", "Irrigation & water check", "Fertilizer application", "Pest & disease control"] }, "analytics": { "enabled": true, "semantic_key": "kebuniti.activities", "classification": "INTERNAL" } }
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "harvest-and-inputs",
+      "title": "Harvest and resource audit",
+      "sections": [
+        {
+          "section_id": "yield-record",
+          "title": "Produce and yield harvest record",
+          "components": [
+            { "field_id": "harvest_records", "component": "repeat_group", "label": "Harvest records", "required": false, "config": { "columns": ["crop_variety", "plot_number", "raw_weight_kg", "quality_grade", "destination"], "quality_grades": ["A", "B", "C"] }, "analytics": { "enabled": true, "semantic_key": "kebuniti.harvest_records", "classification": "INTERNAL", "unit": "kg" } }
+          ]
+        },
+        {
+          "section_id": "input-audit",
+          "title": "Resource and input audit",
+          "components": [
+            { "field_id": "resource_inputs", "component": "repeat_group", "label": "Resource and input records", "required": false, "config": { "columns": ["material_type", "brand_variety_code", "quantity_consumed", "unit", "logistics_reference"], "units": ["kg", "L", "m3"] }, "analytics": { "enabled": true, "semantic_key": "kebuniti.resource_inputs", "classification": "INTERNAL" } }
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "evidence-and-validation",
+      "title": "Evidence and validation",
+      "sections": [
+        {
+          "section_id": "photos",
+          "title": "Field photo documentation",
+          "components": [
+            { "field_id": "crop_progress_photo", "component": "camera", "label": "Crop progress / harvesting activity", "required": true, "config": { "min_items": 1, "max_items": 4, "watermark_derivative": true }, "analytics": { "enabled": false } },
+            { "field_id": "resource_issue_photo", "component": "camera", "label": "Resource / infrastructure / issues", "required": false, "config": { "max_items": 4, "watermark_derivative": true }, "analytics": { "enabled": false } },
+            { "field_id": "general_notes", "component": "paragraph", "label": "General notes / incident logs", "required": false, "config": { "max_length": 2000 }, "analytics": { "enabled": false } }
+          ]
+        },
+        {
+          "section_id": "sign-off",
+          "title": "Field validation",
+          "components": [
+            { "field_id": "prepared_by_signature", "component": "signature", "label": "Prepared by (on-site field officer)", "required": true, "config": {}, "analytics": { "enabled": false } },
+            { "field_id": "doa_verification_signature", "component": "signature", "label": "Verified by (DOA representative)", "required": true, "config": {}, "analytics": { "enabled": false } }
+          ]
+        }
+      ]
+    }
+  ],
+  "validations": [],
+  "rules": [],
+  "calculations": [],
+  "submission_policy": { "allow_offline_submit": true, "require_all_required_evidence": true },
+  "sync_policy": { "offline_capable": true, "reference_dataset_ids": [] },
+  "processing_routes": [],
+  "analytics": { "enabled": true }
+}
