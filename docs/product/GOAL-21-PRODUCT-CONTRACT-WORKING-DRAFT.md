@@ -279,6 +279,20 @@ The concrete report and project are intentionally not invented in this draft.
 - [ ] Sample completed submission approved.
 - [ ] End-to-end acceptance scenarios approved.
 
+## Implementation traceability
+
+| Contract requirement | Current evidence | State |
+|---|---|---|
+| Kebuniti report structure and fields | `packages/test-fixtures/phase1-gate/vs01/kebuniti-field-data-blueprint.json` and `npm run check:kebuniti` | Implemented and automated-checkable |
+| Generated jobsheet rendering | Field PWA Blueprint normalization and structured repeat-row editor | Implemented; requires live assignment visual evidence |
+| Offline drafts and sync submission | Existing Field PWA local session/outbox pipeline plus Kebuniti offline policy | Implemented in platform; live Kebuniti execution pending |
+| Photo evidence and signatures | Kebuniti Blueprint camera/signature components and submission evidence manifest | Implemented; live capture pending |
+| Calculations | Kebuniti report projection calculates activity count, hours, participants, harvest kg, resource count, evidence count, readiness | Implemented; live submitted payload pending |
+| Supervisor approval | Existing submission review queue and review endpoint | Implemented; live Kebuniti review pending |
+| Final report output | Protected Kebuniti report projection, Admin preview, and print action | Implemented; live report rendering pending |
+| Roles, login, and device onboarding | Existing normal login, organisation permissions, registered-device sync path | Implemented in platform; live role/device evidence pending |
+| End-to-end acceptance | Admin → PWA → submission → review → report scenario defined | Pending authenticated execution and product-owner sign-off |
+
 ## Next input required
 
 Confirm these three product decisions so the grounded draft can become the signed contract:
