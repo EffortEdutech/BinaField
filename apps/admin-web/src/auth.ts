@@ -10,3 +10,8 @@ export async function login(email: string, password: string): Promise<Session> {
   if (!r.ok) throw new Error(r.status === 400 ? "LOGIN_REJECTED" : "AUTH_UNAVAILABLE");
   const j = await r.json(); const session = { accessToken: j.access_token, refreshToken: j.refresh_token, expiresAt: Date.now() + (j.expires_in ?? 3600) * 1000, email: j.user?.email ?? email }; save(session); return session;
 }
+export async function refreshSession(session: Session): Promise<Session> {
+  const r = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, { method: "POST", headers: { apikey: ANON_KEY, "content-type": "application/json" }, body: JSON.stringify({ refresh_token: session.refreshToken }) });
+  if (!r.ok) throw new Error("SESSION_EXPIRED");
+  const j = await r.json(); const next = { accessToken: j.access_token, refreshToken: j.refresh_token ?? session.refreshToken, expiresAt: Date.now() + (j.expires_in ?? 3600) * 1000, email: j.user?.email ?? session.email }; save(next); return next;
+}

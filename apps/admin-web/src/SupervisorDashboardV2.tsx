@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { loadSession, login, logout } from "./auth";
+import { useEffect, useState } from "react";
+import { loadSession, login, logout, refreshSession } from "./auth";
 const API = "https://binafield-api.vercel.app/api";
 const DEFAULT_ORG = "a0000000-0000-4000-8000-000000000001";
 export default function SupervisorDashboardV2() {
@@ -36,6 +36,7 @@ export default function SupervisorDashboardV2() {
   const h = () => ({ authorization: `Bearer ${token}` });
   const signIn = async () => { try { const session = await login(email, password); setToken(session.accessToken); setPassword(""); setMessage("Signed in successfully."); } catch (e) { setMessage(`Sign-in failed: ${String(e)}`); } };
   const signOut = () => { logout(); setToken(""); setContext(undefined); setMessage("Signed out."); };
+  useEffect(() => { const timer = window.setInterval(async () => { const session = loadSession(); if (!session) return; if (session.expiresAt - Date.now() < 120000) { try { const next = await refreshSession(session); setToken(next.accessToken); } catch { signOut(); setMessage("Your session expired. Please sign in again."); } } }, 60000); return () => window.clearInterval(timer); }, []);
   const read = async (r: Response) => {
     const b = await r.json();
     if (!r.ok) throw new Error(`${b.code ?? r.status}: ${b.detail ?? ""}`);
