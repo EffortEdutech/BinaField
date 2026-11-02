@@ -18,6 +18,7 @@ const checks = [
   ['keyboard focus styling', /focus-visible/.test(styles),],
   ['print styling/action', /window\.print|print/.test(dashboard + workspace)],
   ['normal admin login without token field', /type="email"[\s\S]*autoComplete="username"/.test(dashboard) && /Sign in/.test(dashboard) && !/aria-label="Bearer token"/.test(dashboard)],
+  ['authenticated organisation selection', /fetch\(`\$\{API\}\/organizations`/.test(dashboard) && /aria-label="Organisation"/.test(dashboard) && !/aria-label="Organisation ID"/.test(dashboard)],
 ];
 
 const result = { pass: checks.every(([, pass]) => pass), checks: checks.map(([name, pass]) => ({ name, pass })) };

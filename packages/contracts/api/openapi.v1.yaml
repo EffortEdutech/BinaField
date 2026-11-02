@@ -9,6 +9,21 @@ servers:
 security:
 - bearerAuth: []
 paths:
+  /organizations:
+    get:
+      operationId: listMyOrganizations
+      summary: List active organisations for the signed-in user
+      security:
+      - bearerAuth: []
+      parameters:
+      - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Organisations available to the authenticated identity
+        '401':
+          description: Authentication required
+        '503':
+          description: Temporary service failure
   /organizations/{organization_id}/projects:
     get:
       operationId: listProjects

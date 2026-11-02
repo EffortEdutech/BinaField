@@ -35,6 +35,32 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     return json(p.ok ? 200 : 503, { status: p.ok ? 'ok' : 'degraded', database: p.ok, ...(p.ok ? {} : { reason: p.reason ?? 'UNKNOWN' }) }, { 'x-correlation-id': correlationId });
   }
 
+  // The signed-in user chooses from memberships they actually hold.  This keeps
+  // organisation discovery inside the authenticated API instead of exposing a
+  // UUID field in the client.
+  if (req.method === 'GET' && path === '/organizations') {
+    const bearer = bearerFrom(req.headers.get('authorization'));
+    if (!bearer) return problem(401, 'AUTHENTICATION_REQUIRED', 'Bearer token required', correlationId);
+    let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
+    try {
+      return await deps.db.tx(async (q) => {
+        const rows = await q.query(`
+          SELECT o.id, o.slug, o.name, o.lifecycle_state, m.id AS membership_id,
+                 m.lifecycle_state AS membership_state,
+                 COALESCE(json_agg(DISTINCT r.role_key) FILTER (WHERE r.role_key IS NOT NULL), '[]') AS roles
+          FROM iam.memberships m
+          JOIN iam.users u ON u.id = m.user_id
+          JOIN iam.organizations o ON o.id = m.organization_id
+          LEFT JOIN iam.membership_roles mr ON mr.organization_id = m.organization_id AND mr.membership_id = m.id
+          LEFT JOIN iam.roles r ON r.id = mr.role_id
+          WHERE u.identity_subject = $1 AND m.lifecycle_state = 'ACTIVE' AND o.lifecycle_state = 'ACTIVE'
+          GROUP BY o.id, o.slug, o.name, o.lifecycle_state, m.id, m.lifecycle_state
+          ORDER BY o.name`, [token.sub]);
+        return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
+      });
+    } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
+  }
+
   const device = /^\/organizations\/([^/]+)\/devices(?:\/([^/]+))?$/.exec(path);
   if (req.method === 'GET' && device) {
     const organizationId = device[1]!;

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { loadSession, login, logout, refreshSession } from "./auth";
 const API = "https://binafield-api.vercel.app/api";
-const DEFAULT_ORG = "a0000000-0000-4000-8000-000000000001";
 export default function SupervisorDashboardV2() {
-  const [org, setOrg] = useState(DEFAULT_ORG),
+  const [org, setOrg] = useState(""),
+    [organisations, setOrganisations] = useState<any[]>([]),
     [token, setToken] = useState(loadSession()?.accessToken ?? ""),
     [email, setEmail] = useState(loadSession()?.email ?? ""),
     [password, setPassword] = useState(""),
@@ -34,8 +34,15 @@ export default function SupervisorDashboardV2() {
     ),
     [scopeProject, setScopeProject] = useState("");
   const h = () => ({ authorization: `Bearer ${token}` });
-  const signIn = async () => { try { const session = await login(email, password); setToken(session.accessToken); setPassword(""); setMessage("Signed in successfully."); } catch (e) { setMessage(`Sign-in failed: ${String(e)}`); } };
-  const signOut = () => { logout(); setToken(""); setContext(undefined); setMessage("Signed out."); };
+  const loadOrganisations = async (accessToken = token) => {
+    const data = await read(await fetch(`${API}/organizations`, { headers: { authorization: `Bearer ${accessToken}` } }));
+    const items = data.items ?? [];
+    setOrganisations(items);
+    setOrg((current) => current && items.some((item: any) => item.id === current) ? current : items[0]?.id ?? "");
+    return items;
+  };
+  const signIn = async () => { try { const session = await login(email, password); setToken(session.accessToken); setPassword(""); const items = await loadOrganisations(session.accessToken); setMessage(items.length ? "Signed in. Choose an organisation to continue." : "Signed in, but no active organisation membership was found."); } catch (e) { setMessage(`Sign-in failed: ${String(e)}`); } };
+  const signOut = () => { logout(); setToken(""); setContext(undefined); setOrganisations([]); setOrg(""); setMessage("Signed out."); };
   useEffect(() => { const timer = window.setInterval(async () => { const session = loadSession(); if (!session) return; if (session.expiresAt - Date.now() < 120000) { try { const next = await refreshSession(session); setToken(next.accessToken); } catch { signOut(); setMessage("Your session expired. Please sign in again."); } } }, 60000); return () => window.clearInterval(timer); }, []);
   const read = async (r: Response) => {
     const b = await r.json();
@@ -43,6 +50,7 @@ export default function SupervisorDashboardV2() {
     return b;
   };
   const refresh = async () => {
+    if (!org) { setMessage("Choose an organisation first."); return; }
     setLoading(true);
     setMessage("Loading organisation data…");
     try {
@@ -233,15 +241,7 @@ export default function SupervisorDashboardV2() {
       </header>
       <section className="card">
         <h2>Organisation context</h2>
-        <label>
-          Organisation ID
-          <input
-            aria-label="Organisation ID"
-            value={org}
-            onChange={(e) => setOrg(e.target.value)}
-          />
-        </label>
-        {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><button onClick={refresh} disabled={loading}>{loading ? "Loading…" : "Load Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
+        {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><label>Organisation<select aria-label="Organisation" value={org} onChange={(e) => setOrg(e.target.value)}><option value="">Choose an organisation</option>{organisations.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button onClick={refresh} disabled={loading || !org}>{loading ? "Loading…" : "Open Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
         {message && (
           <p
             className={
