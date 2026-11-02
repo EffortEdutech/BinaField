@@ -1,7 +1,7 @@
 # Goal 21 — Product contract working draft
 
 Date: 2026-11-02  
-Status: Grounded working draft — real reference report selected; product-owner sign-off pending
+Status: Grounded working draft — Kebuniti reference report and field workbook selected; product-owner sign-off pending
 
 ## Working product statement
 
@@ -15,7 +15,7 @@ The original product documents already support this direction:
 - `BF-01` defines the operating chain as Blueprint → Assignment → Field Execution → Evidence → Validation → Submission → Processing → Intelligence, and states that the mobile runtime dynamically renders governed workflows.
 - `BF-03` defines Blueprint Studio, 1..N workflow steps, assigned work as the mobile home experience, evidence capture, offline status, sync, reporting, and final customer-facing intelligence as the intended architecture.
 
-These documents establish the product direction. The supplied Fire Protection System Monthly Service Report now provides the concrete first report example needed to define the first BinaField contract.
+These documents establish the product direction. The supplied Kebuniti PDF/XLSX pair now provides the concrete first report and field-input example needed to define the first BinaField contract.
 
 ## Candidate reference scenarios found
 
@@ -27,70 +27,69 @@ The retained architecture material names three representative scenarios:
 
 These are suitable candidates for the first vertical slice, but they are design scenarios rather than confirmed customer report files. One must be selected and matched to a real report before the contract is signed off.
 
-## Selected reference report
+## Selected reference report and field workbook
 
-The first reference workflow is based on the supplied report:
+The first reference workflow is based on these supplied files:
 
-`C:\Users\user\Documents\00-NHL Global Solution\P08-FireMaint\tests\sample report\KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN SERVICE REPORT-4G10-OCTOBER 2026.pdf`
+`C:\Users\user\Documents\00-NHL Global Solution\P12-BinaField\temp\sample report\Kebuniti.pdf`
 
-Reference characteristics observed in the 50-page PDF:
+`C:\Users\user\Documents\00-NHL Global Solution\P12-BinaField\temp\sample report\Kebuniti_Field_Data_Log (1).xlsx`
 
-- Fire Protection System Monthly Service Report, October 2026, code 4G10.
-- Customer/project: Kementerian Perumahan dan Kerajaan Tempatan (KPKT).
-- Service provider: FA Success Technology; accepting organisation: HBS Engineering Sdn Bhd.
-- Cover includes prepared-by and accepted-by signature areas.
-- Summary page contains seven system rows with system, trouble, action, and remark information.
-- Detailed pages contain system-specific checklists, normal/faulty status, remarks, equipment status tables, issue details, photographs, service-team certification, and customer acceptance.
+Reference characteristics observed in the PDF and workbook:
 
-This is the first concrete report-to-jobsheet reference. The PDF remains a confidential source example; BinaField stores its structured contract and generated output, not an uncontrolled document copy.
+- Programme: Program Kebun Komuniti (Kebuniti).
+- Authority: Kementerian Pertanian dan Keterjaminan Makanan (KPKM) and Jabatan Pertanian Malaysia.
+- Form ID: KEBUNITI/RAW/2026/W44; entry date: 02 November 2026.
+- The PDF is a one-page printable form and the XLSX is the editable field-data log with the same structure.
+- The form contains five sections: daily field activity; produce and yield harvest record; resource and input audit; field photo documentation; field incidents and validation.
+- It identifies the recording officer, community group, location/plot zone, state/district, prepared-by officer, and DOA representative verifier.
+
+This is the first concrete report-to-jobsheet reference. BinaField should store the governed structured contract and generated output, not depend on an uncontrolled PDF or spreadsheet upload at runtime.
 
 ## Reference workflow derived from the report
 
-Working name: **Fire Protection System Monthly Service Report**
+Working name: **Kebuniti Field Data Log**
 
-1. **Job and reporting period** — customer/project, report code, service month, service date, site/location, assigned service team.
-2. **System summary** — repeat one row for each fire-protection system; record condition, trouble, action, and remark.
-3. **Detailed inspection** — complete each governed system checklist; record Normal/Faulty or Pass/Fail and remarks.
-4. **Issue register** — capture trouble, supervisory signal, defective device, reading, location, recommended action, and related system.
-5. **Evidence** — attach photos/supporting evidence with capture time and integrity metadata.
-6. **Service completion** — service team declares completion and submits the jobsheet.
-7. **Review and acceptance** — supervisor reviews/corrects/approves; customer or accepting organisation signs or acknowledges.
+1. **Visit context** — form ID, entry date, recording officer, community group, plot zone, state/district.
+2. **Daily activities** — repeat the six activity rows; record status, hours, participants, notes, and target blocks.
+3. **Harvest/yield** — repeat crop rows; record plot, raw weight, quality grade, and market/distribution destination.
+4. **Resource/input audit** — repeat input rows; record brand/variety, quantity, unit, and logistics reference.
+5. **Photo evidence** — capture crop/harvest evidence and resource/infrastructure/issue evidence with captions.
+6. **Incidents and validation** — record general notes/incidents, prepared-by officer, and DOA verification.
+7. **Submission** — validate required fields/evidence, sign, and submit for review.
 
 ### Report-specific field contract
 
 | Area | Fields or rules |
 |---|---|
-| Report identity | Report title, report code, service month, service date, revision, prepared-by, accepted-by |
-| Customer/site | Customer/project, site/location, address, service area, control-room/building reference |
-| System summary | Repeatable system, condition/status, trouble, action, remark; seven systems are represented in the reference |
-| Detailed checklist | System, component/check item, Normal/Faulty or Pass/Fail, required state, technician remark |
-| Equipment status | Equipment/component, status, remark, related system |
-| Issue register | Issue type, device/component, location, severity, status, description, recommended action, related system |
-| Evidence | Photo/file, caption, captured time, optional location, source device, integrity/hash metadata |
-| Completion | Service team members, completion declaration, completion time, outstanding work |
-| Approval | Supervisor decision, correction note, reviewer, review time, customer acknowledgement, signature/date/stamp |
-| Follow-up | Corrective action reference, target date, next service date, unresolved issue state |
+| Visit identity | Form ID, entry date, recording officer, community group, location/plot zone, state/district |
+| Daily activity | Activity type, status, hours spent, participant count, field notes, target blocks |
+| Harvest/yield | Crop variety, block/plot number, raw weight kg, quality grade A/B/C, destination |
+| Resource/input | Material type, brand/variety code, quantity consumed, unit kg/L/m³, logistics reference |
+| Evidence | Crop/harvest photo, resource/infrastructure/issue photo, caption, captured time, device and integrity metadata |
+| Incidents | General notes, incident type, severity/status, related activity/crop/resource, follow-up |
+| Validation | Prepared-by officer, signature/date, DOA representative, verification decision, signature/date |
 
 ### Report-specific calculations
 
-- Systems inspected; normal/pass/faulty/fail counts; open trouble count.
-- Required checklist completion and evidence completeness.
-- Report readiness only when required sections, evidence, declarations, and approval prerequisites are complete.
+- Activities completed = activity rows marked active/completed.
+- Total participants and hours = sums of valid activity-row values.
+- Total harvest weight = sum of valid crop weights; yield by crop, plot, grade, and destination.
+- Total resource consumption = grouped by material and unit; never combine incompatible units.
+- Report readiness = required context, required sections, evidence, prepared-by declaration, and DOA verification prerequisites complete.
 
 ### Report-specific output layout
 
-1. Branded cover and report identity
-2. Customer, project, site, and service details
-3. Seven-system monthly summary
-4. Detailed system inspection sections
-5. Equipment/component status tables
-6. Trouble, supervisory, and issue register
-7. Photo and supporting evidence
-8. Service-team certification
-9. Supervisor review and customer acceptance
-10. Corrective actions, next service, outstanding items, and audit appendix
+1. Kebuniti form identity and visit context
+2. Daily field activity table
+3. Produce and yield harvest table
+4. Resource and input audit table
+5. Field photo evidence
+6. Incidents, notes, and validation
+7. Prepared-by and DOA verification
+8. BinaField audit appendix and submission history
 
-This replaces the earlier generic maintenance slice as the concrete Goal 21 reference. The generic asset/checklist/finding model below remains reusable, but the first vertical slice must honour the system-summary, detailed checklist, issue-register, and acceptance structure above.
+This replaces the earlier Fire Protection maintenance slice as the concrete Goal 21 reference. The generic asset/checklist/finding model below remains reusable, but the first vertical slice must honour the Kebuniti activity, yield, input, evidence, and validation structure above.
 
 ## Internal reference workflow found
 
@@ -108,8 +107,8 @@ The FireMaint report-engine documentation separates canonical report data from a
 
 ## Proposed first vertical slice
 
-Working name: **Fire Protection System Monthly Service Report**
-Source reference: supplied KPKT 4G10 October 2026 PDF, FireMaint maintenance-report contract, and controlled field pilot runbook
+Working name: **Kebuniti Field Data Log**
+Source reference: supplied Kebuniti PDF/XLSX pair and the BinaField product contract
 
 ### Jobsheet workflow
 
@@ -260,12 +259,12 @@ The concrete report and project are intentionally not invented in this draft.
 
 ## Current assumptions requiring confirmation
 
-- First reference report: **supplied and selected** — KPKT 4G10 October 2026.
-- First project type: **fire protection system monthly servicing**.
+- First reference report: **supplied and selected** — Kebuniti PDF/XLSX.
+- First project type: **community agriculture field monitoring**.
 - Required output format: **PDF and browser-readable HTML recommended; final choice pending**.
 - Import priority: **reference PDF used for contract mapping; structured template authoring is first implementation path**.
-- Signature sequence: **service team declaration → supervisor review → customer/accepting organisation acknowledgement; confirm whether customer signature is mandatory**.
-- Calculations: **system/checklist completion, status counts, open trouble count, evidence completeness, and report readiness; confirm thresholds**.
+- Signature sequence: **field officer preparation → DOA representative verification; confirm whether a later administrator review is required**.
+- Calculations: **activity participation/hours, harvest totals, resource consumption grouped by unit, evidence completeness, and report readiness**.
 - Customer sharing: **approved report only; confirm link, download, or both**.
 
 ## Sign-off checklist
@@ -284,6 +283,6 @@ The concrete report and project are intentionally not invented in this draft.
 
 Confirm these three product decisions so the grounded draft can become the signed contract:
 
-1. Should BinaField reproduce the full detailed structure, or is the summary/checklist/issue/evidence subset sufficient for the first release?
-2. Is customer/accepting-organisation signature mandatory before finalisation, or may supervisor approval issue the report first?
+1. Should BinaField reproduce the full PDF/XLSX structure as the first jobsheet, including all repeatable rows?
+2. Is DOA representative verification mandatory before finalisation, or may an administrator approve first?
 3. Should approved reports be delivered as PDF, HTML, or both?
