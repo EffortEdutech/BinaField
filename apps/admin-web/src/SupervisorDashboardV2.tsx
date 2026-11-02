@@ -19,6 +19,10 @@ export default function SupervisorDashboardV2() {
     [project, setProject] = useState(""),
     [message, setMessage] = useState(""),
     [loading, setLoading] = useState(false),
+    [assignmentSearch, setAssignmentSearch] = useState(""),
+    [assignmentState, setAssignmentState] = useState("ALL"),
+    [assignmentPage, setAssignmentPage] = useState(0),
+    [workspaceView, setWorkspaceView] = useState<"workspace" | "reports">("workspace"),
     [roleMember, setRoleMember] = useState(""),
     [roleId, setRoleId] = useState(""),
     [roleScope, setRoleScope] = useState<"ORG_WIDE" | "PROJECT_RESTRICTED">(
@@ -184,6 +188,8 @@ export default function SupervisorDashboardV2() {
     ...(metrics.overdue ? [{ label: `${metrics.overdue} overdue assignment${metrics.overdue === 1 ? "" : "s"}`, href: "#administration" }] : []),
     ...(submissions.filter((s) => s.status === "RECEIVED").length ? [{ label: `${submissions.filter((s) => s.status === "RECEIVED").length} submission${submissions.filter((s) => s.status === "RECEIVED").length === 1 ? "" : "s"} awaiting review`, href: "#review" }] : []),
   ];
+  const assignmentRows = assignments.filter((a) => (assignmentState === "ALL" || a.lifecycle_state === assignmentState) && (!assignmentSearch || `${a.id} ${a.operational_subject_ref?.label ?? ""}`.toLowerCase().includes(assignmentSearch.toLowerCase()))).sort((a, b) => new Date(b.updated_at ?? 0).getTime() - new Date(a.updated_at ?? 0).getTime());
+  const visibleAssignments = assignmentRows.slice(assignmentPage * 8, assignmentPage * 8 + 8);
   return (
     <main className="shell">
       <div className="app-frame">
@@ -265,6 +271,7 @@ export default function SupervisorDashboardV2() {
             <section className="card attention-card"><div className="section-heading"><div><p className="eyebrow">Needs attention</p><h2>Keep work moving</h2></div><span className="attention-count">{attention.length}</span></div>{attention.length ? <ul>{attention.map((item) => <li key={item.label}><span className="attention-icon">!</span><a href={item.href}>{item.label}<small>Open workspace →</small></a></li>)}</ul> : <div className="clear-state"><span>✓</span><strong>Everything is on track</strong><small>No urgent actions detected in the loaded records.</small></div>}</section>
           </section>
           <section className="card recent-card"><div className="section-heading"><div><p className="eyebrow">Activity stream</p><h2>Recent submissions</h2></div><a href="#review">Open review queue →</a></div>{latestActivity.length ? <div className="recent-list">{latestActivity.map((s) => <a href="#review" key={s.attempt_id}><span className={`status-chip ${String(s.status).toLowerCase()}`}>{s.status}</span><span><strong>{s.attempt_id.slice(0, 8)}</strong><small>{s.project_id ? `Project ${s.project_id.slice(0, 8)}` : "Organisation submission"}</small></span><time>{s.received_at ? new Date(s.received_at).toLocaleString() : "Time unavailable"}</time><span className="chevron">→</span></a>)}</div> : <div className="empty-state"><strong>No submissions yet</strong><span>When field work arrives, the latest activity will appear here.</span><a href="#administration">View assignments →</a></div>}</section>
+          <section className="card workspace-panel" id="workspace"><div className="section-heading"><div><p className="eyebrow">Operations workspace</p><h2>Assignments & submissions</h2><p className="muted">Search, filter, and move directly to the work record.</p></div></div><div className="workspace-filters"><input aria-label="Search assignments" placeholder="Search assignment ID or subject" value={assignmentSearch} onChange={(e) => { setAssignmentSearch(e.target.value); setAssignmentPage(0); }} /><select aria-label="Filter assignment state" value={assignmentState} onChange={(e) => { setAssignmentState(e.target.value); setAssignmentPage(0); }}><option>ALL</option><option>ASSIGNED</option><option>IN_PROGRESS</option><option>SUBMITTED</option><option>COMPLETED</option><option>CANCELLED</option></select><a href="#review">Review submissions →</a></div>{visibleAssignments.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Assignment</th><th>Project</th><th>Status</th><th>Updated</th><th /></tr></thead><tbody>{visibleAssignments.map((a) => <tr key={a.id}><td><strong>{a.id.slice(0, 8)}</strong><small>{a.operational_subject_ref?.label ?? "Field assignment"}</small></td><td>{a.project_id?.slice(0, 8) ?? "—"}</td><td><span className={`status-chip ${String(a.lifecycle_state).toLowerCase()}`}>{a.lifecycle_state}</span></td><td>{a.updated_at ? new Date(a.updated_at).toLocaleDateString() : "—"}</td><td><a href="#administration">Open →</a></td></tr>)}</tbody></table></div> : <div className="empty-state"><strong>No assignments match your filters</strong><span>Try clearing the search or selecting another status.</span></div>}<div className="timeline"><h3>Submission timeline</h3>{latestActivity.length ? latestActivity.slice(0, 3).map((s) => <div className="timeline-item" key={s.attempt_id}><span className="timeline-dot" /><span><strong>{s.status}</strong><small>{s.attempt_id.slice(0, 8)} · {s.received_at ? new Date(s.received_at).toLocaleString() : "time unavailable"}</small></span></div>) : <p className="muted">No submission events yet.</p>}</div></section>
           <section className="grid" id="administration">
             <section className="card">
               <h2>Organisation administration</h2>
