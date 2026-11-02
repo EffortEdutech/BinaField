@@ -43,7 +43,7 @@ The FireMaint report-engine documentation separates canonical report data from a
 
 ## Proposed first vertical slice
 
-Working name: **Maintenance Service Report**  
+Working name: **Maintenance Service Report**
 Source reference: FireMaint maintenance-report contract and controlled field pilot runbook
 
 ### Jobsheet workflow
