@@ -80,7 +80,7 @@ try {
   await client.query(`INSERT INTO ops.assignments (id, organization_id, project_id, deployment_id, template_version_id, assignee_membership_id, operational_subject_ref, lifecycle_state, issued_at)
     VALUES ($1::uuid,$2::uuid,$3::uuid,$4::uuid,$5::uuid,$6::uuid,$7::jsonb,'ASSIGNED',now()) ON CONFLICT (organization_id,id) DO UPDATE SET operational_subject_ref=EXCLUDED.operational_subject_ref, lifecycle_state='ASSIGNED', updated_at=now()`, [plan.assignment_id, org, project.rows[0].id, plan.deployment_id, version.rows[0].id, memberId, JSON.stringify({ label: `${environment} seeded site check`, seed_key: 'site-check' })]);
   await client.query(`INSERT INTO audit.audit_events (id, organization_id, actor_type, actor_id, action_key, target_type, target_id, result, metadata_json, correlation_id)
-    VALUES ($1,$2,'MEMBERSHIP',$3,'seed.operational_data','organization',$2,'SUCCEEDED',$4::jsonb,$5)`, [crypto.randomUUID(), org, memberId, JSON.stringify({ environment, seed_key: 'site-check', mode: 'idempotent' }), crypto.randomUUID()]);
+    VALUES ($1::uuid,$2::uuid,'MEMBERSHIP',$3::text,'seed.operational_data','organization',$4::text,'SUCCEEDED',$5::jsonb,$6::uuid)`, [crypto.randomUUID(), org, memberId, org, JSON.stringify({ environment, seed_key: 'site-check', mode: 'idempotent' }), crypto.randomUUID()]);
   await client.query('COMMIT');
   console.log(JSON.stringify({ status: 'SEEDED', organization_id: org, environment, project_id: project.rows[0].id, template_id: template.rows[0].id, version_id: version.rows[0].id, deployment_id: plan.deployment_id, assignment_id: plan.assignment_id }, null, 2));
 } catch (error) {
