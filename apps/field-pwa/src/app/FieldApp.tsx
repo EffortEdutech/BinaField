@@ -16,6 +16,7 @@ import {
 } from "./submit";
 import { q } from "./store";
 import { files } from "../spikes/fileClient";
+import { api } from "./api";
 import "./field.css";
 
 type Row = Record<string, any>;
@@ -46,6 +47,17 @@ export default function FieldApp() {
   const [open, setOpen] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
+  const [deviceState, setDeviceState] = useState<"ACTIVE" | "PENDING" | "SUSPENDED" | "REVOKED" | "UNKNOWN">("UNKNOWN");
+  const verifyIdentity = useCallback(async () => {
+    const result = await api<Row>(set, "GET", "/me");
+    if (result.status !== 200 || !result.body) {
+      setDeviceState(result.status === 403 ? "PENDING" : "UNKNOWN");
+      return false;
+    }
+    const state = String(result.body.device_state ?? "NOT_REGISTERED");
+    setDeviceState(state === "ACTIVE" ? "ACTIVE" : state === "SUSPENDED" ? "SUSPENDED" : state === "REVOKED" ? "REVOKED" : "PENDING");
+    return state === "ACTIVE";
+  }, [set]);
   const refresh = useCallback(async () => {
     setAssignments(await listAssignments());
     setOutbox(await listOutbox());
@@ -57,6 +69,10 @@ export default function FieldApp() {
   }, []);
   const syncNow = useCallback(async () => {
     if (!hasSession()) return;
+    if (deviceState !== "ACTIVE" && !(await verifyIdentity())) {
+      setMsg("This device is not ready yet. Ask your organisation administrator to activate it.");
+      return;
+    }
     setMsg("Syncing…");
     const p = await pull(set);
     const o = await runOutbox(set);
@@ -70,7 +86,7 @@ export default function FieldApp() {
         : `Sync needs attention: ${p.reason ?? "try again when online"}`,
     );
     await refresh();
-  }, [set, refresh]);
+  }, [set, refresh, deviceState, verifyIdentity]);
   const flush = useCallback(async () => {
     if (hasSession()) {
       await runOutbox(set);
@@ -102,8 +118,9 @@ export default function FieldApp() {
       await login(set, email, pw);
       setSignedIn(true);
       setPw("");
-      setMsg("Signed in.");
-      void syncNow();
+      const ready = await verifyIdentity();
+      setMsg(ready ? "Signed in. Device ready." : "Signed in. Device registration is waiting for administrator activation.");
+      if (ready) void syncNow();
     } catch (e: any) {
       setMsg(`Sign-in failed: ${e.message}`);
     }
@@ -182,6 +199,13 @@ export default function FieldApp() {
               Sign out
             </button>
           </div>
+          {deviceState !== "ACTIVE" && (
+            <section className="card notice" data-testid="device-onboarding">
+              <h2>Device setup</h2>
+              <p>{deviceState === "SUSPENDED" ? "This device is suspended. Contact your administrator." : deviceState === "REVOKED" ? "This device is no longer authorised. Contact your administrator." : "Your account is signed in. An administrator must activate this device before assignments can sync."}</p>
+              <p className="muted">No technical keys or device codes are required here.</p>
+            </section>
+          )}
           {cases.length > 0 && (
             <section className="card notice error" data-testid="cases">
               <h2>Needs your attention ({cases.length})</h2>

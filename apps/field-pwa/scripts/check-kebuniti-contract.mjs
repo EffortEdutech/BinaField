@@ -17,6 +17,7 @@ const checks = [
   ['prepared and DOA signatures', required.slice(-2).every((id) => components.find((c) => c.field_id === id)?.component === 'signature')],
   ['offline submission and evidence policy', blueprint.sync_policy?.offline_capable === true && blueprint.submission_policy?.allow_offline_submit === true && blueprint.submission_policy?.require_all_required_evidence === true],
   ['normal field login without technical settings', /data-testid="email"/.test(fieldApp) && /data-testid="password"/.test(fieldApp) && /Sign in/.test(fieldApp) && !/Save settings|anonKey|supabaseUrl/.test(fieldApp)],
+  ['guided device onboarding', /device-onboarding/.test(fieldApp) && /administrator must activate this device/.test(fieldApp) && /No technical keys/.test(fieldApp)],
 ];
 const result = { pass: checks.every(([, pass]) => pass), checks: checks.map(([name, pass]) => ({ name, pass })) };
 console.log(JSON.stringify(result, null, 2));

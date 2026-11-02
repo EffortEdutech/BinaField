@@ -1,4 +1,4 @@
-// Pilot defaults point at the BinaField demo organisation and device. Only publishable values live here; every one can be changed on the Settings screen.
+// Pilot defaults are internal runtime configuration. They are not rendered as user-facing settings.
 export interface Settings { apiBase: string; supabaseUrl: string; anonKey: string; organizationId: string; deviceId: string }
 export const DEFAULTS: Settings = {
   apiBase: 'https://binafield-api.vercel.app/api',
