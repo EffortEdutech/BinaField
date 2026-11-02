@@ -17,6 +17,7 @@ const checks = [
   ['responsive workspace rules', /@media\(max-width:720px\)/.test(workspace) && /@media\(max-width:720px\)/.test(styles)],
   ['keyboard focus styling', /focus-visible/.test(styles),],
   ['print styling/action', /window\.print|print/.test(dashboard + workspace)],
+  ['normal admin login without token field', /type="email"[\s\S]*autoComplete="username"/.test(dashboard) && /Sign in/.test(dashboard) && !/aria-label="Bearer token"/.test(dashboard)],
 ];
 
 const result = { pass: checks.every(([, pass]) => pass), checks: checks.map(([name, pass]) => ({ name, pass })) };
