@@ -52,9 +52,12 @@ const plan = {
 try {
   await client.query('BEGIN');
   await client.query('SET LOCAL ROLE app_runtime');
+  // Match the API runtime's transaction-local tenant context before any RLS-protected read.
+  await client.query('SELECT set_config(\'app.organization_id\', $1, true)', [org]);
   const membership = await client.query("SELECT id FROM iam.memberships WHERE organization_id=$1 AND lifecycle_state='ACTIVE' ORDER BY id LIMIT 1", [org]);
   if (!membership.rows[0]) throw new Error('No ACTIVE membership exists for the target organisation');
   const memberId = membership.rows[0].id;
+  await client.query('SELECT set_config(\'app.membership_id\', $1, true)', [memberId]);
   const existing = await client.query(`
     SELECT
       (SELECT count(*) FROM core.projects WHERE organization_id=$1 AND project_code=$2) AS projects,
