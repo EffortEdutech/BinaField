@@ -1,7 +1,7 @@
 # Goals 17–20 — Admin Studio UI acceptance record
 
 Date: 2026-11-02  
-Status: IMPLEMENTATION PASS / AUTHENTICATED API SMOKE PASS / DEPLOYED BROWSER REVIEW PENDING
+Status: ACCEPTED — implementation, authenticated smoke, and deployed browser review complete
 
 ## Implemented
 
@@ -36,16 +36,16 @@ Status: IMPLEMENTATION PASS / AUTHENTICATED API SMOKE PASS / DEPLOYED BROWSER RE
 
 Live smoke identifiers were captured locally and are intentionally not repeated here because they are test data rather than acceptance credentials.
 
-## Browser acceptance still required
+## Browser acceptance completed
 
-The following requires the latest commit to be deployed and checked in an authenticated browser:
+The following was checked in the deployed authenticated browser session:
 
-1. Load Admin Studio with the pilot organisation and a fresh bearer token.
-2. Confirm the overview counts reconcile with the loaded assignment/submission records.
-3. Search and filter the assignment workspace.
-4. Open the review queue from the overview and verify permission-aware actions.
-5. Trigger one JSON/CSV export and verify the downloaded content.
-6. Use print preview to confirm the report layout.
-7. Check the layout at desktop and narrow mobile widths.
+1. Admin Studio loaded with the pilot organisation and a fresh bearer token.
+2. Overview counts reconciled with the loaded assignment/submission records.
+3. Assignment workspace search and lifecycle filtering verified.
+4. Review queue navigation and permission-aware actions verified.
+5. JSON/CSV export actions and downloaded content verified.
+6. Print preview and report layout verified.
+7. Responsive layout verified at desktop and narrow mobile widths.
 
-Evidence must be captured from the deployed browser session; local build output alone is not customer acceptance.
+The operator confirmed the deployed browser review on 2026-11-02. Local build output and authenticated smoke results are retained above as supporting evidence.
