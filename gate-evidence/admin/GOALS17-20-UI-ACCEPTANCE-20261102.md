@@ -1,7 +1,7 @@
 # Goals 17–20 — Admin Studio UI acceptance record
 
 Date: 2026-11-02  
-Status: LOCAL IMPLEMENTATION PASS / DEPLOYED BROWSER REVIEW PENDING
+Status: IMPLEMENTATION PASS / AUTHENTICATED API SMOKE PASS / DEPLOYED BROWSER REVIEW PENDING
 
 ## Implemented
 
@@ -20,6 +20,21 @@ Status: LOCAL IMPLEMENTATION PASS / DEPLOYED BROWSER REVIEW PENDING
 - TypeScript compilation: PASS.
 - Vite production bundle: PASS.
 - `git diff --check`: PASS.
+
+## Authenticated smoke verification
+
+`apps/admin-web/npm run smoke` passed all 8 checks with a fresh local Supabase access token:
+
+- Organisation context
+- Organisation administration reads
+- Supervisor exports readable
+- Template creation
+- Version validate and publish
+- Assignment issued and persisted
+- Submission review queue readable
+- Supervisor decision and persisted outcome
+
+Live smoke identifiers were captured locally and are intentionally not repeated here because they are test data rather than acceptance credentials.
 
 ## Browser acceptance still required
 
