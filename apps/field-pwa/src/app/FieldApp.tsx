@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { loadSettings, saveSettings, type Settings } from "./config";
+import { loadSettings, type Settings } from "./config";
 import { login, logout, hasSession } from "./auth";
 import { pull, listAssignments } from "./sync";
 import { listOutbox, runOutbox } from "./outbox";
@@ -36,7 +36,7 @@ const operationLabel: Record<string, string> = {
 };
 
 export default function FieldApp() {
-  const [set, setSet] = useState<Settings>(loadSettings());
+  const [set] = useState<Settings>(loadSettings());
   const [signedIn, setSignedIn] = useState(hasSession());
   const [online, setOnline] = useState(navigator.onLine);
   const [msg, setMsg] = useState("");
@@ -44,7 +44,6 @@ export default function FieldApp() {
   const [outbox, setOutbox] = useState<Row[]>([]);
   const [cases, setCases] = useState<Row[]>([]);
   const [open, setOpen] = useState<string | null>(null);
-  const [showSettings, setShowSettings] = useState(false);
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const refresh = useCallback(async () => {
@@ -122,13 +121,7 @@ export default function FieldApp() {
             Work is saved on this device, even when offline.
           </p>
         </div>
-        <button
-          className="secondary"
-          onClick={() => setShowSettings((v) => !v)}
-          aria-expanded={showSettings}
-        >
-          Settings
-        </button>
+        <span className="status-pill">Device ready</span>
       </header>
       <div className="status-bar" aria-live="polite">
         <span
@@ -147,37 +140,6 @@ export default function FieldApp() {
           </span>
         )}
       </div>
-      {showSettings && (
-        <section className="card settings" aria-label="Settings">
-          {(
-            [
-              "apiBase",
-              "supabaseUrl",
-              "anonKey",
-              "organizationId",
-              "deviceId",
-            ] as const
-          ).map((k) => (
-            <label key={k}>
-              {k}
-              <input
-                value={set[k]}
-                onChange={(e) => setSet({ ...set, [k]: e.target.value })}
-              />
-            </label>
-          ))}
-          <div className="actions">
-            <button
-              onClick={() => {
-                saveSettings(set);
-                setMsg("Settings saved on this device.");
-              }}
-            >
-              Save settings
-            </button>
-          </div>
-        </section>
-      )}
       {!signedIn ? (
         <section className="card">
           <h2>Sign in to your organisation</h2>
