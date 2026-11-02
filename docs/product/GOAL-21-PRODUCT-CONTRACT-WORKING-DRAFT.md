@@ -7,6 +7,16 @@ Status: Working draft — awaiting real reference reports and product-owner sign
 
 BinaField converts an administrator-defined project report into a field jobsheet, captures the completed work in the PWA, supports supervisor review, and produces the final customer-ready report.
 
+## Existing product intent confirmed
+
+The original product documents already support this direction:
+
+- `BF-00` describes non-technical administrators designing field data-collection and operational workflow templates that transform into mobile user interfaces, with structured data, GPS, photos, signatures, validation, analytics, and reports.
+- `BF-01` defines the operating chain as Blueprint → Assignment → Field Execution → Evidence → Validation → Submission → Processing → Intelligence, and states that the mobile runtime dynamically renders governed workflows.
+- `BF-03` defines Blueprint Studio, 1..N workflow steps, assigned work as the mobile home experience, evidence capture, offline status, sync, reporting, and final customer-facing intelligence as the intended architecture.
+
+These documents establish the product direction. They do not yet provide the concrete first project report, approved jobsheet layout, field vocabulary, or final report example required to sign off Goal 21.
+
 ## Reference workflow to finalize
 
 The first accepted workflow will be:
