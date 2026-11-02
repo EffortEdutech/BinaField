@@ -27,6 +27,20 @@ The retained architecture material names three representative scenarios:
 
 These are suitable candidates for the first vertical slice, but they are design scenarios rather than confirmed customer report files. One must be selected and matched to a real report before the contract is signed off.
 
+## Internal reference workflow found
+
+The workspace also contains a concrete FireMaint maintenance-report implementation that may be a stronger first reference for BinaField. Its documented report data contract includes:
+
+- Organisation, client, site, job, and technician details
+- Asset/equipment rows and inspection results
+- Pass, attention, fail, and finding summaries
+- Findings, recommendations, and next-maintenance date
+- Photo evidence
+- Technician declaration and client acknowledgement
+- Branded PDF/HTML report output
+
+The FireMaint report-engine documentation separates canonical report data from a JSON-compatible layout and renderer. This is directly compatible with the BinaField direction of one report definition driving both the mobile jobsheet and final report. It remains a candidate input, not a signed-off BinaField workflow, until the product owner confirms that FireMaint maintenance reporting is the first target.
+
 ## Reference workflow to finalize
 
 The first accepted workflow will be:
