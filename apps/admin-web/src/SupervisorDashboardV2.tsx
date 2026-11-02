@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { loadSession, login, logout } from "./auth";
 const API = "https://binafield-api.vercel.app/api";
 const DEFAULT_ORG = "a0000000-0000-4000-8000-000000000001";
 export default function SupervisorDashboardV2() {
   const [org, setOrg] = useState(DEFAULT_ORG),
-    [token, setToken] = useState(""),
+    [token, setToken] = useState(loadSession()?.accessToken ?? ""),
+    [email, setEmail] = useState(loadSession()?.email ?? ""),
+    [password, setPassword] = useState(""),
     [context, setContext] = useState<any>(),
     [submissions, setSubmissions] = useState<any[]>([]),
     [assignments, setAssignments] = useState<any[]>([]),
@@ -31,6 +34,8 @@ export default function SupervisorDashboardV2() {
     ),
     [scopeProject, setScopeProject] = useState("");
   const h = () => ({ authorization: `Bearer ${token}` });
+  const signIn = async () => { try { const session = await login(email, password); setToken(session.accessToken); setPassword(""); setMessage("Signed in successfully."); } catch (e) { setMessage(`Sign-in failed: ${String(e)}`); } };
+  const signOut = () => { logout(); setToken(""); setContext(undefined); setMessage("Signed out."); };
   const read = async (r: Response) => {
     const b = await r.json();
     if (!r.ok) throw new Error(`${b.code ?? r.status}: ${b.detail ?? ""}`);
@@ -235,19 +240,7 @@ export default function SupervisorDashboardV2() {
             onChange={(e) => setOrg(e.target.value)}
           />
         </label>
-        <label>
-          Bearer token{" "}
-          <span className="muted">(kept in this browser only)</span>
-          <input
-            aria-label="Bearer token"
-            type="password"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-        </label>
-        <button onClick={refresh} disabled={!token || loading}>
-          {loading ? "Loading…" : "Load Admin Studio"}
-        </button>
+        {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><button onClick={refresh} disabled={loading}>{loading ? "Loading…" : "Load Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
         {message && (
           <p
             className={
