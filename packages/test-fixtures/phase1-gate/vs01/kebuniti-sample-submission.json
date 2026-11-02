@@ -1,0 +1,27 @@
+{
+  "form_id": "KEBUNITI/RAW/2026/W44",
+  "entry_date": "2026-11-02",
+  "recording_officer": "Sample field officer",
+  "community_group": "Kebuniti Demo Group",
+  "plot_zone": "Plot A-01",
+  "state_district": "Selangor / Petaling",
+  "activities": [
+    { "activity_type": "Land prep & tilling", "status": "COMPLETED", "hours_spent": 2, "participants": 4, "field_notes": "Beds prepared", "target_blocks": "A-01" },
+    { "activity_type": "Irrigation & water check", "status": "COMPLETED", "hours_spent": 1, "participants": 2, "field_notes": "Meter checked", "target_blocks": "A-01" }
+  ],
+  "harvest_records": [
+    { "crop_variety": "Spinach (Bayam)", "plot_number": "A-01", "raw_weight_kg": 12.5, "quality_grade": "A", "destination": "Community market" },
+    { "crop_variety": "Mustard Greens (Sawi)", "plot_number": "A-01", "raw_weight_kg": 8, "quality_grade": "B", "destination": "Community distribution" }
+  ],
+  "resource_inputs": [
+    { "material_type": "Organic Compost / Fertilizer", "brand_variety_code": "COMPOST-01", "quantity_consumed": 25, "unit": "kg", "logistics_reference": "DEL-2026-1102-01" },
+    { "material_type": "Irrigation Water (Meter Delta)", "brand_variety_code": "METER-A01", "quantity_consumed": 3, "unit": "m3", "logistics_reference": "METER-READ-01" }
+  ],
+  "evidence": [
+    { "field_id": "crop_progress_photo", "evidence_type": "PHOTO", "caption": "Spinach and sawi harvest at Plot A-01" },
+    { "field_id": "resource_issue_photo", "evidence_type": "PHOTO", "caption": "Irrigation meter and compost storage" }
+  ],
+  "general_notes": "No incidents. Crop condition acceptable.",
+  "prepared_by_signature": "Sample field officer",
+  "doa_verification_signature": "Sample DOA representative"
+}

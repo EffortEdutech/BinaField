@@ -284,6 +284,7 @@ The concrete report and project are intentionally not invented in this draft.
 | Contract requirement | Current evidence | State |
 |---|---|---|
 | Kebuniti report structure and fields | `packages/test-fixtures/phase1-gate/vs01/kebuniti-field-data-blueprint.json` and `npm run check:kebuniti` | Implemented and automated-checkable |
+| Completed sample data | `packages/test-fixtures/phase1-gate/vs01/kebuniti-sample-submission.json` | Implemented fixture; live submission pending |
 | Generated jobsheet rendering | Field PWA Blueprint normalization and structured repeat-row editor | Implemented; requires live assignment visual evidence |
 | Offline drafts and sync submission | Existing Field PWA local session/outbox pipeline plus Kebuniti offline policy | Implemented in platform; live Kebuniti execution pending |
 | Photo evidence and signatures | Kebuniti Blueprint camera/signature components and submission evidence manifest | Implemented; live capture pending |
