@@ -168,15 +168,28 @@ export default function SupervisorDashboardV2() {
   const canReview = context?.permissions?.includes("submission.review");
   return (
     <main className="shell">
-      <header>
+      <div className="app-frame">
+        <aside className="sidebar" aria-label="Primary navigation">
+          <div className="brand-lockup"><span className="brand-mark">BF</span><span><strong>BinaField</strong><small>Admin Studio</small></span></div>
+          <nav>
+            <a className="nav-item active" href="#overview">⌂ <span>Overview</span></a>
+            <a className="nav-item" href="#administration">▦ <span>Administration</span></a>
+            <a className="nav-item" href="#review">✓ <span>Review queue</span></a>
+            <a className="nav-item" href="#reports">◒ <span>Reports & exports</span></a>
+            <a className="nav-item" href="#audit">◌ <span>Audit trail</span></a>
+          </nav>
+          <div className="sidebar-foot"><span className="status-dot" /> Pilot workspace<br /><small>Protected session</small></div>
+        </aside>
+        <div className="workspace">
+      <header id="overview">
         <div>
           <p className="eyebrow">BinaField</p>
           <h1>Admin Studio</h1>
           <p className="muted">
-            Administration, supervisor review, audit, and exports
+            The calm command centre for field operations
           </p>
         </div>
-        <span className="badge">Goal 12</span>
+        <div className="header-actions"><span className="live-pill"><span className="status-dot" /> Live workspace</span><span className="badge">Goal 15</span></div>
       </header>
       <section className="card">
         <h2>Organisation context</h2>
@@ -218,7 +231,7 @@ export default function SupervisorDashboardV2() {
       </section>
       {context?.organization_id && (
         <>
-          <section className="grid">
+          <section className="grid" id="administration">
             <section className="card">
               <h2>Organisation administration</h2>
               <p>
@@ -380,7 +393,7 @@ export default function SupervisorDashboardV2() {
               )}
             </section>
           </section>
-          <section className="card">
+          <section className="card" id="reports">
             <h2>Activity summary</h2>
             <p>
               <strong>
@@ -427,7 +440,7 @@ export default function SupervisorDashboardV2() {
               />
             </label>
           </section>
-          <section className="card">
+          <section className="card" id="review">
             <h2>Exports</h2>
             <button onClick={() => exportData("assignments", "json")}>
               Assignments JSON
@@ -509,7 +522,7 @@ export default function SupervisorDashboardV2() {
             )}
           </section>
           <section className="grid">
-            <section className="card">
+            <section className="card" id="audit">
               <h2>Outcome history</h2>
               {history.length ? (
                 <ul>
@@ -540,6 +553,8 @@ export default function SupervisorDashboardV2() {
           </section>
         </>
       )}
+        </div>
+      </div>
     </main>
   );
 }
