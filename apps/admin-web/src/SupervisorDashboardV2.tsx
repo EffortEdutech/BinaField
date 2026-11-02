@@ -166,6 +166,24 @@ export default function SupervisorDashboardV2() {
       (!project || s.project_id === project),
   );
   const canReview = context?.permissions?.includes("submission.review");
+  const metrics = {
+    assigned: assignments.filter((a) => a.lifecycle_state === "ASSIGNED").length,
+    inProgress: assignments.filter((a) => a.lifecycle_state === "IN_PROGRESS").length,
+    submitted: assignments.filter((a) => a.lifecycle_state === "SUBMITTED").length,
+    accepted: submissions.filter((s) => s.status === "ACCEPTED").length,
+    rejected: submissions.filter((s) => s.status === "REJECTED").length,
+    overdue: assignments.filter((a) => a.due_at && new Date(a.due_at).getTime() < Date.now() && !["COMPLETED", "CANCELLED"].includes(a.lifecycle_state)).length,
+  };
+  const latestActivity = [...submissions].sort((a, b) => new Date(b.received_at ?? 0).getTime() - new Date(a.received_at ?? 0).getTime()).slice(0, 5);
+  const projectActivity = projects.map((p) => ({
+    ...p,
+    assigned: assignments.filter((a) => a.project_id === p.id).length,
+    submitted: submissions.filter((s) => s.project_id === p.id).length,
+  }));
+  const attention = [
+    ...(metrics.overdue ? [{ label: `${metrics.overdue} overdue assignment${metrics.overdue === 1 ? "" : "s"}`, href: "#administration" }] : []),
+    ...(submissions.filter((s) => s.status === "RECEIVED").length ? [{ label: `${submissions.filter((s) => s.status === "RECEIVED").length} submission${submissions.filter((s) => s.status === "RECEIVED").length === 1 ? "" : "s"} awaiting review`, href: "#review" }] : []),
+  ];
   return (
     <main className="shell">
       <div className="app-frame">
@@ -231,6 +249,22 @@ export default function SupervisorDashboardV2() {
       </section>
       {context?.organization_id && (
         <>
+          <section className="overview-hero" aria-labelledby="today-heading">
+            <div>
+              <p className="eyebrow">Operations overview</p>
+              <h2 id="today-heading">Today’s operations</h2>
+              <p className="muted">A live view of work moving through your organisation.</p>
+            </div>
+            <div className="freshness"><span className="status-dot" /> <strong>Live data</strong><small>Updated just now · {assignments.length + submissions.length} records loaded</small></div>
+          </section>
+          <section className="metric-grid" aria-label="Operational counts">
+            {[['Assigned', metrics.assigned, 'assigned', '#087e83'], ['In progress', metrics.inProgress, 'administration', '#3b73a8'], ['Submitted', metrics.submitted, 'review', '#8065b5'], ['Accepted', metrics.accepted, 'review', '#2b9868'], ['Rejected', metrics.rejected, 'review', '#c65353'], ['Overdue', metrics.overdue, 'administration', '#d58b22']].map(([label, value, href, color]) => <a className="metric-card" href={`#${href}`} key={String(label)}><span className="metric-accent" style={{ background: color as string }} /><small>{label}</small><strong>{value}</strong><span>View details →</span></a>)}
+          </section>
+          <section className="overview-grid">
+            <section className="card project-cards"><div className="section-heading"><div><p className="eyebrow">Portfolio pulse</p><h2>Project activity</h2></div><a href="#administration">View all →</a></div>{projectActivity.length ? <div className="project-list">{projectActivity.slice(0, 4).map((p) => <a href="#administration" className="project-card" key={p.id}><span className="project-icon">{(p.name ?? "P").slice(0, 1).toUpperCase()}</span><span><strong>{p.name}</strong><small>{p.lifecycle_state} · {p.assigned} assigned · {p.submitted} submitted</small></span><span className="chevron">→</span></a>)}</div> : <p className="empty-state">No projects are available in this workspace yet.</p>}</section>
+            <section className="card attention-card"><div className="section-heading"><div><p className="eyebrow">Needs attention</p><h2>Keep work moving</h2></div><span className="attention-count">{attention.length}</span></div>{attention.length ? <ul>{attention.map((item) => <li key={item.label}><span className="attention-icon">!</span><a href={item.href}>{item.label}<small>Open workspace →</small></a></li>)}</ul> : <div className="clear-state"><span>✓</span><strong>Everything is on track</strong><small>No urgent actions detected in the loaded records.</small></div>}</section>
+          </section>
+          <section className="card recent-card"><div className="section-heading"><div><p className="eyebrow">Activity stream</p><h2>Recent submissions</h2></div><a href="#review">Open review queue →</a></div>{latestActivity.length ? <div className="recent-list">{latestActivity.map((s) => <a href="#review" key={s.attempt_id}><span className={`status-chip ${String(s.status).toLowerCase()}`}>{s.status}</span><span><strong>{s.attempt_id.slice(0, 8)}</strong><small>{s.project_id ? `Project ${s.project_id.slice(0, 8)}` : "Organisation submission"}</small></span><time>{s.received_at ? new Date(s.received_at).toLocaleString() : "Time unavailable"}</time><span className="chevron">→</span></a>)}</div> : <div className="empty-state"><strong>No submissions yet</strong><span>When field work arrives, the latest activity will appear here.</span><a href="#administration">View assignments →</a></div>}</section>
           <section className="grid" id="administration">
             <section className="card">
               <h2>Organisation administration</h2>
