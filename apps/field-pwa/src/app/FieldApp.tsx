@@ -1,43 +1,580 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { loadSettings, saveSettings, type Settings } from './config';
-import { login, logout, hasSession } from './auth';
-import { pull, listAssignments } from './sync';
-import { listOutbox, runOutbox } from './outbox';
-import { addPhoto, blueprintFor, listPhotos, missingFields, openDraft, removePhoto, saveDraft, submit, type Blueprint } from './submit';
-import { q } from './store';
-import { files } from '../spikes/fileClient';
-import './field.css';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { loadSettings, saveSettings, type Settings } from "./config";
+import { login, logout, hasSession } from "./auth";
+import { pull, listAssignments } from "./sync";
+import { listOutbox, runOutbox } from "./outbox";
+import {
+  addPhoto,
+  blueprintFor,
+  listPhotos,
+  missingFields,
+  openDraft,
+  removePhoto,
+  saveDraft,
+  submit,
+  type Blueprint,
+} from "./submit";
+import { q } from "./store";
+import { files } from "../spikes/fileClient";
+import "./field.css";
 
 type Row = Record<string, any>;
-const statusLabel: Record<string, string> = { NOT_STARTED: 'Not started', IN_PROGRESS: 'In progress', SUBMITTED_PENDING_SYNC: 'Submitted — waiting to sync', SUBMITTED: 'Submitted', ACCEPTED: 'Accepted', REJECTED: 'Needs correction' };
-const operationLabel: Record<string, string> = { EVIDENCE_UPLOAD_INIT: 'Preparing photo', EVIDENCE_UPLOAD_PART: 'Uploading photo', EVIDENCE_UPLOAD_FINALIZE: 'Finishing photo', SUBMISSION_ATTEMPT_SEND: 'Sending submission', SYNC_ACK: 'Confirming sync' };
+const statusLabel: Record<string, string> = {
+  NOT_STARTED: "Not started",
+  IN_PROGRESS: "In progress",
+  SUBMITTED_PENDING_SYNC: "Submitted — waiting to sync",
+  SUBMITTED: "Submitted",
+  ACCEPTED: "Accepted",
+  REJECTED: "Needs correction",
+};
+const operationLabel: Record<string, string> = {
+  EVIDENCE_UPLOAD_INIT: "Preparing photo",
+  EVIDENCE_UPLOAD_PART: "Uploading photo",
+  EVIDENCE_UPLOAD_FINALIZE: "Finishing photo",
+  SUBMISSION_ATTEMPT_SEND: "Sending submission",
+  SYNC_ACK: "Confirming sync",
+};
 
 export default function FieldApp() {
-  const [set, setSet] = useState<Settings>(loadSettings()); const [signedIn, setSignedIn] = useState(hasSession());
-  const [online, setOnline] = useState(navigator.onLine); const [msg, setMsg] = useState(''); const [assignments, setAssignments] = useState<Row[]>([]); const [outbox, setOutbox] = useState<Row[]>([]); const [cases, setCases] = useState<Row[]>([]); const [open, setOpen] = useState<string | null>(null); const [showSettings, setShowSettings] = useState(false); const [email, setEmail] = useState(''); const [pw, setPw] = useState('');
-  const refresh = useCallback(async () => { setAssignments(await listAssignments()); setOutbox(await listOutbox()); setCases(await q("SELECT case_id, conflict_type, entity_id, status FROM reconciliation_case WHERE status IN ('OPEN','AWAITING_USER') ORDER BY created_at DESC")); }, []);
-  const syncNow = useCallback(async () => { if (!hasSession()) return; setMsg('Syncing…'); const p = await pull(set); const o = await runOutbox(set); setMsg(p.ok ? (o.failed ? `${o.succeeded} sent, ${o.failed} need retry.` : o.succeeded ? `${o.succeeded} item${o.succeeded === 1 ? '' : 's'} synced successfully.` : 'Everything is up to date.') : `Sync needs attention: ${p.reason ?? 'try again when online'}`); await refresh(); }, [set, refresh]);
-  const flush = useCallback(async () => { if (hasSession()) { await runOutbox(set); await refresh(); } }, [set, refresh]);
-  useEffect(() => { void refresh(); }, [refresh]);
-  useEffect(() => { const on = () => { setOnline(true); void syncNow(); }, off = () => setOnline(false); window.addEventListener('online', on); window.addEventListener('offline', off); const t = setInterval(() => { if (navigator.onLine) void flush(); }, 15000); return () => { window.removeEventListener('online', on); window.removeEventListener('offline', off); clearInterval(t); }; }, [syncNow, flush]);
-  const doLogin = async () => { try { await login(set, email, pw); setSignedIn(true); setPw(''); setMsg('Signed in.'); void syncNow(); } catch (e: any) { setMsg(`Sign-in failed: ${e.message}`); } };
-  const pending = outbox.filter((o) => !['SUCCEEDED', 'FAILED_FINAL', 'CANCELLED_BY_POLICY'].includes(o.state)).length;
-  return <main className="field-shell"><header className="field-header"><div><h1>BinaField Field</h1><p className="muted">Work is saved on this device, even when offline.</p></div><button className="secondary" onClick={() => setShowSettings((v) => !v)} aria-expanded={showSettings}>Settings</button></header>
-    <div className="status-bar" aria-live="polite"><span data-testid="status" className={`status-pill ${online ? '' : 'offline'}`}><span aria-hidden="true">{online ? '●' : '○'}</span> {online ? 'Online' : 'Offline'}</span><span className="status-pill"><span data-testid="pending">{pending}</span> waiting to send</span>{msg && <span data-testid="msg" className="muted">{msg}</span>}</div>
-    {showSettings && <section className="card settings" aria-label="Settings">{(['apiBase', 'supabaseUrl', 'anonKey', 'organizationId', 'deviceId'] as const).map((k) => <label key={k}>{k}<input value={set[k]} onChange={(e) => setSet({ ...set, [k]: e.target.value })} /></label>)}<div className="actions"><button onClick={() => { saveSettings(set); setMsg('Settings saved on this device.'); }}>Save settings</button></div></section>}
-    {!signedIn ? <section className="card"><h2>Sign in to your organisation</h2><label className="field">Email<input data-testid="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" /></label><label className="field">Password<input data-testid="password" type="password" value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="current-password" /></label><button data-testid="login" onClick={doLogin}>Sign in</button></section> : <>
-      <div className="actions"><button data-testid="sync" onClick={syncNow}>Sync now</button><button className="secondary" onClick={() => { logout(); setSignedIn(false); }}>Sign out</button></div>
-      {cases.length > 0 && <section className="card notice error" data-testid="cases"><h2>Needs your attention ({cases.length})</h2>{cases.map((c) => <p key={c.case_id}><strong>{c.conflict_type.replaceAll('_', ' ')}</strong><br /><small>{c.entity_id}</small></p>)}</section>}
-      <section aria-labelledby="assignments-heading"><h2 id="assignments-heading">Assignments</h2>{assignments.length === 0 && <p className="card muted" data-testid="no-assignments">No assignments on this device yet. Sync while online to check for new work.</p>}{assignments.map((a) => <Assignment key={a.assignment_id} set={set} assignment={a} open={open === a.assignment_id} onOpen={() => setOpen(open === a.assignment_id ? null : a.assignment_id)} onDone={async () => { setOpen(null); await refresh(); void flush(); }} />)}</section>
-      <section className="card"><h2>Sending</h2>{outbox.length === 0 ? <p className="muted">Nothing waiting to send.</p> : <ul className="outbox" data-testid="outbox">{outbox.map((o) => <li key={o.operation_id} data-state={o.state} data-type={o.operation_type}><strong>{operationLabel[o.operation_type] ?? o.operation_type.replaceAll('_', ' ')}</strong> · {o.state === 'SUCCEEDED' ? 'Complete' : o.state === 'FAILED_FINAL' ? 'Failed permanently' : o.state === 'QUEUED' ? 'Waiting for connection' : o.state === 'RUNNING' ? 'In progress' : 'Will retry'}{o.last_error_code ? ` · ${o.last_error_code}` : ''}</li>)}</ul>}</section>
-    </>}</main>;
+  const [set, setSet] = useState<Settings>(loadSettings());
+  const [signedIn, setSignedIn] = useState(hasSession());
+  const [online, setOnline] = useState(navigator.onLine);
+  const [msg, setMsg] = useState("");
+  const [assignments, setAssignments] = useState<Row[]>([]);
+  const [outbox, setOutbox] = useState<Row[]>([]);
+  const [cases, setCases] = useState<Row[]>([]);
+  const [open, setOpen] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const [email, setEmail] = useState("");
+  const [pw, setPw] = useState("");
+  const refresh = useCallback(async () => {
+    setAssignments(await listAssignments());
+    setOutbox(await listOutbox());
+    setCases(
+      await q(
+        "SELECT case_id, conflict_type, entity_id, status FROM reconciliation_case WHERE status IN ('OPEN','AWAITING_USER') ORDER BY created_at DESC",
+      ),
+    );
+  }, []);
+  const syncNow = useCallback(async () => {
+    if (!hasSession()) return;
+    setMsg("Syncing…");
+    const p = await pull(set);
+    const o = await runOutbox(set);
+    setMsg(
+      p.ok
+        ? o.failed
+          ? `${o.succeeded} sent, ${o.failed} need retry.`
+          : o.succeeded
+            ? `${o.succeeded} item${o.succeeded === 1 ? "" : "s"} synced successfully.`
+            : "Everything is up to date."
+        : `Sync needs attention: ${p.reason ?? "try again when online"}`,
+    );
+    await refresh();
+  }, [set, refresh]);
+  const flush = useCallback(async () => {
+    if (hasSession()) {
+      await runOutbox(set);
+      await refresh();
+    }
+  }, [set, refresh]);
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+  useEffect(() => {
+    const on = () => {
+        setOnline(true);
+        void syncNow();
+      },
+      off = () => setOnline(false);
+    window.addEventListener("online", on);
+    window.addEventListener("offline", off);
+    const t = setInterval(() => {
+      if (navigator.onLine) void flush();
+    }, 15000);
+    return () => {
+      window.removeEventListener("online", on);
+      window.removeEventListener("offline", off);
+      clearInterval(t);
+    };
+  }, [syncNow, flush]);
+  const doLogin = async () => {
+    try {
+      await login(set, email, pw);
+      setSignedIn(true);
+      setPw("");
+      setMsg("Signed in.");
+      void syncNow();
+    } catch (e: any) {
+      setMsg(`Sign-in failed: ${e.message}`);
+    }
+  };
+  const pending = outbox.filter(
+    (o) =>
+      !["SUCCEEDED", "FAILED_FINAL", "CANCELLED_BY_POLICY"].includes(o.state),
+  ).length;
+  return (
+    <main className="field-shell">
+      <header className="field-header">
+        <div>
+          <h1>BinaField Field</h1>
+          <p className="muted">
+            Work is saved on this device, even when offline.
+          </p>
+        </div>
+        <button
+          className="secondary"
+          onClick={() => setShowSettings((v) => !v)}
+          aria-expanded={showSettings}
+        >
+          Settings
+        </button>
+      </header>
+      <div className="status-bar" aria-live="polite">
+        <span
+          data-testid="status"
+          className={`status-pill ${online ? "" : "offline"}`}
+        >
+          <span aria-hidden="true">{online ? "●" : "○"}</span>{" "}
+          {online ? "Online" : "Offline"}
+        </span>
+        <span className="status-pill">
+          <span data-testid="pending">{pending}</span> waiting to send
+        </span>
+        {msg && (
+          <span data-testid="msg" className="muted">
+            {msg}
+          </span>
+        )}
+      </div>
+      {showSettings && (
+        <section className="card settings" aria-label="Settings">
+          {(
+            [
+              "apiBase",
+              "supabaseUrl",
+              "anonKey",
+              "organizationId",
+              "deviceId",
+            ] as const
+          ).map((k) => (
+            <label key={k}>
+              {k}
+              <input
+                value={set[k]}
+                onChange={(e) => setSet({ ...set, [k]: e.target.value })}
+              />
+            </label>
+          ))}
+          <div className="actions">
+            <button
+              onClick={() => {
+                saveSettings(set);
+                setMsg("Settings saved on this device.");
+              }}
+            >
+              Save settings
+            </button>
+          </div>
+        </section>
+      )}
+      {!signedIn ? (
+        <section className="card">
+          <h2>Sign in to your organisation</h2>
+          <label className="field">
+            Email
+            <input
+              data-testid="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+            />
+          </label>
+          <label className="field">
+            Password
+            <input
+              data-testid="password"
+              type="password"
+              value={pw}
+              onChange={(e) => setPw(e.target.value)}
+              autoComplete="current-password"
+            />
+          </label>
+          <button data-testid="login" onClick={doLogin}>
+            Sign in
+          </button>
+        </section>
+      ) : (
+        <>
+          <div className="actions">
+            <button data-testid="sync" onClick={syncNow}>
+              Sync now
+            </button>
+            <button
+              className="secondary"
+              onClick={() => {
+                logout();
+                setSignedIn(false);
+              }}
+            >
+              Sign out
+            </button>
+          </div>
+          {cases.length > 0 && (
+            <section className="card notice error" data-testid="cases">
+              <h2>Needs your attention ({cases.length})</h2>
+              {cases.map((c) => (
+                <p key={c.case_id}>
+                  <strong>{c.conflict_type.replaceAll("_", " ")}</strong>
+                  <br />
+                  <small>{c.entity_id}</small>
+                </p>
+              ))}
+            </section>
+          )}
+          <section aria-labelledby="assignments-heading">
+            <h2 id="assignments-heading">Assignments</h2>
+            {assignments.length === 0 && (
+              <p className="card muted" data-testid="no-assignments">
+                No assignments on this device yet. Sync while online to check
+                for new work.
+              </p>
+            )}
+            {assignments.map((a) => (
+              <Assignment
+                key={a.assignment_id}
+                set={set}
+                assignment={a}
+                open={open === a.assignment_id}
+                onOpen={() =>
+                  setOpen(open === a.assignment_id ? null : a.assignment_id)
+                }
+                onDone={async () => {
+                  setOpen(null);
+                  await refresh();
+                  void flush();
+                }}
+              />
+            ))}
+          </section>
+          <section className="card">
+            <h2>Sending</h2>
+            {outbox.length === 0 ? (
+              <p className="muted">Nothing waiting to send.</p>
+            ) : (
+              <ul className="outbox" data-testid="outbox">
+                {outbox.map((o) => (
+                  <li
+                    key={o.operation_id}
+                    data-state={o.state}
+                    data-type={o.operation_type}
+                  >
+                    <strong>
+                      {operationLabel[o.operation_type] ??
+                        o.operation_type.replaceAll("_", " ")}
+                    </strong>{" "}
+                    ·{" "}
+                    {o.state === "SUCCEEDED"
+                      ? "Complete"
+                      : o.state === "FAILED_FINAL"
+                        ? "Failed permanently"
+                        : o.state === "QUEUED"
+                          ? "Waiting for connection"
+                          : o.state === "RUNNING"
+                            ? "In progress"
+                            : "Will retry"}
+                    {o.last_error_code ? ` · ${o.last_error_code}` : ""}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </>
+      )}
+    </main>
+  );
 }
 
-function Assignment({ set, assignment, open, onOpen, onDone }: { set: Settings; assignment: Row; open: boolean; onOpen: () => void; onDone: () => void }) { const subject = JSON.parse(assignment.subject_json); const status = statusLabel[assignment.local_execution_status] ?? assignment.local_execution_status; return <article className="card" data-testid="assignment"><div className="assignment-head"><div><h3>{subject.name ?? subject.label ?? assignment.assignment_id.slice(0, 8)}</h3><p className="muted">Revision {assignment.authoritative_revision}</p></div><span data-testid="exec-status" className="status-pill">{status}</span></div>{assignment.local_execution_status === 'NOT_STARTED' || assignment.local_execution_status === 'IN_PROGRESS' ? <div className="actions"><button data-testid="open-form" onClick={onOpen}>{open ? 'Close assignment' : assignment.local_execution_status === 'IN_PROGRESS' ? 'Continue' : 'Start assignment'}</button></div> : null}{open && <Form set={set} assignment={assignment} onDone={onDone} />}</article>; }
+function Assignment({
+  set,
+  assignment,
+  open,
+  onOpen,
+  onDone,
+}: {
+  set: Settings;
+  assignment: Row;
+  open: boolean;
+  onOpen: () => void;
+  onDone: () => void;
+}) {
+  const subject = JSON.parse(assignment.subject_json);
+  const status =
+    statusLabel[assignment.local_execution_status] ??
+    assignment.local_execution_status;
+  return (
+    <article className="card" data-testid="assignment">
+      <div className="assignment-head">
+        <div>
+          <h3>
+            {subject.name ??
+              subject.label ??
+              assignment.assignment_id.slice(0, 8)}
+          </h3>
+          <p className="muted">Revision {assignment.authoritative_revision}</p>
+        </div>
+        <span data-testid="exec-status" className="status-pill">
+          {status}
+        </span>
+      </div>
+      {assignment.local_execution_status === "NOT_STARTED" ||
+      assignment.local_execution_status === "IN_PROGRESS" ? (
+        <div className="actions">
+          <button data-testid="open-form" onClick={onOpen}>
+            {open
+              ? "Close assignment"
+              : assignment.local_execution_status === "IN_PROGRESS"
+                ? "Continue"
+                : "Start assignment"}
+          </button>
+        </div>
+      ) : null}
+      {open && <Form set={set} assignment={assignment} onDone={onDone} />}
+    </article>
+  );
+}
 
-function Form({ set, assignment, onDone }: { set: Settings; assignment: Row; onDone: () => void }) { const [bp, setBp] = useState<Blueprint | null>(null); const [sid, setSid] = useState(''); const [payload, setPayload] = useState<Record<string, unknown>>({}); const [photos, setPhotos] = useState<Row[]>([]); const [err, setErr] = useState(''); const [busy, setBusy] = useState(false); const file = useRef<HTMLInputElement>(null); const photoField = useRef('');
-  useEffect(() => { (async () => { const b = await blueprintFor(assignment.template_version_id); setBp(b?.bp ?? null); const d = await openDraft(set, assignment.assignment_id); setSid(d.session.session_id); setPayload(d.payload); setPhotos(await listPhotos(d.session.session_id)); })(); }, [assignment.assignment_id, assignment.template_version_id, set]);
-  const change = (id: string, v: unknown) => { const n = { ...payload, [id]: v }; setPayload(n); void saveDraft(set, sid, n); }; const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => { const f = e.target.files?.[0]; if (!f) return; await addPhoto(set, sid, assignment.assignment_id, photoField.current, f); setPhotos(await listPhotos(sid)); e.target.value = ''; }; const send = async () => { setBusy(true); setErr(''); try { const r = await submit(set, sid); if (r.missing.length) setErr(`Please complete: ${r.missing.join(', ')}`); else onDone(); } catch (e: any) { setErr(`Could not save submission: ${e.message}`); } finally { setBusy(false); } };
-  if (!sid) return <p className="muted">Opening assignment…</p>; if (!bp) return <p className="notice error">This form is not on the device yet. Connect and press Sync now.</p>; const miss = missingFields(bp, payload, photos.map((p) => p.field_id)); return <div data-testid="form"><h3>{bp.title}</h3><p className="muted">Your answers save automatically. You can submit when all required fields are complete.</p><input ref={file} type="file" accept="image/*" capture="environment" data-testid="file" style={{ display: 'none' }} onChange={onFile} />{bp.fields.map((f) => <div className="field" key={f.id}><label htmlFor={`f-${f.id}`}>{f.label}{f.required ? ' *' : ''}</label>{f.type === 'select' && <select id={`f-${f.id}`} data-testid={`f-${f.id}`} value={String(payload[f.id] ?? '')} onChange={(e) => change(f.id, e.target.value)}><option value="">Select an option</option>{f.options?.map((o) => <option key={o}>{o}</option>)}</select>}{f.type === 'date' && <input id={`f-${f.id}`} data-testid={`f-${f.id}`} type="date" value={String(payload[f.id] ?? '')} onChange={(e) => change(f.id, e.target.value)} />}{f.type === 'number' && <input id={`f-${f.id}`} data-testid={`f-${f.id}`} type="number" min="0" value={String(payload[f.id] ?? '')} onChange={(e) => change(f.id, e.target.value)} />}{(f.type === 'text' || f.type === 'repeat_group' || f.type === 'signature') && <textarea id={`f-${f.id}`} data-testid={`f-${f.id}`} placeholder={f.type === 'repeat_group' ? 'Enter one row per line using the fields defined in this section.' : f.type === 'signature' ? 'Type your name to sign this declaration.' : undefined} value={String(payload[f.id] ?? '')} onChange={(e) => change(f.id, e.target.value)} />}{f.type === 'photo' && <><button type="button" className="secondary" data-testid={`add-${f.id}`} onClick={() => { photoField.current = f.id; file.current?.click(); }}>{photos.some((p) => p.field_id === f.id) ? 'Add another photo' : 'Take / choose photo'}</button><div className="photo-grid">{photos.filter((p) => p.field_id === f.id).map((p) => <Photo key={p.attachment_id} photo={p} onRemove={async () => { await removePhoto(p.attachment_id); setPhotos(await listPhotos(sid)); }} />)}</div></>}</div>)}{miss.length > 0 && <p className="field-error" role="status">Still required: {miss.join(', ')}</p>}{err && <p className="notice error" data-testid="form-error" role="alert">{err}</p>}<div className="actions"><button data-testid="submit" disabled={miss.length > 0 || busy} onClick={send}>{busy ? 'Saving…' : 'Submit assignment'}</button></div></div>; }
+function Form({
+  set,
+  assignment,
+  onDone,
+}: {
+  set: Settings;
+  assignment: Row;
+  onDone: () => void;
+}) {
+  const [bp, setBp] = useState<Blueprint | null>(null);
+  const [sid, setSid] = useState("");
+  const [payload, setPayload] = useState<Record<string, unknown>>({});
+  const [photos, setPhotos] = useState<Row[]>([]);
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const file = useRef<HTMLInputElement>(null);
+  const photoField = useRef("");
+  useEffect(() => {
+    (async () => {
+      const b = await blueprintFor(assignment.template_version_id);
+      setBp(b?.bp ?? null);
+      const d = await openDraft(set, assignment.assignment_id);
+      setSid(d.session.session_id);
+      setPayload(d.payload);
+      setPhotos(await listPhotos(d.session.session_id));
+    })();
+  }, [assignment.assignment_id, assignment.template_version_id, set]);
+  const change = (id: string, v: unknown) => {
+    const n = { ...payload, [id]: v };
+    setPayload(n);
+    void saveDraft(set, sid, n);
+  };
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    await addPhoto(set, sid, assignment.assignment_id, photoField.current, f);
+    setPhotos(await listPhotos(sid));
+    e.target.value = "";
+  };
+  const send = async () => {
+    setBusy(true);
+    setErr("");
+    try {
+      const r = await submit(set, sid);
+      if (r.missing.length) setErr(`Please complete: ${r.missing.join(", ")}`);
+      else onDone();
+    } catch (e: any) {
+      setErr(`Could not save submission: ${e.message}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+  if (!sid) return <p className="muted">Opening assignment…</p>;
+  if (!bp)
+    return (
+      <p className="notice error">
+        This form is not on the device yet. Connect and press Sync now.
+      </p>
+    );
+  const miss = missingFields(
+    bp,
+    payload,
+    photos.map((p) => p.field_id),
+  );
+  return (
+    <div data-testid="form">
+      <h3>{bp.title}</h3>
+      <p className="muted">
+        Your answers save automatically. You can submit when all required fields
+        are complete.
+      </p>
+      <input
+        ref={file}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        data-testid="file"
+        style={{ display: "none" }}
+        onChange={onFile}
+      />
+      {bp.fields.map((f) => (
+        <div className="field" key={f.id}>
+          <label htmlFor={`f-${f.id}`}>
+            {f.label}
+            {f.required ? " *" : ""}
+          </label>
+          {f.type === "select" && (
+            <select
+              id={`f-${f.id}`}
+              data-testid={`f-${f.id}`}
+              value={String(payload[f.id] ?? "")}
+              onChange={(e) => change(f.id, e.target.value)}
+            >
+              <option value="">Select an option</option>
+              {f.options?.map((o) => (
+                <option key={o}>{o}</option>
+              ))}
+            </select>
+          )}
+          {f.type === "date" && (
+            <input
+              id={`f-${f.id}`}
+              data-testid={`f-${f.id}`}
+              type="date"
+              value={String(payload[f.id] ?? "")}
+              onChange={(e) => change(f.id, e.target.value)}
+            />
+          )}
+          {f.type === "number" && (
+            <input
+              id={`f-${f.id}`}
+              data-testid={`f-${f.id}`}
+              type="number"
+              min="0"
+              value={String(payload[f.id] ?? "")}
+              onChange={(e) => change(f.id, e.target.value)}
+            />
+          )}
+          {f.type === "repeat_group" && (
+            <RepeatGroup
+              field={f}
+              value={payload[f.id]}
+              onChange={(value) => change(f.id, value)}
+            />
+          )}
+          {(f.type === "text" || f.type === "signature") && (
+            <textarea
+              id={`f-${f.id}`}
+              data-testid={`f-${f.id}`}
+              placeholder={f.type === "signature" ? "Type your name to sign this declaration." : undefined}
+              value={String(payload[f.id] ?? "")}
+              onChange={(e) => change(f.id, e.target.value)}
+            />
+          )}
+          {f.type === "photo" && (
+            <>
+              <button
+                type="button"
+                className="secondary"
+                data-testid={`add-${f.id}`}
+                onClick={() => {
+                  photoField.current = f.id;
+                  file.current?.click();
+                }}
+              >
+                {photos.some((p) => p.field_id === f.id)
+                  ? "Add another photo"
+                  : "Take / choose photo"}
+              </button>
+              <div className="photo-grid">
+                {photos
+                  .filter((p) => p.field_id === f.id)
+                  .map((p) => (
+                    <Photo
+                      key={p.attachment_id}
+                      photo={p}
+                      onRemove={async () => {
+                        await removePhoto(p.attachment_id);
+                        setPhotos(await listPhotos(sid));
+                      }}
+                    />
+                  ))}
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+      {miss.length > 0 && (
+        <p className="field-error" role="status">
+          Still required: {miss.join(", ")}
+        </p>
+      )}
+      {err && (
+        <p className="notice error" data-testid="form-error" role="alert">
+          {err}
+        </p>
+      )}
+      <div className="actions">
+        <button
+          data-testid="submit"
+          disabled={miss.length > 0 || busy}
+          onClick={send}
+        >
+          {busy ? "Saving…" : "Submit assignment"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
-function Photo({ photo, onRemove }: { photo: Row; onRemove: () => void }) { const [src, setSrc] = useState(''); useEffect(() => { let url = ''; files.read(photo.local_file_path).then(({ bytes }) => { url = URL.createObjectURL(new Blob([bytes], { type: photo.claimed_mime_type || 'image/jpeg' })); setSrc(url); }).catch(() => undefined); return () => { if (url) URL.revokeObjectURL(url); }; }, [photo.local_file_path, photo.claimed_mime_type]); return <div className="photo-card" data-testid="photo">{src ? <img src={src} alt="Captured evidence preview" /> : <div className="photo-meta">Preview loading…</div>}<div className="photo-meta">{(photo.byte_size / 1024).toFixed(0)} KB</div><button type="button" className="danger" onClick={onRemove} aria-label="Remove photo">Remove</button></div>; }
+function RepeatGroup({ field, value, onChange }: { field: import("./submit").Field; value: unknown; onChange: (value: unknown) => void }) {
+  const columns = field.config?.columns ?? [];
+  const rows = Array.isArray(value) ? (value as Record<string, unknown>[]) : [];
+  const add = () => onChange([...rows, Object.fromEntries(columns.map((column: string) => [column, ""]))]);
+  const update = (index: number, column: string, next: string) => onChange(rows.map((row, rowIndex) => rowIndex === index ? { ...row, [column]: next } : row));
+  return <div className="repeat-group" data-testid={`repeat-${field.id}`}><p className="muted">Add one row for each record.</p>{rows.map((row, index) => <div className="repeat-row" key={index}>{columns.map((column: string) => <label key={column}>{column.replaceAll("_", " ")}<input value={String(row[column] ?? "")} onChange={(e) => update(index, column, e.target.value)} /></label>)}<button type="button" className="danger" onClick={() => onChange(rows.filter((_, rowIndex) => rowIndex !== index))}>Remove row</button></div>)}<button type="button" className="secondary" onClick={add}>Add row</button></div>;
+}
+
+function Photo({ photo, onRemove }: { photo: Row; onRemove: () => void }) {
+  const [src, setSrc] = useState("");
+  useEffect(() => {
+    let url = "";
+    files
+      .read(photo.local_file_path)
+      .then(({ bytes }) => {
+        url = URL.createObjectURL(
+          new Blob([bytes], { type: photo.claimed_mime_type || "image/jpeg" }),
+        );
+        setSrc(url);
+      })
+      .catch(() => undefined);
+    return () => {
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [photo.local_file_path, photo.claimed_mime_type]);
+  return (
+    <div className="photo-card" data-testid="photo">
+      {src ? (
+        <img src={src} alt="Captured evidence preview" />
+      ) : (
+        <div className="photo-meta">Preview loading…</div>
+      )}
+      <div className="photo-meta">{(photo.byte_size / 1024).toFixed(0)} KB</div>
+      <button
+        type="button"
+        className="danger"
+        onClick={onRemove}
+        aria-label="Remove photo"
+      >
+        Remove
+      </button>
+    </div>
+  );
+}
