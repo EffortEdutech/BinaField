@@ -5,7 +5,7 @@ This register is part of the pilot acceptance decision. Items listed here are kn
 | ID | Limitation | Pilot treatment | Severity |
 |---|---|---|---|
 | KL-01 | The result dashboard is a basic Admin Studio count/result view, not a full analytics dashboard. | Use the submission queue and outcome API for authoritative review. | P2 |
-| KL-02 | Admin Studio bearer tokens are entered per browser session and are not a user-management UI. | Use controlled pilot accounts and refresh expired sessions. | P2 |
+| KL-02 | Developer smoke scripts still use a local bearer token; Admin Studio itself now uses normal email/password login with internal session refresh. | Use controlled pilot accounts for smoke scripts; never expose tokens to ordinary users. | P2 |
 | KL-03 | PWA field-gate testing across all Android/iPhone installed modes remains deferred until broader platform completion. | Pilot only on the tested Android Chrome/PWA path and record device/browser. | P1 |
 | KL-04 | A malformed historical assignment can be quarantined rather than silently rewritten. | Preserve the original record and issue a corrected assignment from a published version. | P1 |
 | KL-05 | The pilot uses seeded organisation/project/template data and a small number of users/devices. | Do not interpret pilot capacity as production-scale evidence. | P2 |

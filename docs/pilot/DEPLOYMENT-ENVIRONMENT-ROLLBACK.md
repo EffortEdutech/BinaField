@@ -10,7 +10,7 @@ API production requires these Vercel environment variables:
 - `SUPABASE_SERVICE_ROLE_KEY` — server-only evidence storage access.
 - `CORS_ORIGINS` — approved Admin Studio and Field PWA origins.
 
-Admin Studio keeps the bearer token in the browser session only. It does not persist or commit the token.
+Admin Studio uses a normal authenticated browser session and refreshes it internally. Developer smoke scripts may use a fresh local bearer token; it must never be pasted into the product UI, persisted in evidence, or committed.
 
 ## Deployment
 

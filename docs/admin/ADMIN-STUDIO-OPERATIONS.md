@@ -6,7 +6,7 @@ API URL: `https://binafield-api.vercel.app/`
 
 ## Access
 
-Enter the organisation UUID and an authorised bearer token in the browser. The token is held in the browser session and is not stored in the repository. A user must have the relevant permission; denied actions are shown as an error and must not be retried by changing tenant context.
+Sign in with the normal Supabase email/password login, then enter or select the organisation context. The session is held in the browser and refreshed internally. Users must not paste bearer tokens into Admin Studio. A user must have the relevant permission; denied actions are shown as an error and must not be retried by changing tenant context.
 
 ## Organisation administration
 
