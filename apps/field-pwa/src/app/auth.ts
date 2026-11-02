@@ -16,11 +16,11 @@ async function token(set: Settings, body: Record<string, string>, grant: string)
 }
 export const login = (set: Settings, email: string, password: string) => token(set, { email, password }, 'password');
 
-/** Returns a usable access token. Offline, or when refresh is impossible, the stored session is returned and the server decides. */
+/** Returns a usable access token. An expired session is cleared when refresh fails. */
 export async function accessToken(set: Settings): Promise<string | null> {
   const s = loadSession(); if (!s) return null;
   if (s.expiresAt - Date.now() > 60_000) return s.accessToken;
   try { return (await token(set, { refresh_token: s.refreshToken }, 'refresh_token')).accessToken; }
-  catch { return s.accessToken; }
+  catch { logout(); return null; }
 }
 export const hasSession = () => loadSession() !== null;
