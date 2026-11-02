@@ -435,7 +435,15 @@ export default function SupervisorDashboardV2() {
             </section>
           </section>
           <section className="card" id="reports">
-            <h2>Activity summary</h2>
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Reporting</p>
+                <h2>Activity summary</h2>
+              </div>
+              <button type="button" onClick={() => window.print()} aria-label="Print activity report">
+                Print report
+              </button>
+            </div>
             <p>
               <strong>
                 {
@@ -460,6 +468,11 @@ export default function SupervisorDashboardV2() {
               </strong>{" "}
               rejected
             </p>
+            <div className="report-preview" aria-label="Report preview">
+              <div className="report-stat"><small>Reconciled total</small><strong>{assignments.length + submissions.length}</strong><span>assignments + submissions</span></div>
+              <div className="report-stat"><small>Accepted rate</small><strong>{submissions.length ? `${Math.round((submissions.filter((s) => s.status === "ACCEPTED").length / submissions.length) * 100)}%` : "—"}</strong><span>of received submissions</span></div>
+              <div className="report-stat"><small>Data freshness</small><strong>Live</strong><span>{assignments.length + submissions.length} records loaded</span></div>
+            </div>
             <label>
               Status
               <select
