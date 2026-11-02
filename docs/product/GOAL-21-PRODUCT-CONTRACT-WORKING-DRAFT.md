@@ -41,6 +41,82 @@ The workspace also contains a concrete FireMaint maintenance-report implementati
 
 The FireMaint report-engine documentation separates canonical report data from a JSON-compatible layout and renderer. This is directly compatible with the BinaField direction of one report definition driving both the mobile jobsheet and final report. It remains a candidate input, not a signed-off BinaField workflow, until the product owner confirms that FireMaint maintenance reporting is the first target.
 
+## Proposed first vertical slice
+
+Working name: **Maintenance Service Report**  
+Source reference: FireMaint maintenance-report contract and controlled field pilot runbook
+
+### Jobsheet workflow
+
+1. **Job context** — job number, client, site, scheduled date, technician, and completion time.
+2. **Asset checklist** — select the assigned asset, show the active checklist, and record each item result and notes.
+3. **Findings and evidence** — capture finding title, severity, status, description, recommendation, photo evidence, and caption.
+4. **Completion and submission** — show checklist/evidence completeness, technician declaration, and submit-for-review action.
+5. **Supervisor review** — accept, reject, or request correction with an auditable decision.
+6. **Customer report** — render the approved report as HTML/PDF with the submitted data and evidence.
+
+### Proposed field contract
+
+| Area | Fields or rules |
+|---|---|
+| Job | Job number, scheduled date, completed time, client, site, technician |
+| Asset | Asset code, asset type/system, location, active checklist |
+| Checklist | Checklist name, item label, result status, notes, required/optional state |
+| Finding | Title, severity, status, description, recommendation, related asset |
+| Evidence | Photo, caption, captured time, optional location, integrity metadata |
+| Summary | Total assets, completed/skipped assets, pass/attention/fail counts, finding count |
+| Approval | Technician declaration, supervisor decision, client acknowledgement, dates |
+| Follow-up | Next maintenance date, corrective action reference, outstanding findings |
+
+### Proposed calculations
+
+- Total assets = assigned asset rows in the job.
+- Completed assets = assets with a completed checklist.
+- Pass/attention/fail counts = checklist results grouped by result status.
+- Finding count = submitted findings linked to the job.
+- Evidence completion = required evidence present and integrity-verified.
+- Report readiness = all required checklist items, evidence, and technician declaration complete.
+
+### Proposed report layout
+
+1. Cover and report number
+2. Organisation, client, site, and job details
+3. Maintenance summary
+4. Asset and checklist results
+5. Findings and recommendations
+6. Photo evidence
+7. Technician declaration
+8. Supervisor review and approval history
+9. Client acknowledgement
+10. Next maintenance and outstanding actions
+11. Audit appendix
+
+### Proposed sample record
+
+- Organisation: BinaField pilot organisation
+- Client: Sample facilities client
+- Site: Sample commercial site
+- Job: FM-2026-000001
+- Asset: Fire pump system FP-01
+- Checklist results: PASS, PASS, ATTENTION
+- Finding: Pressure gauge reading requires follow-up
+- Evidence: one original photo with caption and captured timestamp
+- Technician: assigned field worker
+- Supervisor: authorised reviewer
+- Final outcome: approved report with next-maintenance date
+
+The sample values are fixtures for contract testing only; they are not customer data.
+
+### End-to-end acceptance scenarios
+
+- Admin signs in normally, selects an organisation/project, and assigns the Maintenance Service Report.
+- Field worker signs in, completes the generated jobsheet, captures a finding and photo, and submits it.
+- Field worker loses connectivity during checklist and evidence capture; local draft and queued work survive refresh/restart and synchronize after reconnect.
+- Server rejects a tampered or mismatched report version/evidence hash.
+- Supervisor sees the completed report, reviews evidence, requests correction, and later approves the corrected submission.
+- Approved output contains the same submitted checklist results, finding, photo, signatures, calculations, and audit history.
+- Customer/read-only recipient can view or download the approved HTML/PDF without seeing internal notes or unauthorised tenant data.
+
 ## Reference workflow to finalize
 
 The first accepted workflow will be:
