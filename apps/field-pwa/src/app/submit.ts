@@ -4,12 +4,23 @@ import { enqueueIn } from './outbox';
 import { files, sha256Hex } from '../spikes/fileClient';
 import { now, q, tx } from './store';
 
-export interface Field { id: string; type: 'select' | 'text' | 'photo'; label: string; options?: string[]; required: boolean }
+export interface Field { id: string; type: 'select' | 'text' | 'photo' | 'repeat_group' | 'signature' | 'date' | 'number'; label: string; options?: string[]; required: boolean; config?: Record<string, any> }
 export interface Blueprint { title: string; fields: Field[]; schema: string }
 
 export async function blueprintFor(templateVersionId: string): Promise<{ bp: Blueprint; hash: string } | null> {
   const r = await q<{ blueprint_json: string; blueprint_hash: string }>('SELECT blueprint_json, blueprint_hash FROM template_package WHERE template_version_id=? AND integrity_verified=1', [templateVersionId]);
-  return r[0] ? { bp: JSON.parse(r[0].blueprint_json), hash: r[0].blueprint_hash } : null;
+  if (!r[0]) return null;
+  const raw = JSON.parse(r[0].blueprint_json) as any;
+  // The runtime stores the governed Blueprint unchanged, then presents a small
+  // renderer-friendly view to the form UI. This keeps the server contract and
+  // the immutable blueprint hash authoritative while supporting older fixtures.
+  if (Array.isArray(raw.fields)) return { bp: raw as Blueprint, hash: r[0].blueprint_hash };
+  const fields: Field[] = [];
+  for (const step of raw.workflow_steps ?? []) for (const section of step.sections ?? []) for (const c of section.components ?? []) {
+    const type = c.component === 'single_select' ? 'select' : c.component === 'camera' ? 'photo' : c.component === 'repeat_group' ? 'repeat_group' : c.component === 'signature' ? 'signature' : c.component === 'date' ? 'date' : c.component === 'number' || c.component === 'integer' ? 'number' : 'text';
+    fields.push({ id: c.field_id, type, label: c.label, required: Boolean(c.required), config: c.config, options: c.config?.options ?? c.config?.quality_grades });
+  }
+  return { bp: { schema: raw.schema, title: raw.template?.name ?? 'Field jobsheet', fields }, hash: r[0].blueprint_hash };
 }
 
 /** Returns the open draft for an assignment, creating one the first time. */
@@ -46,7 +57,7 @@ export const removePhoto = (attachmentId: string) => q("DELETE FROM local_eviden
 
 /** Finds what the person still has to fill in. */
 export function missingFields(bp: Blueprint, payload: Record<string, unknown>, photoFieldIds: string[]): string[] {
-  return bp.fields.filter((f) => f.required && (f.type === 'photo' ? !photoFieldIds.includes(f.id) : payload[f.id] === undefined || payload[f.id] === '')).map((f) => f.label);
+  return bp.fields.filter((f) => f.required && (f.type === 'photo' ? !photoFieldIds.includes(f.id) : payload[f.id] === undefined || payload[f.id] === '' || (f.type === 'repeat_group' && String(payload[f.id] ?? '').trim() === ''))).map((f) => f.label);
 }
 
 /** Freezes the draft into an immutable attempt and queues everything needed to send it. One transaction: either all of it exists or none of it does. */
