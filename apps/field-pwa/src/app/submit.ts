@@ -60,13 +60,33 @@ export function missingFields(bp: Blueprint, payload: Record<string, unknown>, p
   return bp.fields.filter((f) => f.required && (f.type === 'photo' ? !photoFieldIds.includes(f.id) : payload[f.id] === undefined || payload[f.id] === '' || (f.type === 'repeat_group' && String(payload[f.id] ?? '').trim() === ''))).map((f) => f.label);
 }
 
+/** Convert the current renderer's repeat-group text into stable array data.
+ * Structured JSON arrays are preserved; plain one-line entries remain usable
+ * and are represented as `{ value }` rows until the row editor is available.
+ */
+function normalizePayload(bp: Blueprint, input: Record<string, unknown>): Record<string, unknown> {
+  const output = { ...input };
+  for (const field of bp.fields.filter((item) => item.type === 'repeat_group')) {
+    const value = output[field.id];
+    if (Array.isArray(value)) continue;
+    if (typeof value !== 'string' || !value.trim()) { output[field.id] = []; continue; }
+    try {
+      const parsed = JSON.parse(value);
+      output[field.id] = Array.isArray(parsed) ? parsed : [{ value }];
+    } catch {
+      output[field.id] = value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((line) => ({ value: line }));
+    }
+  }
+  return output;
+}
+
 /** Freezes the draft into an immutable attempt and queues everything needed to send it. One transaction: either all of it exists or none of it does. */
 export async function submit(set: Settings, sessionId: string): Promise<{ attemptId: string; missing: string[] }> {
   const s = (await q<any>('SELECT * FROM submission_session WHERE organization_id=? AND session_id=?', [set.organizationId, sessionId]))[0];
   if (!s) throw new Error('SESSION_NOT_FOUND');
   const b = await blueprintFor(s.template_version_id);
   if (!b) throw new Error('BLUEPRINT_MISSING');
-  const payload = JSON.parse(s.payload_json) as Record<string, unknown>;
+  const payload = normalizePayload(b.bp, JSON.parse(s.payload_json) as Record<string, unknown>);
   const ev = await q<any>('SELECT * FROM local_evidence WHERE organization_id=? AND session_id=? ORDER BY device_captured_at', [set.organizationId, sessionId]);
   const missing = missingFields(b.bp, payload, ev.map((e) => e.field_id));
   if (missing.length) return { attemptId: '', missing };
