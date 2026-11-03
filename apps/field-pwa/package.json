@@ -9,7 +9,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0 --port 3031 --strictPort",
     "test:e2e": "playwright test",
-    "check:kebuniti": "node scripts/check-kebuniti-contract.mjs"
+    "check:kebuniti": "node scripts/check-kebuniti-contract.mjs",
+    "smoke:goal22-live": "node scripts/smoke-goal22-live.mjs"
   },
   "dependencies": {
     "@sqlite.org/sqlite-wasm": "3.54.1-build1",
