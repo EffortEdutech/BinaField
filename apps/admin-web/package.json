@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0-admin-studio",
   "type": "module",
-  "scripts": { "dev": "vite --host 0.0.0.0 --port 3032", "build": "tsc --noEmit && vite build", "smoke": "node scripts/smoke-admin-studio.mjs", "smoke:goal22-live": "node scripts/smoke-goal22-live.mjs", "seed:kebuniti": "node scripts/seed-kebuniti-workflow.mjs", "check:goals17-20": "node scripts/check-goals17-20.mjs", "pilot:readiness": "node scripts/pilot-readiness.mjs" },
+  "scripts": { "dev": "vite --host 0.0.0.0 --port 3032", "build": "tsc --noEmit && vite build", "smoke": "node scripts/smoke-admin-studio.mjs", "smoke:goal22-live": "node scripts/smoke-goal22-live.mjs", "seed:kebuniti": "node scripts/seed-kebuniti-workflow.mjs", "verify:kebuniti": "node scripts/verify-kebuniti-live.mjs", "check:goals17-20": "node scripts/check-goals17-20.mjs", "pilot:readiness": "node scripts/pilot-readiness.mjs" },
   "dependencies": { "react": "18", "react-dom": "18" },
   "devDependencies": { "@types/react": "18", "@types/react-dom": "18", "@vitejs/plugin-react": "4", "typescript": "5", "vite": "5" }
 }
