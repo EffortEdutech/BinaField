@@ -50,18 +50,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         if (token.email) {
           await q.query(`UPDATE iam.users SET identity_subject = $1, updated_at = now() WHERE lower(email) = lower($2) AND identity_subject LIKE 'invite:%'`, [token.sub, token.email]);
         }
-        const rows = await q.query(`
-          SELECT o.id, o.slug, o.name, o.lifecycle_state, m.id AS membership_id,
-                 m.lifecycle_state AS membership_state,
-                 COALESCE((SELECT json_agg(DISTINCT r.role_key)
-                   FROM iam.membership_roles mr
-                   JOIN iam.roles r ON r.id = mr.role_id
-                   WHERE mr.organization_id = m.organization_id AND mr.membership_id = m.id), '[]'::json) AS roles
-          FROM iam.memberships m
-          JOIN iam.users u ON u.id = m.user_id
-          JOIN iam.organizations o ON o.id = m.organization_id
-          WHERE u.identity_subject = $1 AND m.lifecycle_state = 'ACTIVE' AND o.lifecycle_state = 'ACTIVE'
-          ORDER BY o.name`, [token.sub]);
+        const rows = await q.query(`SELECT * FROM iam.organizations_for_identity($1)`, [token.sub]);
         return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
       });
     } catch { return problem(503, 'SERVICE_UNAVAILABLE', 'Temporary failure', correlationId, true); }
