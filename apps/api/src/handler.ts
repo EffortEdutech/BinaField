@@ -53,14 +53,14 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         const rows = await q.query(`
           SELECT o.id, o.slug, o.name, o.lifecycle_state, m.id AS membership_id,
                  m.lifecycle_state AS membership_state,
-                 COALESCE(json_agg(DISTINCT r.role_key) FILTER (WHERE r.role_key IS NOT NULL), '[]') AS roles
+                 COALESCE((SELECT json_agg(DISTINCT r.role_key)
+                   FROM iam.membership_roles mr
+                   JOIN iam.roles r ON r.id = mr.role_id
+                   WHERE mr.organization_id = m.organization_id AND mr.membership_id = m.id), '[]'::json) AS roles
           FROM iam.memberships m
           JOIN iam.users u ON u.id = m.user_id
           JOIN iam.organizations o ON o.id = m.organization_id
-          LEFT JOIN iam.membership_roles mr ON mr.organization_id = m.organization_id AND mr.membership_id = m.id
-          LEFT JOIN iam.roles r ON r.id = mr.role_id
           WHERE u.identity_subject = $1 AND m.lifecycle_state = 'ACTIVE' AND o.lifecycle_state = 'ACTIVE'
-          GROUP BY o.id, o.slug, o.name, o.lifecycle_state, m.id, m.lifecycle_state
           ORDER BY o.name`, [token.sub]);
         return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
       });
