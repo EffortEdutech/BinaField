@@ -393,14 +393,22 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         const rows = await q.query<{ id: string; lifecycle_state: string; revision: number; blueprint_json: any; blueprint_hash: string }>('SELECT id, lifecycle_state, revision, blueprint_json, blueprint_hash FROM blueprint.template_versions WHERE organization_id = $1 AND id = $2', [organizationId, versionId]);
         const v = rows.rows[0]; if (!v) return problem(404, 'RESOURCE_NOT_FOUND', 'Template version not found', correlationId);
         const bp = v.blueprint_json;
-        const fields = Array.isArray(bp?.fields) ? bp.fields : [];
+        const fields = Array.isArray(bp?.fields)
+          ? bp.fields
+          : (bp?.workflow_steps ?? []).flatMap((step: any) => (step?.sections ?? []).flatMap((section: any) => (section?.components ?? []).map((component: any) => ({
+              id: component.field_id,
+              type: component.component === 'single_select' ? 'select' : component.component === 'camera' ? 'photo' : component.component === 'integer' || component.component === 'number' ? 'number' : component.component,
+              label: component.label,
+              required: component.required,
+              options: component.config?.options ?? component.config?.quality_grades,
+            }))));
         const ids = fields.map((f: any) => f?.id);
         const errors: string[] = [];
         if (bp?.schema !== 'bf-blueprint/1.0') errors.push('schema must be bf-blueprint/1.0');
         if (!fields.length) errors.push('at least one field is required');
         if (ids.some((id: unknown) => typeof id !== 'string' || !/^[a-z][a-z0-9_]{1,63}$/.test(id))) errors.push('field ids must be lowercase identifier names');
         if (new Set(ids).size !== ids.length) errors.push('field ids must be unique');
-        for (const f of fields) { if (!['select', 'text', 'photo'].includes(f?.type)) errors.push(`unsupported field type for ${String(f?.id)}`); if (typeof f?.label !== 'string' || !f.label.trim()) errors.push(`label is required for ${String(f?.id)}`); if (f?.type === 'select' && (!Array.isArray(f.options) || !f.options.length)) errors.push(`select options are required for ${String(f?.id)}`); }
+        for (const f of fields) { if (!['select', 'text', 'photo', 'repeat_group', 'signature', 'date', 'number', 'paragraph'].includes(f?.type)) errors.push(`unsupported field type for ${String(f?.id)}`); if (typeof f?.label !== 'string' || !f.label.trim()) errors.push(`label is required for ${String(f?.id)}`); if (f?.type === 'select' && (!Array.isArray(f.options) || !f.options.length)) errors.push(`select options are required for ${String(f?.id)}`); }
         if (errors.length) return json(422, { code: 'BLUEPRINT_INVALID', status: 422, errors, correlation_id: correlationId }, { 'x-correlation-id': correlationId });
         if (validateVersion) {
           const updated = await q.query<{ revision: number }>(`UPDATE blueprint.template_versions SET lifecycle_state = 'VALIDATED', updated_at = now(), revision = revision + 1 WHERE organization_id = $1 AND id = $2 AND lifecycle_state = 'DRAFT' RETURNING revision`, [organizationId, versionId]);
