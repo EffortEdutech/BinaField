@@ -48,7 +48,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         // the first successful password login, bind that invited email to the
         // verified subject; membership state and role checks remain unchanged.
         if (token.email) {
-          await q.query(`UPDATE iam.users SET identity_subject = $1, updated_at = now() WHERE lower(email) = lower($2) AND identity_subject LIKE 'invite:%'`, [token.sub, token.email]);
+          await q.query(`UPDATE iam.users SET identity_subject = $1, updated_at = now() WHERE lower(email) = lower($2) AND identity_subject <> $1`, [token.sub, token.email]);
         }
         const rows = await q.query(`
           SELECT o.id, o.slug, o.name, o.lifecycle_state, m.id AS membership_id,
