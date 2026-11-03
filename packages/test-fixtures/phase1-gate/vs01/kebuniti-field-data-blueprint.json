@@ -10,6 +10,19 @@
     "version_id": "tv-kebuniti-field-data-log-v1",
     "name": "Kebuniti Field Data Log"
   },
+  "reference_source": {
+    "title": "Program Kebun Komuniti (Kebuniti) Field Data Log",
+    "pdf_filename": "Kebuniti.pdf",
+    "workbook_filename": "Kebuniti_Field_Data_Log (1).xlsx",
+    "form_id_pattern": "KEBUNITI/RAW/YYYY/W##",
+    "source_sections": [
+      "Daily Field Activity Log",
+      "Produce & Yield Harvest Record",
+      "Resource & Input Audit",
+      "Field Photo Documentation",
+      "Field Incidents & Validation"
+    ]
+  },
   "settings": { "locale": "en-MY", "on_hide": "retain" },
   "workflow_steps": [
     {
@@ -87,11 +100,26 @@
       ]
     }
   ],
-  "validations": [],
-  "rules": [],
-  "calculations": [],
+  "validations": [
+    { "id": "activity-hours-nonnegative", "field_id": "activities", "rule": "rows.hours_spent >= 0" },
+    { "id": "harvest-weight-nonnegative", "field_id": "harvest_records", "rule": "rows.raw_weight_kg >= 0" },
+    { "id": "quality-grade-enum", "field_id": "harvest_records", "rule": "rows.quality_grade IN ['A','B','C']" }
+  ],
+  "rules": [
+    { "id": "report-ready", "when": "required_fields_and_evidence_complete", "result": "READY_FOR_SUBMISSION" }
+  ],
+  "calculations": [
+    { "id": "activity-count", "label": "Activity records", "expression": "COUNT(activities)" },
+    { "id": "total-hours", "label": "Total hours spent", "unit": "hours", "expression": "SUM(activities.hours_spent)" },
+    { "id": "total-participants", "label": "Total participants", "unit": "people", "expression": "SUM(activities.participants)" },
+    { "id": "total-harvest-kg", "label": "Total raw harvest", "unit": "kg", "expression": "SUM(harvest_records.raw_weight_kg)" },
+    { "id": "resource-input-count", "label": "Resource input records", "expression": "COUNT(resource_inputs)" },
+    { "id": "evidence-count", "label": "Evidence items", "expression": "COUNT(crop_progress_photo) + COUNT(resource_issue_photo)" }
+  ],
   "submission_policy": { "allow_offline_submit": true, "require_all_required_evidence": true },
   "sync_policy": { "offline_capable": true, "reference_dataset_ids": [] },
-  "processing_routes": [],
+  "processing_routes": [
+    { "id": "kebuniti-report-projection", "output": "KEBUNITI_FIELD_DATA_LOG", "endpoint": "/reports/kebuniti/{submission_id}" }
+  ],
   "analytics": { "enabled": true }
 }
