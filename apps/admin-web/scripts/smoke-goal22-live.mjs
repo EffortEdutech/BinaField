@@ -32,7 +32,11 @@ if (email && password) {
     const organisations = await request(`${api}/organizations`, { headers: auth });
     check('organisation selection source', Array.isArray(organisations.items) && organisations.items.length > 0);
     const organisation = organisations.items?.[0];
-    if (!organisation) throw new Error('No active organisation membership found');
+    if (!organisation) {
+      const probe = await fetch(`${api}/organizations/a0000000-0000-4000-8000-000000000001/me`, { headers: auth });
+      let probeBody = null; try { probeBody = await probe.json(); } catch { /* empty response */ }
+      throw new Error(`No active organisation membership found; known-org probe ${probe.status} ${probeBody?.code ?? ''}`.trim());
+    }
     check('role returned for selected organisation', Array.isArray(organisation.roles));
 
     const me = await request(`${api}/organizations/${organisation.id}/me`, { headers: auth });
