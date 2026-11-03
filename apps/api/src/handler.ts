@@ -44,6 +44,12 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
     try {
       return await deps.db.tx(async (q) => {
+        // Invitations are created before the user has a Supabase subject. On
+        // the first successful password login, bind that invited email to the
+        // verified subject; membership state and role checks remain unchanged.
+        if (token.email) {
+          await q.query(`UPDATE iam.users SET identity_subject = $1, updated_at = now() WHERE lower(email) = lower($2) AND identity_subject LIKE 'invite:%'`, [token.sub, token.email]);
+        }
         const rows = await q.query(`
           SELECT o.id, o.slug, o.name, o.lifecycle_state, m.id AS membership_id,
                  m.lifecycle_state AS membership_state,

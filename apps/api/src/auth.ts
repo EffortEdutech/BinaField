@@ -1,6 +1,6 @@
 import { createRemoteJWKSet, decodeProtectedHeader, jwtVerify } from 'jose';
 
-export interface VerifiedToken { sub: string; authenticationStrength: string }
+export interface VerifiedToken { sub: string; email?: string; authenticationStrength: string }
 export type TokenVerifier = (bearer: string) => Promise<VerifiedToken>;
 
 /** Verifies a Supabase Auth access token against the project's JWKS (ADR-0005). */
@@ -13,14 +13,14 @@ export function createSupabaseVerifier(supabaseUrl: string, anonKey?: string): T
       if (!anonKey) throw new Error('NO_ANON_KEY');
       const r = await fetch(`${base}/auth/v1/user`, { headers: { apikey: anonKey, authorization: `Bearer ${bearer}` } });
       if (!r.ok) throw new Error('TOKEN_REJECTED');
-      const u = (await r.json()) as { id?: string };
+      const u = (await r.json()) as { id?: string; email?: string };
       if (!u.id) throw new Error('NO_SUBJECT');
-      return { sub: u.id, authenticationStrength: 'PASSWORD' };
+      return { sub: u.id, email: u.email, authenticationStrength: 'PASSWORD' };
     }
     const { payload } = await jwtVerify(bearer, jwks, { issuer: `${base}/auth/v1`, audience: 'authenticated' });
     if (!payload.sub) throw new Error('NO_SUBJECT');
     const amr = Array.isArray(payload.amr) ? payload.amr.length : 0;
-    return { sub: payload.sub, authenticationStrength: amr > 1 ? 'MFA' : 'PASSWORD' };
+    return { sub: payload.sub, email: typeof payload.email === 'string' ? payload.email : undefined, authenticationStrength: amr > 1 ? 'MFA' : 'PASSWORD' };
   };
 }
 
