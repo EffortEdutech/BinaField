@@ -13,11 +13,11 @@ Complete this form before inviting field users. Do not record passwords, bearer 
 
 ## Acceptance
 
-- [ ] Pilot users can authenticate and see only the intended organisation/project.
-- [ ] Field user can open the issued assignment and capture required evidence.
-- [ ] Offline work remains available after temporary connectivity loss.
-- [ ] Reconnect sends evidence/submission and supervisor can review it.
-- [ ] Supervisor decision is visible as the persisted outcome.
+- [x] Pilot users can authenticate and see only the intended organisation/project. *(Goal 22 live login and organisation-selection checks passed.)*
+- [x] Field user can open the issued assignment and capture required evidence. *(Kebuniti assignment completed with two photos and signatures.)*
+- [x] Offline work remains available after temporary connectivity loss. *(PWA offline/local persistence gate evidence passed.)*
+- [x] Reconnect sends evidence/submission and supervisor can review it. *(Kebuniti submission synced, accepted, and report projection verified.)*
+- [x] Supervisor decision is visible as the persisted outcome. *(Submission status verified as `ACCEPTED`.)*
 - [ ] Support contact has read the troubleshooting runbook.
 - [ ] Rollback owner and escalation path are understood.
 
