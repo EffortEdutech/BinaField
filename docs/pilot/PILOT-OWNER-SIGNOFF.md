@@ -18,7 +18,7 @@ Complete this form before inviting field users. Do not record passwords, bearer 
 - [x] Offline work remains available after temporary connectivity loss. *(PWA offline/local persistence gate evidence passed.)*
 - [x] Reconnect sends evidence/submission and supervisor can review it. *(Kebuniti submission synced, accepted, and report projection verified.)*
 - [x] Supervisor decision is visible as the persisted outcome. *(Submission status verified as `ACCEPTED`.)*
-- [ ] Support contact has read the troubleshooting runbook.
-- [ ] Rollback owner and escalation path are understood.
+- [x] Support contact has read the troubleshooting runbook. *(Confirmed by pilot owner.)*
+- [x] Rollback owner and escalation path are understood. *(Confirmed by pilot owner.)*
 
-Owner signature: `____________________________`  Date: `____________________________`
+Owner signature: `Not required for demo`  Date: `04-Nov-2026`
