@@ -211,6 +211,11 @@ export default function SupervisorDashboardV2() {
     const body = format === "json" ? JSON.stringify(kebunitiReport, null, 2) : reportCsv(kebunitiReport);
     downloadText(`kebuniti-${kebunitiReport.identity?.form_id ?? "report"}.${format}`, body, format === "json" ? "application/json" : "text/csv");
   };
+  const printKebuniti = () => {
+    document.body.classList.add("print-kebuniti");
+    window.print();
+    window.setTimeout(() => document.body.classList.remove("print-kebuniti"), 1000);
+  };
   const filtered = submissions.filter(
     (s) =>
       (filter === "ALL" || s.status === filter) &&
@@ -501,7 +506,7 @@ export default function SupervisorDashboardV2() {
               <div className="report-stat"><small>Data freshness</small><strong>Live</strong><span>{assignments.length + submissions.length} records loaded</span></div>
               {kebunitiReport && <div className="kebuniti-report" aria-label="Kebuniti report preview">
                 <div className="report-title"><p className="eyebrow">Program Kebun Komuniti (Kebuniti)</p><h3>FIELD DATA LOG</h3><p>{kebunitiReport.identity?.form_id} · {kebunitiReport.identity?.entry_date}</p></div>
-                <div className="export-row"><button type="button" onClick={() => exportKebuniti("json")}>Download JSON</button><button type="button" onClick={() => exportKebuniti("csv")}>Download CSV</button><button type="button" onClick={() => window.print()}>Print / Save PDF</button></div>
+                <div className="export-row"><button type="button" onClick={() => exportKebuniti("json")}>Download JSON</button><button type="button" onClick={() => exportKebuniti("csv")}>Download CSV</button><button type="button" onClick={printKebuniti}>Print / Save PDF</button></div>
                 <dl className="report-identity">{[["Recording officer", kebunitiReport.identity?.recording_officer],["Community group", kebunitiReport.identity?.community_group],["Plot / zone", kebunitiReport.identity?.plot_zone],["State / district", kebunitiReport.identity?.state_district]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value || "—"}</dd></div>)}</dl>
                 <div className="report-kpis"><div><small>Activities</small><strong>{kebunitiReport.calculations?.activity_count ?? 0}</strong></div><div><small>Hours / participants</small><strong>{kebunitiReport.calculations?.total_hours ?? 0} / {kebunitiReport.calculations?.total_participants ?? 0}</strong></div><div><small>Total harvest</small><strong>{kebunitiReport.calculations?.total_harvest_kg ?? 0} kg</strong></div><div><small>Evidence</small><strong>{kebunitiReport.calculations?.evidence_count ?? 0}</strong></div></div>
                 <h4>Daily Field Activity Log</h4><ReportTable rows={kebunitiReport.sections?.activities} columns={[["activity_type","Activity"],["status","Status"],["hours_spent","Hours"],["participants","Participants"],["field_notes","Notes"],["target_blocks","Target blocks"]]} />
