@@ -17,8 +17,22 @@ const organisations = await request(`${api}/organizations`, { headers: auth });
 const organisation = organisations.items?.[0];
 if (!organisation) throw new Error('No active organisation membership found');
 const submissions = await request(`${api}/organizations/${organisation.id}/submissions`, { headers: auth });
-const submission = submissions.items?.find((item) => item.assignment_id === assignmentId);
-if (!submission?.submission_id) throw new Error('Kebuniti submission is not yet visible in the Admin review queue');
+const matching = (submissions.items ?? []).filter((item) => item.assignment_id === assignmentId);
+const submission = matching.find((item) => item.submission_id);
+if (!submission?.submission_id) {
+  console.log(JSON.stringify({
+    pass: false,
+    assignment_id: assignmentId,
+    matching_attempts: matching.map((item) => ({
+      attempt_id: item.attempt_id,
+      submission_id: item.submission_id || null,
+      status: item.status,
+      rejection_code: item.rejection_code ?? null,
+      received_at: item.received_at ?? null,
+    })),
+  }, null, 2));
+  throw new Error(matching.length ? 'Kebuniti attempt arrived but has no accepted submission record' : 'Kebuniti submission attempt is not yet visible in the Admin review queue');
+}
 const report = await request(`${api}/organizations/${organisation.id}/reports/kebuniti/${submission.submission_id}`, { headers: auth });
 const result = {
   pass: report.report_type === 'KEBUNITI_FIELD_DATA_LOG' && report.provenance?.assignment_id === assignmentId && report.calculations?.report_ready === true,
