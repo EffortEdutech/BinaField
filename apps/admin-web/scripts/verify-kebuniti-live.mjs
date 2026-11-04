@@ -35,11 +35,12 @@ if (!submission?.submission_id) {
 }
 const report = await request(`${api}/organizations/${organisation.id}/reports/kebuniti/${submission.submission_id}`, { headers: auth });
 const result = {
-  pass: report.report_type === 'KEBUNITI_FIELD_DATA_LOG' && report.provenance?.assignment_id === assignmentId && report.calculations?.report_ready === true,
+  pass: report.report_type === 'KEBUNITI_FIELD_DATA_LOG' && report.provenance?.assignment_id === assignmentId && report.calculations?.report_ready === true && (report.sections?.evidence ?? []).length >= 2 && (report.sections?.evidence ?? []).every((item) => typeof item.preview_url === 'string' && item.preview_url.startsWith('http')),
   submission_id: submission.submission_id,
   report_status: report.report_status,
   calculations: report.calculations,
   evidence_count: report.sections?.evidence?.length ?? 0,
+  evidence_previews: (report.sections?.evidence ?? []).filter((item) => typeof item.preview_url === 'string' && item.preview_url.startsWith('http')).length,
   provenance: report.provenance,
 };
 console.log(JSON.stringify(result, null, 2));
