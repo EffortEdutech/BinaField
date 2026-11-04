@@ -1,6 +1,24 @@
 import { useEffect, useState } from "react";
 import { loadSession, login, logout, refreshSession } from "./auth";
 const API = "https://binafield-api.vercel.app/api";
+const downloadText = (name: string, text: string, type: string) => {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement("a"); a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
+};
+const csvCell = (value: unknown) => `"${String(value ?? "").replaceAll('"', '""')}"`;
+const reportCsv = (report: any) => {
+  const rows: string[][] = [];
+  const add = (section: string, item: any) => Object.entries(item ?? {}).forEach(([key, value]) => rows.push([section, key, String(value ?? "")]));
+  add("identity", report.identity);
+  for (const [i, item] of (report.sections?.activities ?? []).entries()) add(`activity_${i + 1}`, item);
+  for (const [i, item] of (report.sections?.harvest_records ?? []).entries()) add(`harvest_${i + 1}`, item);
+  for (const [i, item] of (report.sections?.resource_inputs ?? []).entries()) add(`resource_${i + 1}`, item);
+  add("calculations", report.calculations); add("validation", report.sections?.validation); add("provenance", report.provenance);
+  return ["section,key,value", ...rows.map((row) => row.map(csvCell).join(","))].join("\n");
+};
+function ReportTable({ rows, columns }: { rows?: any[]; columns: [string, string][] }) {
+  return rows?.length ? <div className="data-table-wrap report-table"><table className="data-table"><thead><tr>{columns.map(([, label]) => <th key={label}>{label}</th>)}</tr></thead><tbody>{rows.map((row, i) => <tr key={i}>{columns.map(([key]) => <td key={key}>{String(row?.[key] ?? "—")}</td>)}</tr>)}</tbody></table></div> : <p className="muted">No records submitted.</p>;
+}
 export default function SupervisorDashboardV2() {
   const [org, setOrg] = useState(""),
     [organisations, setOrganisations] = useState<any[]>([]),
@@ -188,6 +206,11 @@ export default function SupervisorDashboardV2() {
       "_blank",
       "noopener,noreferrer",
     );
+  const exportKebuniti = (format: "json" | "csv") => {
+    if (!kebunitiReport) return;
+    const body = format === "json" ? JSON.stringify(kebunitiReport, null, 2) : reportCsv(kebunitiReport);
+    downloadText(`kebuniti-${kebunitiReport.identity?.form_id ?? "report"}.${format}`, body, format === "json" ? "application/json" : "text/csv");
+  };
   const filtered = submissions.filter(
     (s) =>
       (filter === "ALL" || s.status === filter) &&
@@ -476,7 +499,17 @@ export default function SupervisorDashboardV2() {
               <div className="report-stat"><small>Reconciled total</small><strong>{assignments.length + submissions.length}</strong><span>assignments + submissions</span></div>
               <div className="report-stat"><small>Accepted rate</small><strong>{submissions.length ? `${Math.round((submissions.filter((s) => s.status === "ACCEPTED").length / submissions.length) * 100)}%` : "—"}</strong><span>of received submissions</span></div>
               <div className="report-stat"><small>Data freshness</small><strong>Live</strong><span>{assignments.length + submissions.length} records loaded</span></div>
-              {kebunitiReport && <div className="kebuniti-report" aria-label="Kebuniti report preview"><div className="section-heading"><div><p className="eyebrow">Kebuniti Field Data Log</p><h3>{kebunitiReport.identity?.community_group || "Community field visit"}</h3><p className="muted">{kebunitiReport.identity?.form_id || "No form ID"} · {kebunitiReport.identity?.entry_date || "Date unavailable"}</p></div><button type="button" onClick={() => window.print()}>Print Kebuniti report</button></div><div className="report-stat"><small>Report readiness</small><strong>{kebunitiReport.calculations?.report_ready ? "Ready" : "Incomplete"}</strong><span>{kebunitiReport.calculations?.evidence_count ?? 0} evidence item(s)</span></div><div className="report-stat"><small>Field activity</small><strong>{kebunitiReport.calculations?.activity_count ?? 0}</strong><span>{kebunitiReport.calculations?.total_hours ?? 0} hours · {kebunitiReport.calculations?.total_participants ?? 0} participants</span></div><div className="report-stat"><small>Harvest</small><strong>{kebunitiReport.calculations?.total_harvest_kg ?? 0} kg</strong><span>{kebunitiReport.sections?.harvest_records?.length ?? 0} crop record(s)</span></div><h4>Daily field activities</h4>{kebunitiReport.sections?.activities?.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Activity</th><th>Status</th><th>Hours</th><th>Participants</th></tr></thead><tbody>{kebunitiReport.sections.activities.map((x: any, i: number) => <tr key={i}><td>{x.activity_type ?? x.activity ?? "—"}</td><td>{x.status ?? "—"}</td><td>{x.hours_spent ?? "—"}</td><td>{x.participants ?? "—"}</td></tr>)}</tbody></table></div> : <p className="muted">No activity rows submitted.</p>}<h4>Validation</h4><p className="muted">Prepared by: {kebunitiReport.sections?.validation?.prepared_by_signature || "Not signed"} · DOA verification: {kebunitiReport.sections?.validation?.doa_verification_signature || "Not signed"}</p></div>}
+              {kebunitiReport && <div className="kebuniti-report" aria-label="Kebuniti report preview">
+                <div className="report-title"><p className="eyebrow">Program Kebun Komuniti (Kebuniti)</p><h3>FIELD DATA LOG</h3><p>{kebunitiReport.identity?.form_id} · {kebunitiReport.identity?.entry_date}</p></div>
+                <div className="export-row"><button type="button" onClick={() => exportKebuniti("json")}>Download JSON</button><button type="button" onClick={() => exportKebuniti("csv")}>Download CSV</button><button type="button" onClick={() => window.print()}>Print / Save PDF</button></div>
+                <dl className="report-identity">{[["Recording officer", kebunitiReport.identity?.recording_officer],["Community group", kebunitiReport.identity?.community_group],["Plot / zone", kebunitiReport.identity?.plot_zone],["State / district", kebunitiReport.identity?.state_district]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value || "—"}</dd></div>)}</dl>
+                <div className="report-kpis"><div><small>Activities</small><strong>{kebunitiReport.calculations?.activity_count ?? 0}</strong></div><div><small>Hours / participants</small><strong>{kebunitiReport.calculations?.total_hours ?? 0} / {kebunitiReport.calculations?.total_participants ?? 0}</strong></div><div><small>Total harvest</small><strong>{kebunitiReport.calculations?.total_harvest_kg ?? 0} kg</strong></div><div><small>Evidence</small><strong>{kebunitiReport.calculations?.evidence_count ?? 0}</strong></div></div>
+                <h4>Daily Field Activity Log</h4><ReportTable rows={kebunitiReport.sections?.activities} columns={[["activity_type","Activity"],["status","Status"],["hours_spent","Hours"],["participants","Participants"],["field_notes","Notes"],["target_blocks","Target blocks"]]} />
+                <h4>Produce &amp; Yield Harvest Record</h4><ReportTable rows={kebunitiReport.sections?.harvest_records} columns={[["crop_variety","Crop / variety"],["plot_number","Plot"],["raw_weight_kg","Raw weight (kg)"],["quality_grade","Grade"],["destination","Destination"]]} />
+                <h4>Resource &amp; Input Audit</h4><ReportTable rows={kebunitiReport.sections?.resource_inputs} columns={[["material_type","Material"],["brand_variety_code","Brand / code"],["quantity_consumed","Quantity"],["unit","Unit"],["logistics_reference","Logistics ref."]]} />
+                <h4>Evidence, Notes &amp; Sign-off</h4><p className="report-notes">{kebunitiReport.sections?.general_notes || "No incidents or general notes recorded."}</p><p className="report-evidence">{(kebunitiReport.sections?.evidence ?? []).map((x: any, i: number) => <span key={i}>Photo {i + 1}: {x.field_id || x.evidence_type || "Evidence"}</span>)}</p><dl className="report-signatures"><div><dt>Prepared by</dt><dd>{kebunitiReport.sections?.validation?.prepared_by_signature || "Not signed"}</dd></div><div><dt>DOA representative</dt><dd>{kebunitiReport.sections?.validation?.doa_verification_signature || "Not signed"}</dd></div></dl>
+                <details className="report-provenance"><summary>Submission provenance</summary><p>Submission {kebunitiReport.provenance?.submission_id} · Assignment {kebunitiReport.provenance?.assignment_id}</p><p>Received {kebunitiReport.provenance?.received_at} · Accepted {kebunitiReport.provenance?.accepted_at}</p><p>Blueprint hash {kebunitiReport.provenance?.blueprint_hash}</p></details>
+              </div>}
             </div>
             <label>
               Status
