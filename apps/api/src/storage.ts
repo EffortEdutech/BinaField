@@ -6,6 +6,8 @@ export interface EvidenceStorage {
   signUpload(key: string): Promise<{ url: string }>;
   /** Reads the stored object and returns its size and SHA-256, or null when the object does not exist. */
   hashObject(key: string): Promise<{ size: number; sha256: string } | null>;
+  /** Returns a short-lived URL for an authorised report viewer to read the object. */
+  signDownload?(key: string, expiresInSeconds?: number): Promise<{ url: string }>;
 }
 
 const BUCKET = 'evidence';
@@ -31,6 +33,14 @@ export function createSupabaseStorage(supabaseUrl: string, secretKey: string): E
       const reader = r.body.getReader();
       for (;;) { const { done, value } = await reader.read(); if (done) break; h.update(value); size += value.byteLength; }
       return { size, sha256: h.digest('hex') };
-    }
+    },
+    async signDownload(key, expiresInSeconds = 900) {
+      const r = await fetch(`${base}/storage/v1/object/sign/${BUCKET}/${path(key)}`, { method: 'POST', headers: { ...auth, 'content-type': 'application/json' }, body: JSON.stringify({ expiresIn: expiresInSeconds }) });
+      if (!r.ok) throw new Error('STORAGE_SIGN_DOWNLOAD_FAILED');
+      const b = (await r.json()) as { signedURL?: string; signedUrl?: string };
+      const signed = b.signedURL ?? b.signedUrl;
+      if (!signed) throw new Error('STORAGE_SIGN_DOWNLOAD_FAILED');
+      return { url: signed.startsWith('http') ? signed : `${base}/storage/v1${signed}` };
+    },
   };
 }

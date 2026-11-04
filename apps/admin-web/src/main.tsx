@@ -4,4 +4,5 @@ import App from './SupervisorDashboardV2';
 import './styles.css';
 import './dashboard.css';
 import './workspace.css';
+import './report.css';
 createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>);
