@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { registerSW } from 'virtual:pwa-register';
-import App from './app/FieldApp';
+import App from './App';
 import FieldApp from './app/FieldApp';
 
 registerSW({ immediate: true });

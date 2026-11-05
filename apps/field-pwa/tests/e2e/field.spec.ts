@@ -19,6 +19,7 @@ function mockServer(page: Page) {
   return page.route('https://plpaixewllldutjrjljg.supabase.co/auth/v1/token*', guard((r) => json(r, 200, { access_token: 'tok', refresh_token: 'ref', expires_in: 3600, user: { email: 't@x' } })))
     .then(() => page.route(`${base}/**`, guard(async (route) => {
       const req = route.request(), url = new URL(req.url()), path = url.pathname.replace(`/api/organizations/${ORG}`, '');
+      if (req.method() === 'GET' && path === '/me') return json(route, 200, { organization_id: ORG, role: 'FIELD_WORKER', device_state: 'ACTIVE' });
       if (req.method() === 'GET' && path === '/field/delta') {
         if (url.searchParams.get('cursor')) return json(route, 200, { entries: [], next_cursor: url.searchParams.get('cursor') });
         return json(route, 200, { next_cursor: 'c1:1', entries: [{ delta_id: 'd1', entity_type: 'assignment', entity_id: ASG, entity_revision: 1, change_type: 'UPSERT', occurred_at: new Date().toISOString(), payload: { assignment_id: ASG, assignment_revision: 1, template_version_id: TV, blueprint_hash: BP_HASH, payload: { project_id: 'p1', deployment_id: 'dep1', lifecycle_state: 'ASSIGNED', operational_subject_ref: { name: 'Demo site' }, blueprint: BP } } }] });
@@ -63,6 +64,9 @@ test('offline capture, reconnect, server has exactly one record', async ({ page 
   await expect(page.getByTestId('photo').getByRole('img', { name: 'Captured evidence preview' })).toBeVisible();
   await expect(page.getByTestId('photo').getByRole('button', { name: 'Remove photo' })).toBeVisible();
   await page.getByTestId('submit').click();
+  await expect(page.getByTestId('submission-confirmation')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Jobsheet submitted' })).toBeVisible();
+  await page.getByRole('button', { name: 'Back to my jobsheets' }).click();
   await expect(page.getByTestId('exec-status')).toHaveText('Submitted — waiting to sync');
   expect(srv.attempts.size).toBe(0);
   expect(Number(await page.getByTestId('pending').innerText())).toBeGreaterThanOrEqual(4);
