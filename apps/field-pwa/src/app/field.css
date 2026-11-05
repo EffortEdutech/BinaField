@@ -36,6 +36,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .filter-tabs button { min-height: 38px; padding: 8px 12px; background: #e4eee8; color: #173027; white-space: nowrap; font-size: .82rem; }
 .filter-tabs button.selected { background: #0f5132; color: #fff; }
 .assignment-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.assignment-card { border-left: 5px solid #8ac6a1; }
+.assignment-card-open { border-left-color: #0f5132; }
 .muted { color: #5b6c63; font-size: .9rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .field { margin: 18px 0; }
@@ -61,6 +63,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .field textarea { min-height: 90px; resize: vertical; }
 .field-error { color: #8a1c1c; font-size: .9rem; margin: 6px 0 0; }
 .photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.capture-field { padding: 14px; border: 1px dashed #8db49a; border-radius: 14px; background: #f3faf5; }
+.capture-field > button.secondary { width: 100%; min-height: 52px; border: 1px solid #8db49a; background: #fff; color: #0f5132; }
+.signoff-field { padding: 14px; border: 1px solid #d7e7dc; border-radius: 14px; background: #fbfdfb; }
 .photo-card { width: 120px; border: 1px solid #c7d7cc; border-radius: 10px; overflow: hidden; background: #f7faf8; }
 .photo-card img { width: 100%; height: 86px; object-fit: cover; display: block; background: #dfe9e2; }
 .photo-card .photo-meta { padding: 7px; font-size: .78rem; }
@@ -101,11 +106,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .briefing-list span { color: #5b6c63; font-size: .82rem; }
 @media (max-width: 600px) {
   body { background: #f4f7f5; }
-  .field-shell { max-width: 100%; padding: 12px 12px 88px; }
-  .field-header { position: sticky; top: 0; z-index: 5; margin: -12px -12px 0; padding: 12px; background: #f4f7f5ee; backdrop-filter: blur(12px); }
+  .field-shell { max-width: 100%; padding: 0 12px 88px; }
+  .field-header { position: sticky; top: 0; z-index: 5; margin: 0 -12px; padding: 14px 16px; color: #fff; background: #0f5132; box-shadow: 0 4px 14px #0f513233; }
   .field-header h1 { font-size: 1.05rem; }
-  .brand-kicker { font-size: .62rem; }
-  .status-bar { margin: 10px 0; gap: 6px; }
+  .field-header .brand-kicker { color: #bfe2ca; font-size: .62rem; }
+  .field-header .status-pill { background: #2f8063; color: #fff; }
+  .status-bar { margin: 12px 0; gap: 6px; padding: 8px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px #1730270d; }
   .status-bar .muted { width: 100%; font-size: .78rem; }
   .status-pill { padding: 6px 9px; font-size: .76rem; }
   .welcome-strip { margin: 12px 0; padding: 16px; border-radius: 18px; }
@@ -123,6 +129,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .assignment-head { display: flex; }
   .assignment-head h3 { font-size: 1rem; }
   .assignment-head .status-pill { flex: 0 0 auto; }
+  .assignment-card { border-left-width: 4px; }
   .actions { gap: 8px; }
   .actions button { flex: 1; }
   .sign-out { flex: 0 0 auto !important; }
@@ -132,6 +139,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .photo-card { width: auto; }
   .photo-card img { height: 112px; }
+  .capture-field { margin-left: -2px; margin-right: -2px; }
   .repeat-row { grid-template-columns: 1fr; }
   .form-heading { margin: 0 -2px; padding: 10px 2px; }
   .form-progress { height: 9px; }

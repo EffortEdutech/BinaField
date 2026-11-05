@@ -325,7 +325,7 @@ function Assignment({
     statusLabel[assignment.local_execution_status] ??
     "Ready to work";
   return (
-    <article className="card" data-testid="assignment">
+    <article className={`card assignment-card${open ? " assignment-card-open" : ""}`} data-testid="assignment">
       <div className="assignment-head">
         <div>
           <h3>
@@ -464,7 +464,7 @@ function Form({
         onChange={onFile}
       />
       {currentFields.map((f) => (
-        <div className="field" key={f.id}>
+        <div className={`field ${f.type === "photo" ? "capture-field" : ""} ${f.type === "signature" ? "signoff-field" : ""}`} key={f.id}>
           <label htmlFor={`f-${f.id}`}>
             {f.label}
             {f.required ? " *" : ""}
