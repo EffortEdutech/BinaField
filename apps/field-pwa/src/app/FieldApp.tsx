@@ -46,6 +46,7 @@ export default function FieldApp() {
   const [outbox, setOutbox] = useState<Row[]>([]);
   const [cases, setCases] = useState<Row[]>([]);
   const [open, setOpen] = useState<string | null>(null);
+  const [assignmentFilter, setAssignmentFilter] = useState<"ALL" | "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED">("ALL");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [deviceState, setDeviceState] = useState<"ACTIVE" | "PENDING" | "SUSPENDED" | "REVOKED" | "UNKNOWN">("UNKNOWN");
@@ -135,6 +136,10 @@ export default function FieldApp() {
     (o) =>
       !["SUCCEEDED", "FAILED_FINAL", "CANCELLED_BY_POLICY"].includes(o.state),
   ).length;
+  const visibleAssignments = assignments.filter((assignment) => assignmentFilter === "ALL" || assignment.local_execution_status === assignmentFilter);
+  const notStarted = assignments.filter((assignment) => assignment.local_execution_status === "NOT_STARTED").length;
+  const inProgress = assignments.filter((assignment) => assignment.local_execution_status === "IN_PROGRESS").length;
+  const submitted = assignments.filter((assignment) => ["SUBMITTED", "SUBMITTED_PENDING_SYNC", "ACCEPTED"].includes(assignment.local_execution_status)).length;
   return (
     <main className="field-shell">
       <header className="field-header">
@@ -226,15 +231,22 @@ export default function FieldApp() {
               ))}
             </section>
           )}
+          <section className="work-summary" aria-label="Work summary">
+            <div><small>To start</small><strong>{notStarted}</strong><span>new jobsheets</span></div>
+            <div><small>In progress</small><strong>{inProgress}</strong><span>continue when ready</span></div>
+            <div><small>Submitted</small><strong>{submitted}</strong><span>sent for review</span></div>
+          </section>
           <section aria-labelledby="assignments-heading">
-            <h2 id="assignments-heading">Assignments</h2>
+            <div className="section-head"><div><p className="eyebrow">Your work</p><h2 id="assignments-heading">Jobsheets</h2></div><span className="muted">{assignments.length} total</span></div>
+            {assignments.length > 0 && <div className="filter-tabs" role="group" aria-label="Filter jobsheets">{([["ALL", "All"], ["NOT_STARTED", "To start"], ["IN_PROGRESS", "In progress"], ["SUBMITTED", "Submitted"]] as const).map(([value, label]) => <button key={value} type="button" className={assignmentFilter === value ? "selected" : ""} onClick={() => setAssignmentFilter(value)}>{label}</button>)}</div>}
             {assignments.length === 0 && (
               <p className="card muted" data-testid="no-assignments">
                 No assignments on this device yet. Sync while online to check
                 for new work.
               </p>
             )}
-            {assignments.map((a) => (
+            {assignments.length > 0 && visibleAssignments.length === 0 && <p className="card muted">No jobsheets match this view.</p>}
+            {visibleAssignments.map((a) => (
               <Assignment
                 key={a.assignment_id}
                 set={set}

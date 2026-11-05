@@ -25,6 +25,15 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .eyebrow { margin: 0 0 6px; color: #2f8063; font-size: .7rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .sync-card { margin-top: 20px; }
+.work-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+.work-summary>div { padding: 13px; border: 1px solid #d7e7dc; border-radius: 13px; background: #fff; }
+.work-summary small, .work-summary strong, .work-summary span { display: block; }
+.work-summary small { color: #5b6c63; font-size: .72rem; font-weight: 750; text-transform: uppercase; letter-spacing: .06em; }
+.work-summary strong { color: #0f5132; font-size: 1.55rem; margin: 4px 0 1px; }
+.work-summary span { color: #5b6c63; font-size: .78rem; }
+.filter-tabs { display: flex; gap: 6px; overflow-x: auto; margin: 0 0 12px; padding-bottom: 2px; }
+.filter-tabs button { min-height: 38px; padding: 8px 12px; background: #e4eee8; color: #173027; white-space: nowrap; font-size: .82rem; }
+.filter-tabs button.selected { background: #0f5132; color: #fff; }
 .assignment-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .muted { color: #5b6c63; font-size: .9rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
@@ -47,4 +56,4 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .repeat-row label { font-size: .78rem; font-weight: 700; text-transform: capitalize; }
 .repeat-row input { width: 100%; margin-top: 4px; border: 1px solid #9db1a5; border-radius: 7px; padding: 8px; background: white; }
 .repeat-row button { min-height: 38px; padding: 8px 10px; }
-@media (max-width: 480px) { .field-shell { padding: 12px; } .assignment-head { display: block; } .field-header { align-items: center; } }
+@media (max-width: 480px) { .field-shell { padding: 12px; } .assignment-head { display: block; } .field-header { align-items: center; } .work-summary { gap: 6px; } .work-summary>div { padding: 10px 8px; } .work-summary strong { font-size: 1.3rem; } .work-summary span { font-size: .7rem; } }
