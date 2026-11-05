@@ -46,10 +46,15 @@ function mockServer(page: Page) {
 }
 
 test('offline capture, reconnect, server has exactly one record', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   const srv = await mockServer(page);
   await page.goto('/');
   await page.getByTestId('email').fill('t@x'); await page.getByTestId('password').fill('pw'); await page.getByTestId('login').click();
   await expect(page.getByTestId('assignment')).toHaveCount(1, { timeout: 30_000 });
+  await page.getByRole('button', { name: /Sync/ }).click();
+  await expect(page.getByRole('heading', { name: 'Sync status' })).toBeVisible();
+  await page.getByRole('button', { name: /My work/ }).click();
+  await expect(page.getByRole('heading', { name: 'Jobsheets' })).toBeVisible();
 
   // go offline, fill in the form, take a photo, submit
   srv.down = true; await page.context().setOffline(true);
