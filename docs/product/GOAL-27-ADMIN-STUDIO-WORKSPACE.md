@@ -99,6 +99,7 @@ The administrator is an authenticated organisation member with permission to man
 
 ## Current known blockers
 
-- The identity-first Admin Studio shell is deployed, including administrator identity, session restoration, authenticated organisation discovery, and named people/project/template/assignment controls.
-- The remaining gate is live browser acceptance after selecting **BinaField Demo**: verify the full administrator workspace and then run the Admin → PWA → review → final report path.
-- The named Liana pilot remains paused until that live acceptance gate is green.
+- The repository gate is complete: Admin Studio source audit, build, type checks, Goal 17–20 checks, and Goal 24 checks pass; legacy technical UI is removed.
+- Commit `ae173dd` is pushed to `origin/main`; the Admin Studio production deployment is READY and the API production deployment remains READY on the last API code commit `f293115`.
+- Browser acceptance is green for the deployed administrator workspace: normal session identity, BinaField Demo context, live operational records, review queue, reports/exports navigation, and audit visibility loaded successfully.
+- The named Liana pilot remains paused by policy until a separate controlled pilot run is explicitly resumed.
