@@ -385,7 +385,7 @@ function Form({
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [step, setStep] = useState(0);
+  const [phase, setPhase] = useState<"details" | "evidence" | "review">("details");
   const file = useRef<HTMLInputElement>(null);
   const photoField = useRef("");
   useEffect(() => {
@@ -441,21 +441,21 @@ function Form({
     return String(payload[field.id] ?? "").trim().length > 0;
   }).length;
   const progress = requiredFields.length ? Math.round((completedRequired / requiredFields.length) * 100) : 100;
-  const stepSize = 4;
-  const steps = Array.from({ length: Math.max(1, Math.ceil(bp.fields.length / stepSize)) }, (_, index) => bp.fields.slice(index * stepSize, (index + 1) * stepSize));
-  const currentFields = steps[step] ?? steps[0];
-  const isLastStep = step === steps.length - 1;
+  const detailFields = bp.fields.filter((field) => field.type !== "photo" && field.type !== "signature");
+  const evidenceFields = bp.fields.filter((field) => field.type === "photo" || field.type === "signature");
+  const currentFields = phase === "details" ? detailFields : evidenceFields;
   if (submitted) return <section className="submission-confirmation" data-testid="submission-confirmation" role="status"><span className="confirmation-icon">✓</span><h3>Jobsheet submitted</h3><p>Your work is safely saved. {navigator.onLine ? "It is being sent for review now." : "It will send automatically when you are back online."}</p><button type="button" className="secondary" onClick={onDone}>Back to my jobsheets</button></section>;
   return (
     <div data-testid="form">
       <div className="form-heading"><div><p className="eyebrow">Active jobsheet</p><h3>{bp.title}</h3></div><strong>{progress}%</strong></div>
       <div className="form-progress" aria-label={`${progress}% complete`}><span style={{ width: `${progress}%` }} /></div>
-      <div className="step-rail" aria-label={`Jobsheet step ${step + 1} of ${steps.length}`}>
-        {steps.map((_, index) => <button key={index} type="button" className={index === step ? "current" : index < step ? "complete" : ""} onClick={() => setStep(index)} aria-label={`Go to step ${index + 1}`}>{index < step ? "✓" : index + 1}</button>)}
-        <span>Step {step + 1} of {steps.length}</span>
+      <div className="step-rail phase-rail" aria-label="Jobsheet workflow steps">
+        <button type="button" className={phase === "details" ? "current" : "complete"} onClick={() => setPhase("details")}>1</button><span>Details</span>
+        <button type="button" className={phase === "evidence" ? "current" : phase === "review" ? "complete" : ""} onClick={() => setPhase("evidence")}>2</button><span>Evidence</span>
+        <button type="button" className={phase === "review" ? "current" : ""} onClick={() => setPhase("review")}>3</button><span>Review</span>
       </div>
       <p className="muted">
-        Your answers save automatically. Complete the required fields, add evidence where requested, then submit for review.
+        {phase === "details" ? "Complete the job details. Your answers save automatically." : phase === "evidence" ? "Add the required photos and signatures for this report." : "Check your missing items before sending this jobsheet."}
       </p>
       <input
         ref={file}
@@ -466,7 +466,7 @@ function Form({
         style={{ display: "none" }}
         onChange={onFile}
       />
-      {currentFields.map((f) => (
+      {phase === "review" ? <section className="review-panel" aria-label="Review submission"><h3>Ready to send?</h3><p className="muted">Your jobsheet is saved on this device. It can be sent now or when you reconnect.</p><div className="review-stat"><strong>{progress}%</strong><span>required work complete</span></div><p className={miss.length ? "field-error" : "review-ok"}>{miss.length ? `Still required: ${miss.join(", ")}` : "Everything required is ready."}</p></section> : currentFields.map((f) => (
         <div className={`field ${f.type === "photo" ? "capture-field" : ""} ${f.type === "signature" ? "signoff-field" : ""}`} key={f.id}>
           <label htmlFor={`f-${f.id}`}>
             {f.label}
@@ -564,8 +564,10 @@ function Form({
         </p>
       )}
       <div className="step-actions">
-        {step > 0 && <button type="button" className="secondary" onClick={() => setStep(step - 1)}>Back</button>}
-        {!isLastStep ? <button type="button" onClick={() => setStep(step + 1)}>Next step <span aria-hidden="true">→</span></button> : <button data-testid="submit" disabled={miss.length > 0 || busy} onClick={send}>{busy ? "Saving…" : "Review & submit"}</button>}
+        {phase !== "details" && <button type="button" className="secondary" onClick={() => setPhase(phase === "review" ? "evidence" : "details")}>Back</button>}
+        {phase === "details" && <button type="button" onClick={() => setPhase("evidence")}>Continue to evidence <span aria-hidden="true">→</span></button>}
+        {phase === "evidence" && <button type="button" onClick={() => setPhase("review")}>Review submission <span aria-hidden="true">→</span></button>}
+        {phase === "review" && <button data-testid="submit" disabled={miss.length > 0 || busy} onClick={send}>{busy ? "Saving…" : "Submit jobsheet"}</button>}
       </div>
     </div>
   );

@@ -56,6 +56,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .step-rail span { margin-left: 4px; color: #5b6c63; font-size: .8rem; font-weight: 700; }
 .step-actions { display: flex; justify-content: space-between; gap: 8px; position: sticky; bottom: 8px; z-index: 3; margin: 20px 0 4px; padding: 8px; border: 1px solid #d7e2db; border-radius: 14px; background: #ffffffed; box-shadow: 0 8px 22px #1730271c; backdrop-filter: blur(10px); }
 .step-actions button { flex: 1; }
+.review-panel { padding: 18px; border: 1px solid #cde5d5; border-radius: 16px; background: #f3faf5; }
+.review-panel h3 { margin: 0 0 6px; }
+.review-stat { display: flex; align-items: baseline; gap: 8px; margin: 18px 0; color: #0f5132; }
+.review-stat strong { font-size: 2.2rem; }
+.review-stat span { color: #5b6c63; font-size: .85rem; }
+.review-ok { color: #17633d; font-weight: 750; }
 .submission-confirmation { text-align: center; padding: 24px 8px 10px; }
 .confirmation-icon { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 50%; background: #dff4e8; color: #17633d; font-size: 1.5rem; font-weight: 800; }
 .submission-confirmation h3 { margin: 0 0 6px; }
