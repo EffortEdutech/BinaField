@@ -310,6 +310,7 @@ export default function SupervisorDashboardV2() {
       </header>
       <section className="card">
         <h2>Organisation context</h2>
+        {token && <p className="muted">Signed in as <strong>{email}</strong> · administrator session</p>}
         {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><label>Organisation<select aria-label="Organisation" value={org} onChange={(e) => setOrg(e.target.value)}><option value="">Choose an organisation</option>{organisations.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button onClick={refresh} disabled={loading || !org}>{loading ? "Loading…" : "Open Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
         {message && (
           <p
