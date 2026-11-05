@@ -27,6 +27,7 @@ export default function SupervisorDashboardV2() {
     [password, setPassword] = useState(""),
     [context, setContext] = useState<any>(),
     [submissions, setSubmissions] = useState<any[]>([]),
+    [templates, setTemplates] = useState<any[]>([]),
     [assignments, setAssignments] = useState<any[]>([]),
     [audit, setAudit] = useState<any[]>([]),
     [projects, setProjects] = useState<any[]>([]),
@@ -56,7 +57,9 @@ export default function SupervisorDashboardV2() {
     [projectCode, setProjectCode] = useState(""),
     [projectName, setProjectName] = useState(""),
     [assignmentProject, setAssignmentProject] = useState(""),
-    [assignmentMember, setAssignmentMember] = useState("");
+    [assignmentMember, setAssignmentMember] = useState(""),
+    [templateName, setTemplateName] = useState(""),
+    [templateKey, setTemplateKey] = useState("");
   const h = () => ({ authorization: `Bearer ${token}` });
   const loadOrganisations = async (accessToken = token) => {
     const data = await read(await fetch(`${API}/organizations`, { headers: { authorization: `Bearer ${accessToken}` } }));
@@ -82,7 +85,7 @@ export default function SupervisorDashboardV2() {
         await fetch(`${API}/organizations/${org}/me`, { headers: h() }),
       );
       setContext(me);
-      const [a, s, e, p, m, r, d, dp] = await Promise.all([
+      const [a, s, e, p, m, r, d, dp, t] = await Promise.all([
         fetch(`${API}/organizations/${org}/assignments`, { headers: h() }),
         fetch(`${API}/organizations/${org}/submissions`, { headers: h() }),
         fetch(`${API}/organizations/${org}/audit-events?limit=100`, {
@@ -93,6 +96,7 @@ export default function SupervisorDashboardV2() {
         fetch(`${API}/organizations/${org}/roles`, { headers: h() }),
         fetch(`${API}/organizations/${org}/devices`, { headers: h() }),
         fetch(`${API}/organizations/${org}/deployments`, { headers: h() }),
+        fetch(`${API}/organizations/${org}/templates`, { headers: h() }),
       ]);
       setAssignments((await read(a)).items ?? []);
       setSubmissions((await read(s)).items ?? []);
@@ -102,6 +106,7 @@ export default function SupervisorDashboardV2() {
       setRoles((await read(r)).items ?? []);
       setDevices((await read(d)).items ?? []);
       setDeployments((await read(dp)).items ?? []);
+      setTemplates((await read(t)).items ?? []);
       setMessage("Organisation data refreshed");
     } catch (e) {
       setMessage(`Could not load Admin Studio data: ${String(e)}`);
@@ -168,6 +173,13 @@ export default function SupervisorDashboardV2() {
       await read(await fetch(`${API}/organizations/${org}/projects`, { method: "POST", headers: { ...h(), "content-type": "application/json", "idempotency-key": `admin-project-${crypto.randomUUID()}` }, body: JSON.stringify({ project_code: projectCode, name: projectName }) }));
       setProjectCode(""); setProjectName(""); setMessage("Project created as a draft."); await refresh();
     } catch (e) { setMessage(`Project creation failed: ${String(e)}`); }
+  };
+  const createTemplate = async () => {
+    if (!templateKey || !templateName) return setMessage("Enter the template name and key.");
+    try {
+      await read(await fetch(`${API}/organizations/${org}/templates`, { method: "POST", headers: { ...h(), "content-type": "application/json", "idempotency-key": `admin-template-${crypto.randomUUID()}` }, body: JSON.stringify({ template_key: templateKey, name: templateName }) }));
+      setTemplateKey(""); setTemplateName(""); setMessage("Report template draft created."); await refresh();
+    } catch (e) { setMessage(`Template creation failed: ${String(e)}`); }
   };
   const issueAssignment = async () => {
     const deployment = deployments.find((item) => item.lifecycle_state === "ACTIVE");
@@ -367,6 +379,7 @@ export default function SupervisorDashboardV2() {
               ) : (
                 <p className="muted">No projects found.</p>
               )}
+              <h3>Report templates</h3><p className="muted">Start a reusable report contract; validate and publish its field blueprint before issuing work.</p><div className="admin-form-grid"><label>Template key<input aria-label="New template key" placeholder="kebuniti-field-log" value={templateKey} onChange={(e) => setTemplateKey(e.target.value)} /></label><label>Template name<input aria-label="New template name" placeholder="Kebuniti Field Data Log" value={templateName} onChange={(e) => setTemplateName(e.target.value)} /></label></div><button onClick={createTemplate}>Create report template</button>{templates.length ? <ul>{templates.slice(0, 8).map((t) => <li key={t.id}><strong>{t.name}</strong> · {t.lifecycle_state}</li>)}</ul> : <p className="muted">No templates found.</p>}
               <h3>Memberships and roles</h3>
               {memberships.length ? (
                 <ul>
