@@ -3,6 +3,7 @@
 /* Sidebar routes are operational pages, not anchor jumps. Keep one task surface visible at a time. */
 .page-section{display:none}
 .page-intro{grid-column:1/-1;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:4px 2px 2px}.page-intro h2{margin:3px 0 5px}.page-intro p{max-width:720px}.page-intro-status{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;color:var(--muted);font-size:11px;font-weight:750;padding-bottom:8px}.page-intro-status .status-dot{width:8px;height:8px}
+.page-stat-strip{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.page-stat-strip>div{background:#f5fafa;border:1px solid #dce9ea;border-radius:14px;padding:14px 16px}.page-stat-strip small,.page-stat-strip strong,.page-stat-strip span{display:block}.page-stat-strip small{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em}.page-stat-strip strong{color:var(--navy);font-size:25px;margin:5px 0 2px}.page-stat-strip span{color:var(--muted);font-size:11px}
 .shell.page-overview .page-section.page-overview.overview-hero{display:flex}
 .shell.page-overview .page-section.page-overview.metric-grid,
 .shell.page-overview .page-section.page-overview.overview-grid{display:grid}
