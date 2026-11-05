@@ -361,6 +361,7 @@ export default function SupervisorDashboardV2() {
           <section className="card recent-card page-section page-overview"><div className="section-heading"><div><p className="eyebrow">Activity stream</p><h2>Recent submissions</h2></div><a href="#review">Open review queue →</a></div>{latestActivity.length ? <div className="recent-list">{latestActivity.map((s) => <a href="#review" key={s.attempt_id}><span className={`status-chip ${String(s.status).toLowerCase()}`}>{s.status}</span><span><strong>{projectNameFor(s.project_id)}</strong><small>Field submission awaiting its next step</small></span><time>{s.received_at ? new Date(s.received_at).toLocaleString() : "Time unavailable"}</time><span className="chevron">→</span></a>)}</div> : <div className="empty-state"><strong>No submissions yet</strong><span>When field work arrives, the latest activity will appear here.</span><a href="#administration">View assignments →</a></div>}</section>
           <section className="card workspace-panel page-section page-overview" id="workspace"><div className="section-heading"><div><p className="eyebrow">Operations workspace</p><h2>Assignments & submissions</h2><p className="muted">Search, filter, and move directly to the work record.</p></div></div><div className="workspace-filters"><input aria-label="Search assignments" placeholder="Search subject or project" value={assignmentSearch} onChange={(e) => { setAssignmentSearch(e.target.value); setAssignmentPage(0); }} /><select aria-label="Filter assignment state" value={assignmentState} onChange={(e) => { setAssignmentState(e.target.value); setAssignmentPage(0); }}><option>ALL</option><option>ASSIGNED</option><option>IN_PROGRESS</option><option>SUBMITTED</option><option>COMPLETED</option><option>CANCELLED</option></select><a href="#review">Review submissions →</a></div>{visibleAssignments.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Work</th><th>Project</th><th>Status</th><th>Updated</th><th /></tr></thead><tbody>{visibleAssignments.map((a) => <tr key={a.id}><td><strong>{a.operational_subject_ref?.label ?? "Field assignment"}</strong><small>Assigned field work</small></td><td>{projectNameFor(a.project_id)}</td><td><span className={`status-chip ${String(a.lifecycle_state).toLowerCase()}`}>{a.lifecycle_state}</span></td><td>{a.updated_at ? new Date(a.updated_at).toLocaleDateString() : "—"}</td><td><a href="#administration">Open →</a></td></tr>)}</tbody></table></div> : <div className="empty-state"><strong>No assignments match your filters</strong><span>Try clearing the search or selecting another status.</span></div>}<div className="timeline"><h3>Submission timeline</h3>{latestActivity.length ? latestActivity.slice(0, 3).map((s) => <div className="timeline-item" key={s.attempt_id}><span className="timeline-dot" /><span><strong>{s.status}</strong><small>{projectNameFor(s.project_id)} · {s.received_at ? new Date(s.received_at).toLocaleString() : "time unavailable"}</small></span></div>) : <p className="muted">No submission events yet.</p>}</div></section>
           <section className="grid page-section page-administration" id="administration">
+            <div className="page-intro"><div><p className="eyebrow">Prepare the operation</p><h2>Organisation control centre</h2><p className="muted">Set up the people, devices, projects, report contracts, and assignments that make field work possible.</p></div><span className="page-intro-status"><span className="status-dot" /> {projects.length} projects · {memberships.length} people</span></div>
             <section className="card">
               <p className="eyebrow">People & access</p><h2>Organisation administration</h2>
               <p className="muted">Manage who can work in this organisation and what they are allowed to do.</p>
@@ -532,6 +533,7 @@ export default function SupervisorDashboardV2() {
             </section>
           </section>
           <section className="card page-section page-reports" id="reports">
+            <div className="page-intro"><div><p className="eyebrow">Analyse and release</p><h2>Reports & exports</h2><p className="muted">Reconcile field activity, inspect the customer-ready report, and release evidence-backed outputs.</p></div><span className="page-intro-status"><span className="status-dot" /> Live data</span></div>
             <div className="section-heading">
               <div>
                 <p className="eyebrow">Reporting</p>
@@ -602,7 +604,8 @@ export default function SupervisorDashboardV2() {
             </label>
           </section>
           <section className="card page-section page-review" id="review">
-            <h2>Exports</h2>
+            <div className="page-intro"><div><p className="eyebrow">Operational decisions</p><h2>Review queue</h2><p className="muted">Move received field work to an auditable accepted or rejected outcome.</p></div><span className="page-intro-status"><span className="status-dot" /> {filtered.length} items</span></div>
+            <h3>Data exports</h3>
             <button onClick={() => exportData("assignments", "json")}>
               Assignments JSON
             </button>
@@ -688,6 +691,7 @@ export default function SupervisorDashboardV2() {
             )}
           </section>
           <section className="grid page-section page-audit">
+            <div className="page-intro"><div><p className="eyebrow">Explain and support</p><h2>Audit & support</h2><p className="muted">Trace decisions, outcomes, and operational events when a project needs investigation.</p></div><span className="page-intro-status"><span className="status-dot" /> {audit.length} events loaded</span></div>
             <section className="card" id="audit">
               <h2>Outcome history</h2>
               {history.length ? (
