@@ -40,6 +40,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .assignment-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .assignment-card { border-left: 5px solid #8ac6a1; }
 .assignment-card-open { border-left-color: #0f5132; }
+.show-more { width: 100%; margin: 8px 0 4px; background: #e4eee8; color: #0f5132; }
 .muted { color: #5b6c63; font-size: .9rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .field { margin: 18px 0; }

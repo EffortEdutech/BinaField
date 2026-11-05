@@ -51,6 +51,7 @@ export default function FieldApp() {
   const [open, setOpen] = useState<string | null>(null);
   const [assignmentFilter, setAssignmentFilter] = useState<"ALL" | "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED">("ALL");
   const [workspaceTab, setWorkspaceTab] = useState<"work" | "sync">(() => location.hash === "#sync-status" ? "sync" : "work");
+  const [showAllAssignments, setShowAllAssignments] = useState(false);
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [deviceState, setDeviceState] = useState<"ACTIVE" | "PENDING" | "SUSPENDED" | "REVOKED" | "UNKNOWN">("UNKNOWN");
@@ -141,6 +142,7 @@ export default function FieldApp() {
       !["SUCCEEDED", "FAILED_FINAL", "CANCELLED_BY_POLICY"].includes(o.state),
   ).length;
   const visibleAssignments = assignments.filter((assignment) => assignmentFilter === "ALL" || assignment.local_execution_status === assignmentFilter);
+  const displayedAssignments = showAllAssignments ? visibleAssignments : visibleAssignments.slice(0, 3);
   const notStarted = assignments.filter((assignment) => assignment.local_execution_status === "NOT_STARTED").length;
   const inProgress = assignments.filter((assignment) => assignment.local_execution_status === "IN_PROGRESS").length;
   const submitted = assignments.filter((assignment) => ["SUBMITTED", "SUBMITTED_PENDING_SYNC", "ACCEPTED"].includes(assignment.local_execution_status)).length;
@@ -250,7 +252,7 @@ export default function FieldApp() {
               </p>
             )}
             {assignments.length > 0 && visibleAssignments.length === 0 && <p className="card muted">No jobsheets match this view.</p>}
-            {!open && visibleAssignments.map((a) => (
+            {!open && displayedAssignments.map((a) => (
               <Assignment
                 key={a.assignment_id}
                 set={set}
@@ -266,6 +268,7 @@ export default function FieldApp() {
                 }}
               />
             ))}
+            {!open && visibleAssignments.length > 3 && <button type="button" className="show-more" onClick={() => setShowAllAssignments((value) => !value)}>{showAllAssignments ? "Show fewer jobsheets" : `Show all ${visibleAssignments.length} jobsheets`}</button>}
           </section>
           </>}
           {workspaceTab === "sync" && <section className="sync-screen" id="sync-status">
