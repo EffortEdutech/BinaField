@@ -20,6 +20,7 @@ function ReportTable({ rows, columns }: { rows?: any[]; columns: [string, string
   return rows?.length ? <div className="data-table-wrap report-table"><table className="data-table"><thead><tr>{columns.map(([, label]) => <th key={label}>{label}</th>)}</tr></thead><tbody>{rows.map((row, i) => <tr key={i}>{columns.map(([key]) => <td key={key}>{String(row?.[key] ?? "—")}</td>)}</tr>)}</tbody></table></div> : <p className="muted">No records submitted.</p>;
 }
 export default function SupervisorDashboardV2() {
+  const [activePage, setActivePage] = useState(() => window.location.hash.replace(/^#/, "") || "overview");
   const [org, setOrg] = useState(""),
     [organisations, setOrganisations] = useState<any[]>([]),
     [token, setToken] = useState(loadSession()?.accessToken ?? ""),
@@ -61,6 +62,15 @@ export default function SupervisorDashboardV2() {
     [templateName, setTemplateName] = useState(""),
     [templateKey, setTemplateKey] = useState("");
   const h = () => ({ authorization: `Bearer ${token}` });
+  const navigate = (page: string) => {
+    window.location.hash = page;
+    setActivePage(page);
+  };
+  useEffect(() => {
+    const onHashChange = () => setActivePage(window.location.hash.replace(/^#/, "") || "overview");
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
   const loadOrganisations = async (accessToken = token) => {
     const data = await read(await fetch(`${API}/organizations`, { headers: { authorization: `Bearer ${accessToken}` } }));
     const items = data.items ?? [];
@@ -288,16 +298,16 @@ export default function SupervisorDashboardV2() {
   const assignmentRows = assignments.filter((a) => (assignmentState === "ALL" || a.lifecycle_state === assignmentState) && (!assignmentSearch || `${a.id} ${a.operational_subject_ref?.label ?? ""}`.toLowerCase().includes(assignmentSearch.toLowerCase()))).sort((a, b) => new Date(b.updated_at ?? 0).getTime() - new Date(a.updated_at ?? 0).getTime());
   const visibleAssignments = assignmentRows.slice(assignmentPage * 8, assignmentPage * 8 + 8);
   return (
-    <main className="shell">
+    <main className={`shell page-${activePage}`}>
       <div className="app-frame">
         <aside className="sidebar" aria-label="Primary navigation">
           <div className="brand-lockup"><span className="brand-mark">BF</span><span><strong>BinaField</strong><small>Admin Studio</small></span></div>
           <nav>
-            <a className="nav-item active" href="#overview">⌂ <span>Overview</span></a>
-            <a className="nav-item" href="#administration">▦ <span>Administration</span></a>
-            <a className="nav-item" href="#review">✓ <span>Review queue</span></a>
-            <a className="nav-item" href="#reports">◒ <span>Reports & exports</span></a>
-            <a className="nav-item" href="#audit">◌ <span>Audit trail</span></a>
+            <a className={`nav-item ${activePage === "overview" ? "active" : ""}`} href="#overview" onClick={() => navigate("overview")}>⌂ <span>Overview</span></a>
+            <a className={`nav-item ${activePage === "administration" ? "active" : ""}`} href="#administration" onClick={() => navigate("administration")}>▦ <span>Administration</span></a>
+            <a className={`nav-item ${activePage === "review" ? "active" : ""}`} href="#review" onClick={() => navigate("review")}>✓ <span>Review queue</span></a>
+            <a className={`nav-item ${activePage === "reports" ? "active" : ""}`} href="#reports" onClick={() => navigate("reports")}>◒ <span>Reports & exports</span></a>
+            <a className={`nav-item ${activePage === "audit" ? "active" : ""}`} href="#audit" onClick={() => navigate("audit")}>◌ <span>Audit trail</span></a>
           </nav>
           <div className="sidebar-foot"><span className="status-dot" /> Organisation workspace<br /><small>Administrator session</small></div>
         </aside>
@@ -333,7 +343,7 @@ export default function SupervisorDashboardV2() {
       </section>
       {context?.organization_id && (
         <>
-          <section className="overview-hero" aria-labelledby="today-heading">
+          <section className="overview-hero page-section page-overview" aria-labelledby="today-heading">
             <div>
               <p className="eyebrow">Operations overview</p>
               <h2 id="today-heading">Today’s operations</h2>
@@ -341,16 +351,16 @@ export default function SupervisorDashboardV2() {
             </div>
             <div className="freshness"><span className="status-dot" /> <strong>Live data</strong><small>Updated just now · {assignments.length + submissions.length} records loaded</small></div>
           </section>
-          <section className="metric-grid" aria-label="Operational counts">
+          <section className="metric-grid page-section page-overview" aria-label="Operational counts">
             {[['Assigned', metrics.assigned, 'assigned', '#087e83'], ['In progress', metrics.inProgress, 'administration', '#3b73a8'], ['Submitted', metrics.submitted, 'review', '#8065b5'], ['Accepted', metrics.accepted, 'review', '#2b9868'], ['Rejected', metrics.rejected, 'review', '#c65353'], ['Overdue', metrics.overdue, 'administration', '#d58b22']].map(([label, value, href, color]) => <a className="metric-card" href={`#${href}`} key={String(label)}><span className="metric-accent" style={{ background: color as string }} /><small>{label}</small><strong>{value}</strong><span>View details →</span></a>)}
           </section>
-          <section className="overview-grid">
+          <section className="overview-grid page-section page-overview">
             <section className="card project-cards"><div className="section-heading"><div><p className="eyebrow">Portfolio pulse</p><h2>Project activity</h2></div><a href="#administration">View all →</a></div>{projectActivity.length ? <div className="project-list">{projectActivity.slice(0, 4).map((p) => <a href="#administration" className="project-card" key={p.id}><span className="project-icon">{(p.name ?? "P").slice(0, 1).toUpperCase()}</span><span><strong>{p.name}</strong><small>{p.lifecycle_state} · {p.assigned} assigned · {p.submitted} submitted</small></span><span className="chevron">→</span></a>)}</div> : <p className="empty-state">No projects are available in this workspace yet.</p>}</section>
             <section className="card attention-card"><div className="section-heading"><div><p className="eyebrow">Needs attention</p><h2>Keep work moving</h2></div><span className="attention-count">{attention.length}</span></div>{attention.length ? <ul>{attention.map((item) => <li key={item.label}><span className="attention-icon">!</span><a href={item.href}>{item.label}<small>Open workspace →</small></a></li>)}</ul> : <div className="clear-state"><span>✓</span><strong>Everything is on track</strong><small>No urgent actions detected in the loaded records.</small></div>}</section>
           </section>
-          <section className="card recent-card"><div className="section-heading"><div><p className="eyebrow">Activity stream</p><h2>Recent submissions</h2></div><a href="#review">Open review queue →</a></div>{latestActivity.length ? <div className="recent-list">{latestActivity.map((s) => <a href="#review" key={s.attempt_id}><span className={`status-chip ${String(s.status).toLowerCase()}`}>{s.status}</span><span><strong>{projectNameFor(s.project_id)}</strong><small>Field submission awaiting its next step</small></span><time>{s.received_at ? new Date(s.received_at).toLocaleString() : "Time unavailable"}</time><span className="chevron">→</span></a>)}</div> : <div className="empty-state"><strong>No submissions yet</strong><span>When field work arrives, the latest activity will appear here.</span><a href="#administration">View assignments →</a></div>}</section>
-          <section className="card workspace-panel" id="workspace"><div className="section-heading"><div><p className="eyebrow">Operations workspace</p><h2>Assignments & submissions</h2><p className="muted">Search, filter, and move directly to the work record.</p></div></div><div className="workspace-filters"><input aria-label="Search assignments" placeholder="Search subject or project" value={assignmentSearch} onChange={(e) => { setAssignmentSearch(e.target.value); setAssignmentPage(0); }} /><select aria-label="Filter assignment state" value={assignmentState} onChange={(e) => { setAssignmentState(e.target.value); setAssignmentPage(0); }}><option>ALL</option><option>ASSIGNED</option><option>IN_PROGRESS</option><option>SUBMITTED</option><option>COMPLETED</option><option>CANCELLED</option></select><a href="#review">Review submissions →</a></div>{visibleAssignments.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Work</th><th>Project</th><th>Status</th><th>Updated</th><th /></tr></thead><tbody>{visibleAssignments.map((a) => <tr key={a.id}><td><strong>{a.operational_subject_ref?.label ?? "Field assignment"}</strong><small>Assigned field work</small></td><td>{projectNameFor(a.project_id)}</td><td><span className={`status-chip ${String(a.lifecycle_state).toLowerCase()}`}>{a.lifecycle_state}</span></td><td>{a.updated_at ? new Date(a.updated_at).toLocaleDateString() : "—"}</td><td><a href="#administration">Open →</a></td></tr>)}</tbody></table></div> : <div className="empty-state"><strong>No assignments match your filters</strong><span>Try clearing the search or selecting another status.</span></div>}<div className="timeline"><h3>Submission timeline</h3>{latestActivity.length ? latestActivity.slice(0, 3).map((s) => <div className="timeline-item" key={s.attempt_id}><span className="timeline-dot" /><span><strong>{s.status}</strong><small>{projectNameFor(s.project_id)} · {s.received_at ? new Date(s.received_at).toLocaleString() : "time unavailable"}</small></span></div>) : <p className="muted">No submission events yet.</p>}</div></section>
-          <section className="grid" id="administration">
+          <section className="card recent-card page-section page-overview"><div className="section-heading"><div><p className="eyebrow">Activity stream</p><h2>Recent submissions</h2></div><a href="#review">Open review queue →</a></div>{latestActivity.length ? <div className="recent-list">{latestActivity.map((s) => <a href="#review" key={s.attempt_id}><span className={`status-chip ${String(s.status).toLowerCase()}`}>{s.status}</span><span><strong>{projectNameFor(s.project_id)}</strong><small>Field submission awaiting its next step</small></span><time>{s.received_at ? new Date(s.received_at).toLocaleString() : "Time unavailable"}</time><span className="chevron">→</span></a>)}</div> : <div className="empty-state"><strong>No submissions yet</strong><span>When field work arrives, the latest activity will appear here.</span><a href="#administration">View assignments →</a></div>}</section>
+          <section className="card workspace-panel page-section page-overview" id="workspace"><div className="section-heading"><div><p className="eyebrow">Operations workspace</p><h2>Assignments & submissions</h2><p className="muted">Search, filter, and move directly to the work record.</p></div></div><div className="workspace-filters"><input aria-label="Search assignments" placeholder="Search subject or project" value={assignmentSearch} onChange={(e) => { setAssignmentSearch(e.target.value); setAssignmentPage(0); }} /><select aria-label="Filter assignment state" value={assignmentState} onChange={(e) => { setAssignmentState(e.target.value); setAssignmentPage(0); }}><option>ALL</option><option>ASSIGNED</option><option>IN_PROGRESS</option><option>SUBMITTED</option><option>COMPLETED</option><option>CANCELLED</option></select><a href="#review">Review submissions →</a></div>{visibleAssignments.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Work</th><th>Project</th><th>Status</th><th>Updated</th><th /></tr></thead><tbody>{visibleAssignments.map((a) => <tr key={a.id}><td><strong>{a.operational_subject_ref?.label ?? "Field assignment"}</strong><small>Assigned field work</small></td><td>{projectNameFor(a.project_id)}</td><td><span className={`status-chip ${String(a.lifecycle_state).toLowerCase()}`}>{a.lifecycle_state}</span></td><td>{a.updated_at ? new Date(a.updated_at).toLocaleDateString() : "—"}</td><td><a href="#administration">Open →</a></td></tr>)}</tbody></table></div> : <div className="empty-state"><strong>No assignments match your filters</strong><span>Try clearing the search or selecting another status.</span></div>}<div className="timeline"><h3>Submission timeline</h3>{latestActivity.length ? latestActivity.slice(0, 3).map((s) => <div className="timeline-item" key={s.attempt_id}><span className="timeline-dot" /><span><strong>{s.status}</strong><small>{projectNameFor(s.project_id)} · {s.received_at ? new Date(s.received_at).toLocaleString() : "time unavailable"}</small></span></div>) : <p className="muted">No submission events yet.</p>}</div></section>
+          <section className="grid page-section page-administration" id="administration">
             <section className="card">
               <p className="eyebrow">People & access</p><h2>Organisation administration</h2>
               <p className="muted">Manage who can work in this organisation and what they are allowed to do.</p>
@@ -521,7 +531,7 @@ export default function SupervisorDashboardV2() {
               )}
             </section>
           </section>
-          <section className="card" id="reports">
+          <section className="card page-section page-reports" id="reports">
             <div className="section-heading">
               <div>
                 <p className="eyebrow">Reporting</p>
@@ -591,7 +601,7 @@ export default function SupervisorDashboardV2() {
               </select>
             </label>
           </section>
-          <section className="card" id="review">
+          <section className="card page-section page-review" id="review">
             <h2>Exports</h2>
             <button onClick={() => exportData("assignments", "json")}>
               Assignments JSON
@@ -670,7 +680,7 @@ export default function SupervisorDashboardV2() {
               <p className="muted">No submissions match this filter.</p>
             )}
           </section>
-          <section className="grid">
+          <section className="grid page-section page-audit">
             <section className="card" id="audit">
               <h2>Outcome history</h2>
               {history.length ? (
