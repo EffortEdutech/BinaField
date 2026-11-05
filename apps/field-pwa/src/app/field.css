@@ -7,7 +7,7 @@ button.secondary { background: #e4eee8; color: #173027; }
 button.danger { background: #9b2c2c; }
 button:disabled { opacity: .5; cursor: not-allowed; }
 button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #d48a1f; outline-offset: 2px; }
-.field-shell { max-width: 760px; margin: 0 auto; padding: 16px; }
+.field-shell { max-width: 520px; min-height: 100vh; margin: 0 auto; padding: 0 12px 88px; background: #f4f7f5; }
 .field-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .field-header h1 { margin: 0; font-size: 1.35rem; }
 .brand-kicker { margin: 0 0 3px; color: #2f8063; font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
@@ -98,7 +98,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .next-job .eyebrow, .next-job .muted { color: #cbe8d7; }
 .next-job button { background: #f4c766; color: #173027; min-width: 88px; }
 .queue-count { color: #5b6c63; font-size: .86rem; font-weight: 700; }
-.mobile-nav { display: none; }
+.mobile-nav { position: fixed; z-index: 10; left: 50%; right: auto; bottom: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; width: min(calc(100% - 24px), 496px); transform: translateX(-50%); padding: 6px; border: 1px solid #d7e2db; border-radius: 18px; background: #ffffffed; box-shadow: 0 10px 28px #17302722; backdrop-filter: blur(14px); }
+.mobile-nav a, .mobile-nav button { min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 0; border-radius: 13px; background: transparent; color: #5b6c63; text-decoration: none; }
+.mobile-nav a.active, .mobile-nav button.active { background: #e4eee8; color: #0f5132; }
+.mobile-nav span { font-size: 1.05rem; line-height: 1; }
+.mobile-nav small { font-size: .68rem; font-weight: 750; }
 .home-content.hidden { display: none; }
 .workflow-screen { min-height: 60vh; }
 .workflow-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0 16px; }
@@ -152,11 +156,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .repeat-row { grid-template-columns: 1fr; }
   .form-heading { margin: 0 -2px; padding: 10px 2px; }
   .form-progress { height: 9px; }
-  .mobile-nav { position: fixed; z-index: 10; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 6px; border: 1px solid #d7e2db; border-radius: 18px; background: #ffffffed; box-shadow: 0 10px 28px #17302722; backdrop-filter: blur(14px); }
-  .mobile-nav a, .mobile-nav button { min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 0; border-radius: 13px; background: transparent; color: #5b6c63; text-decoration: none; }
-  .mobile-nav a.active { background: #e4eee8; color: #0f5132; }
-  .mobile-nav span { font-size: 1.05rem; line-height: 1; }
-  .mobile-nav small { font-size: .68rem; font-weight: 750; }
+  .mobile-nav { left: 12px; right: 12px; width: auto; transform: none; }
   .workflow-screen { min-height: calc(100vh - 118px); }
   .workflow-top { margin-top: 4px; }
   .workflow-steps { padding: 8px 0; background: #f4f7f5ee; }
