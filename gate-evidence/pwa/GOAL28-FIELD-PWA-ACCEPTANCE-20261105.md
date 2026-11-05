@@ -23,7 +23,9 @@ Verified in the authenticated Field PWA session:
 - `npm run build` passed.
 - `npm run check:kebuniti` passed all contract checks, including photos, signatures, offline submission policy, normal login, and device onboarding.
 - Production deployment for commit `1771a71` reported `READY`.
+- Playwright mobile shell test passed at `360px` width with accessible sign-in controls and no horizontal overflow.
+- Playwright offline field-flow test passed with photo capture, offline submission, reconnect retry, idempotency, and local persistence.
 
 ## Remaining acceptance item
 
-Authenticated narrow-mobile acceptance still needs to be captured at a mobile viewport. The repository contains a mobile shell test, but it has not been counted as passed because the Playwright preview-server runner currently does not reach test execution reliably.
+Authenticated narrow-mobile acceptance still needs to be captured at a mobile viewport. The automated 360px shell and offline-flow tests pass, but they do not use the live authenticated session. The browser G1–G6 diagnostic gate also remains unresolved because its WASM/local-store execution hangs in the current runner.
