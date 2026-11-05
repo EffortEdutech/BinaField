@@ -26,6 +26,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .eyebrow { margin: 0 0 6px; color: #2f8063; font-size: .7rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .sync-card { margin-top: 20px; }
+.sync-screen { min-height: 52vh; padding: 20px 4px 24px; }
+.sync-screen .outbox { margin-top: 18px; padding: 14px 16px; border: 1px solid #d7e2db; border-radius: 16px; background: #fff; }
 .work-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
 .work-summary>div { padding: 13px; border: 1px solid #d7e7dc; border-radius: 13px; background: #fff; }
 .work-summary small, .work-summary strong, .work-summary span { display: block; }

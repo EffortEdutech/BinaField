@@ -50,6 +50,7 @@ export default function FieldApp() {
   const [cases, setCases] = useState<Row[]>([]);
   const [open, setOpen] = useState<string | null>(null);
   const [assignmentFilter, setAssignmentFilter] = useState<"ALL" | "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED">("ALL");
+  const [workspaceTab, setWorkspaceTab] = useState<"work" | "sync">("work");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [deviceState, setDeviceState] = useState<"ACTIVE" | "PENDING" | "SUSPENDED" | "REVOKED" | "UNKNOWN">("UNKNOWN");
@@ -198,6 +199,7 @@ export default function FieldApp() {
       ) : (
         <>
           <div className={open && selectedAssignment ? "home-content hidden" : "home-content"}>
+          {workspaceTab === "work" && <>
           <section className="welcome-strip"><div><p className="eyebrow">Good to see you back</p><h2>Your work for today</h2><p className="muted">Pick up where you left off. Your answers save automatically.</p></div><span className="welcome-icon" aria-hidden="true">✓</span></section>
           {nextAssignment && <section className="next-job card"><div><p className="eyebrow">Up next</p><h2>{JSON.parse(nextAssignment.subject_json).name ?? "Assigned field work"}</h2><p className="muted">{nextAssignment.local_execution_status === "IN_PROGRESS" ? "Continue your jobsheet" : "Ready to start"}</p></div><button data-testid="next-job" onClick={() => setOpen(nextAssignment.assignment_id)}>{nextAssignment.local_execution_status === "IN_PROGRESS" ? "Continue" : "Start"}</button></section>}
           <div className="actions">
@@ -265,7 +267,8 @@ export default function FieldApp() {
               />
             ))}
           </section>
-          <section className="card sync-card" id="sync-status">
+          </>}
+          {workspaceTab === "sync" && <section className="sync-screen" id="sync-status">
             <div className="section-head"><div><p className="eyebrow">Background sync</p><h2>Sync status</h2></div><span className="status-pill">{online ? "Connected" : "Offline safe"}</span></div>
             {outbox.length === 0 ? (
               <p className="muted">Everything is up to date. New work will appear when it is assigned to you.</p>
@@ -293,10 +296,10 @@ export default function FieldApp() {
                 ))}
               </ul>
             )}
-          </section>
+          </section>}
           <nav className="mobile-nav" aria-label="Field workspace navigation">
-            <a className="active" href="#assignments-heading"><span aria-hidden="true">▣</span><small>My work</small></a>
-            <a href="#sync-status"><span aria-hidden="true">↻</span><small>Sync</small></a>
+            <button className={workspaceTab === "work" ? "active" : ""} type="button" onClick={() => setWorkspaceTab("work")}><span aria-hidden="true">▣</span><small>My work</small></button>
+            <button className={workspaceTab === "sync" ? "active" : ""} type="button" onClick={() => setWorkspaceTab("sync")}><span aria-hidden="true">↻</span><small>Sync</small></button>
             <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><span aria-hidden="true">↑</span><small>Top</small></button>
           </nav>
           </div>
