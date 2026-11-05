@@ -314,7 +314,7 @@ export default function SupervisorDashboardV2() {
           <div className="sidebar-foot"><span className="status-dot" /> Organisation workspace<br /><small>Administrator session</small></div>
         </aside>
         <div className="workspace">
-      <header id="overview">
+      {!token && <header id="overview">
         <div>
           <p className="eyebrow">BinaField</p>
           <h1>Admin Studio</h1>
@@ -323,11 +323,16 @@ export default function SupervisorDashboardV2() {
           </p>
         </div>
         <div className="header-actions"><span className="live-pill"><span className="status-dot" /> Live workspace</span><span className="badge">Administrator</span></div>
-      </header>
-      <section className="card">
-        <h2>Organisation context</h2>
-        {token && <p className="muted">Signed in as <strong>{email}</strong> · administrator session</p>}
-        {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><label>Organisation<select aria-label="Organisation" value={org} onChange={(e) => setOrg(e.target.value)}><option value="">Choose an organisation</option>{organisations.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button onClick={() => refresh()} disabled={loading || !org}>{loading ? "Loading…" : "Open Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
+      </header>}
+      {!token ? <section className="card login-card">
+        <p className="eyebrow">Administrator access</p><h2>Sign in to your organisation workspace</h2>
+        <p className="muted">Manage projects, field work, submissions, and customer reports from one command centre.</p>
+        <label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button>
+      </section> : <section className="workspace-context-bar" aria-label="Current organisation workspace">
+        <div className="workspace-context-identity"><span className="context-kicker">Current workspace</span><strong>{organisations.find((item) => item.id === org)?.name ?? "Choose an organisation"}</strong><span>Signed in as {email}</span></div>
+        <div className="workspace-context-actions"><label>Organisation<select aria-label="Organisation" value={org} onChange={(e) => setOrg(e.target.value)}><option value="">Choose an organisation</option>{organisations.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button onClick={() => refresh()} disabled={loading || !org}>{loading ? "Loading…" : "Refresh"}</button><button className="secondary" onClick={signOut}>Sign out</button></div>
+      </section>}
+      {message && <div className="workspace-notice">
         {message && (
           <p
             className={
@@ -342,7 +347,7 @@ export default function SupervisorDashboardV2() {
             {message}
           </p>
         )}
-      </section>
+      </div>}
       {context?.organization_id && (
         <>
           <section className="overview-hero page-section page-overview" aria-labelledby="today-heading">
