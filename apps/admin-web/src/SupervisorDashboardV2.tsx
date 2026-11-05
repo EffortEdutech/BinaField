@@ -352,7 +352,7 @@ export default function SupervisorDashboardV2() {
             <div className="freshness"><span className="status-dot" /> <strong>Live data</strong><small>Updated just now · {assignments.length + submissions.length} records loaded</small></div>
           </section>
           <section className="metric-grid page-section page-overview" aria-label="Operational counts">
-            {[['Assigned', metrics.assigned, 'assigned', '#087e83'], ['In progress', metrics.inProgress, 'administration', '#3b73a8'], ['Submitted', metrics.submitted, 'review', '#8065b5'], ['Accepted', metrics.accepted, 'review', '#2b9868'], ['Rejected', metrics.rejected, 'review', '#c65353'], ['Overdue', metrics.overdue, 'administration', '#d58b22']].map(([label, value, href, color]) => <a className="metric-card" href={`#${href}`} key={String(label)}><span className="metric-accent" style={{ background: color as string }} /><small>{label}</small><strong>{value}</strong><span>View details →</span></a>)}
+            {[['Assigned', metrics.assigned, 'administration', '#087e83'], ['In progress', metrics.inProgress, 'administration', '#3b73a8'], ['Submitted', metrics.submitted, 'review', '#8065b5'], ['Accepted', metrics.accepted, 'review', '#2b9868'], ['Rejected', metrics.rejected, 'review', '#c65353'], ['Overdue', metrics.overdue, 'administration', '#d58b22']].map(([label, value, href, color]) => <a className="metric-card" href={`#${href}`} key={String(label)}><span className="metric-accent" style={{ background: color as string }} /><small>{label}</small><strong>{value}</strong><span>View details →</span></a>)}
           </section>
           <section className="overview-grid page-section page-overview">
             <section className="card project-cards"><div className="section-heading"><div><p className="eyebrow">Portfolio pulse</p><h2>Project activity</h2></div><a href="#administration">View all →</a></div>{projectActivity.length ? <div className="project-list">{projectActivity.slice(0, 4).map((p) => <a href="#administration" className="project-card" key={p.id}><span className="project-icon">{(p.name ?? "P").slice(0, 1).toUpperCase()}</span><span><strong>{p.name}</strong><small>{p.lifecycle_state} · {p.assigned} assigned · {p.submitted} submitted</small></span><span className="chevron">→</span></a>)}</div> : <p className="empty-state">No projects are available in this workspace yet.</p>}</section>
@@ -616,8 +616,15 @@ export default function SupervisorDashboardV2() {
               Audit JSON
             </button>
           </section>
-          <section className="card">
-            <h2>Review queue</h2>
+          <section className="card page-section page-review review-queue-card">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Decision centre</p>
+                <h2>Review queue</h2>
+                <p className="muted">Inspect field evidence, make a decision, and keep the final report trustworthy.</p>
+              </div>
+              <span className="attention-count">{filtered.length}</span>
+            </div>
             {canReview && (
               <p>
                 <button
