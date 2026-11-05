@@ -143,17 +143,12 @@ export default function FieldApp() {
   const notStarted = assignments.filter((assignment) => assignment.local_execution_status === "NOT_STARTED").length;
   const inProgress = assignments.filter((assignment) => assignment.local_execution_status === "IN_PROGRESS").length;
   const submitted = assignments.filter((assignment) => ["SUBMITTED", "SUBMITTED_PENDING_SYNC", "ACCEPTED"].includes(assignment.local_execution_status)).length;
+  const nextAssignment = assignments.find((assignment) => ["IN_PROGRESS", "NOT_STARTED"].includes(assignment.local_execution_status));
   return (
     <main className="field-shell">
       <header className="field-header">
-        <div>
-          <p className="brand-kicker">BinaField</p>
-          <h1>Field workspace</h1>
-          <p className="muted">
-            Your assigned jobsheets and field evidence.
-          </p>
-        </div>
-        <span className={`status-pill ${deviceState !== "ACTIVE" && signedIn ? "alert" : "ready"}`}>{signedIn ? deviceState === "ACTIVE" ? "Ready to work" : "Setup needed" : "Field PWA"}</span>
+        <div className="brand-lockup"><div className="brand-mark" aria-hidden="true">B</div><div><p className="brand-kicker">BinaField</p><h1>Field work</h1></div></div>
+        <span className={`status-pill ${deviceState !== "ACTIVE" && signedIn ? "alert" : "ready"}`}><span aria-hidden="true">●</span> {signedIn ? deviceState === "ACTIVE" ? "Ready" : "Setup" : "Field PWA"}</span>
       </header>
       <div className="status-bar" aria-live="polite">
         <span
@@ -201,7 +196,8 @@ export default function FieldApp() {
         </section>
       ) : (
         <>
-          <section className="welcome-strip"><div><p className="eyebrow">Field work</p><h2>Good to see you back</h2><p className="muted">Complete your assigned jobsheets. Your progress saves automatically.</p></div><span className="welcome-icon">✓</span></section>
+          <section className="welcome-strip"><div><p className="eyebrow">Good to see you back</p><h2>Your work for today</h2><p className="muted">Pick up where you left off. Your answers save automatically.</p></div><span className="welcome-icon" aria-hidden="true">✓</span></section>
+          {nextAssignment && <section className="next-job card"><div><p className="eyebrow">Up next</p><h2>{JSON.parse(nextAssignment.subject_json).name ?? "Assigned field work"}</h2><p className="muted">{nextAssignment.local_execution_status === "IN_PROGRESS" ? "Continue your jobsheet" : "Ready to start"}</p></div><button data-testid="next-job" onClick={() => setOpen(nextAssignment.assignment_id)}>{nextAssignment.local_execution_status === "IN_PROGRESS" ? "Continue" : "Start"}</button></section>}
           <div className="actions">
             <button data-testid="sync" onClick={syncNow}>
               Check for new work
@@ -267,7 +263,7 @@ export default function FieldApp() {
               />
             ))}
           </section>
-          <section className="card sync-card">
+          <section className="card sync-card" id="sync-status">
             <div className="section-head"><div><p className="eyebrow">Background sync</p><h2>Sync status</h2></div><span className="status-pill">{online ? "Connected" : "Offline safe"}</span></div>
             {outbox.length === 0 ? (
               <p className="muted">Everything is up to date. New work will appear when it is assigned to you.</p>
@@ -296,6 +292,11 @@ export default function FieldApp() {
               </ul>
             )}
           </section>
+          <nav className="mobile-nav" aria-label="Field workspace navigation">
+            <a className="active" href="#assignments-heading"><span aria-hidden="true">▣</span><small>My work</small></a>
+            <a href="#sync-status"><span aria-hidden="true">↻</span><small>Sync</small></a>
+            <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><span aria-hidden="true">↑</span><small>Top</small></button>
+          </nav>
         </>
       )}
     </main>
