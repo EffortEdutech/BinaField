@@ -54,16 +54,18 @@ test('offline capture, reconnect, server has exactly one record', async ({ page 
   // go offline, fill in the form, take a photo, submit
   srv.down = true; await page.context().setOffline(true);
   await page.getByTestId('open-form').click();
-  await page.getByTestId('f-status').selectOption('OK');
-  await page.getByTestId('f-notes').fill('Gate lock replaced');
-  await expect(page.getByTestId('submit')).toBeDisabled();           // photo still missing
+  await expect(page.getByRole('heading', { name: 'Know the job before you start' })).toBeVisible();
+  await page.getByRole('button', { name: 'Start assignment' }).click();
+  await page.getByTestId('f-status').last().selectOption('OK', { force: true });
+  await page.getByTestId('f-notes').last().fill('Gate lock replaced', { force: true });
+  await expect(page.locator('[data-testid="submit"]:visible')).toBeDisabled();           // photo still missing
   const chooser = page.waitForEvent('filechooser');
-  await page.getByTestId('add-photos').click();
+  await page.locator('[data-testid="add-photos"]:visible').click();
   await (await chooser).setFiles({ name: 'p.jpg', mimeType: 'image/jpeg', buffer: Buffer.from(Array.from({ length: 4096 }, (_, i) => i % 251)) });
   await expect(page.getByTestId('photo')).toHaveCount(1);
   await expect(page.getByTestId('photo').getByRole('img', { name: 'Captured evidence preview' })).toBeVisible();
   await expect(page.getByTestId('photo').getByRole('button', { name: 'Remove photo' })).toBeVisible();
-  await page.getByTestId('submit').click();
+  await page.locator('[data-testid="submit"]:visible').click();
   await expect(page.getByTestId('submission-confirmation')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Jobsheet submitted' })).toBeVisible();
   await page.getByRole('button', { name: 'Back to my jobsheets' }).click();

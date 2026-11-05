@@ -144,6 +144,7 @@ export default function FieldApp() {
   const inProgress = assignments.filter((assignment) => assignment.local_execution_status === "IN_PROGRESS").length;
   const submitted = assignments.filter((assignment) => ["SUBMITTED", "SUBMITTED_PENDING_SYNC", "ACCEPTED"].includes(assignment.local_execution_status)).length;
   const nextAssignment = assignments.find((assignment) => ["IN_PROGRESS", "NOT_STARTED"].includes(assignment.local_execution_status));
+  const selectedAssignment = assignments.find((assignment) => assignment.assignment_id === open);
   return (
     <main className="field-shell">
       <header className="field-header">
@@ -196,6 +197,7 @@ export default function FieldApp() {
         </section>
       ) : (
         <>
+          <div className={open && selectedAssignment ? "home-content hidden" : "home-content"}>
           <section className="welcome-strip"><div><p className="eyebrow">Good to see you back</p><h2>Your work for today</h2><p className="muted">Pick up where you left off. Your answers save automatically.</p></div><span className="welcome-icon" aria-hidden="true">✓</span></section>
           {nextAssignment && <section className="next-job card"><div><p className="eyebrow">Up next</p><h2>{JSON.parse(nextAssignment.subject_json).name ?? "Assigned field work"}</h2><p className="muted">{nextAssignment.local_execution_status === "IN_PROGRESS" ? "Continue your jobsheet" : "Ready to start"}</p></div><button data-testid="next-job" onClick={() => setOpen(nextAssignment.assignment_id)}>{nextAssignment.local_execution_status === "IN_PROGRESS" ? "Continue" : "Start"}</button></section>}
           <div className="actions">
@@ -246,7 +248,7 @@ export default function FieldApp() {
               </p>
             )}
             {assignments.length > 0 && visibleAssignments.length === 0 && <p className="card muted">No jobsheets match this view.</p>}
-            {visibleAssignments.map((a) => (
+            {!open && visibleAssignments.map((a) => (
               <Assignment
                 key={a.assignment_id}
                 set={set}
@@ -297,6 +299,8 @@ export default function FieldApp() {
             <a href="#sync-status"><span aria-hidden="true">↻</span><small>Sync</small></a>
             <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><span aria-hidden="true">↑</span><small>Top</small></button>
           </nav>
+          </div>
+          {selectedAssignment && <FocusedWorkflow set={set} assignment={selectedAssignment} onBack={() => setOpen(null)} onDone={async () => { setOpen(null); await refresh(); void flush(); }} />}
         </>
       )}
     </main>
@@ -350,6 +354,16 @@ function Assignment({
       {open && <Form set={set} assignment={assignment} onDone={onDone} />}
     </article>
   );
+}
+
+function FocusedWorkflow({ set, assignment, onBack, onDone }: { set: Settings; assignment: Row; onBack: () => void; onDone: () => void }) {
+  const [started, setStarted] = useState(false);
+  return <section className="workflow-screen" aria-label="Assignment workflow">
+    <div className="workflow-top"><button type="button" className="back-link" onClick={onBack}>← My work</button><span className="workflow-label">Assignment workflow</span></div>
+    <div className="workflow-steps" aria-label="Assignment progress"><span className={!started ? "active" : "complete"}>1 Brief</span><span className={started ? "active" : ""}>2 Jobsheet</span><span>3 Review</span><span>4 Synced</span></div>
+    {!started && <div className="briefing-copy"><p className="eyebrow">Assignment briefing</p><h2>Know the job before you start</h2><p className="muted">Check the assignment, then complete the jobsheet step by step. Your work saves automatically, even without a connection.</p><ul className="briefing-list"><li><strong>Capture the required details</strong><span>Complete each step in order.</span></li><li><strong>Add evidence where requested</strong><span>Photos and signatures stay with this job.</span></li><li><strong>Review before sending</strong><span>You can submit online or offline.</span></li></ul></div>}
+    <Assignment set={set} assignment={assignment} open={started} onOpen={() => setStarted(true)} onDone={onDone} />
+  </section>;
 }
 
 function Form({
