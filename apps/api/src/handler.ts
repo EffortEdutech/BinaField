@@ -271,7 +271,10 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
         await audit(q, { organizationId, actorId: r.membershipId, action: 'template.create', targetType: 'template', targetId: inserted.rows[0]!.id, correlationId, metadata: { template_key: raw.template_key } });
         return json(201, { id: inserted.rows[0]!.id, organization_id: organizationId, template_key: raw.template_key, name: raw.name.trim(), description: raw.description ?? null, lifecycle_state: 'DRAFT', revision: inserted.rows[0]!.revision }, { 'x-correlation-id': correlationId });
       });
-    } catch (e) { return problem(409, 'TEMPLATE_CONFLICT', 'Template could not be created because its key already exists or the request conflicts with current state', correlationId); }
+    } catch (e) {
+      if (req.method === 'GET') return problem(503, 'SERVICE_UNAVAILABLE', 'Templates could not be loaded right now', correlationId, true);
+      return problem(409, 'TEMPLATE_CONFLICT', 'Template could not be created because its key already exists or the request conflicts with current state', correlationId);
+    }
   }
 
   const deployments = /^\/organizations\/([^/]+)\/deployments$/.exec(path);
