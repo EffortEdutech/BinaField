@@ -29,12 +29,13 @@ const statusLabel: Record<string, string> = {
   REJECTED: "Needs correction",
 };
 const operationLabel: Record<string, string> = {
-  EVIDENCE_UPLOAD_INIT: "Preparing photo",
-  EVIDENCE_UPLOAD_PART: "Uploading photo",
-  EVIDENCE_UPLOAD_FINALIZE: "Finishing photo",
-  SUBMISSION_ATTEMPT_SEND: "Sending submission",
-  SYNC_ACK: "Confirming sync",
+  EVIDENCE_UPLOAD_INIT: "Photo evidence",
+  EVIDENCE_UPLOAD_PART: "Photo evidence",
+  EVIDENCE_UPLOAD_FINALIZE: "Photo evidence",
+  SUBMISSION_ATTEMPT_SEND: "Field submission",
+  SYNC_ACK: "Sync confirmation",
 };
+const friendlyConflict = (value: string) => value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, (x) => x.toUpperCase());
 
 export default function FieldApp() {
   const [set] = useState<Settings>(loadSettings());
@@ -138,12 +139,13 @@ export default function FieldApp() {
     <main className="field-shell">
       <header className="field-header">
         <div>
-          <h1>BinaField Field</h1>
+          <p className="brand-kicker">BinaField</p>
+          <h1>Field workspace</h1>
           <p className="muted">
-            Work is saved on this device, even when offline.
+            Your assigned jobsheets and field evidence.
           </p>
         </div>
-        <span className="status-pill">Device ready</span>
+        <span className={`status-pill ${deviceState !== "ACTIVE" && signedIn ? "alert" : "ready"}`}>{signedIn ? deviceState === "ACTIVE" ? "Ready to work" : "Setup needed" : "Field PWA"}</span>
       </header>
       <div className="status-bar" aria-live="polite">
         <span
@@ -154,7 +156,7 @@ export default function FieldApp() {
           {online ? "Online" : "Offline"}
         </span>
         <span className="status-pill">
-          <span data-testid="pending">{pending}</span> waiting to send
+          <span data-testid="pending">{pending}</span> {pending === 1 ? "item" : "items"} waiting to sync
         </span>
         {msg && (
           <span data-testid="msg" className="muted">
@@ -190,9 +192,10 @@ export default function FieldApp() {
         </section>
       ) : (
         <>
+          <section className="welcome-strip"><div><p className="eyebrow">Field work</p><h2>Good to see you back</h2><p className="muted">Complete your assigned jobsheets. Your progress saves automatically.</p></div><span className="welcome-icon">✓</span></section>
           <div className="actions">
             <button data-testid="sync" onClick={syncNow}>
-              Sync now
+              Check for new work
             </button>
             <button
               className="secondary"
@@ -208,7 +211,7 @@ export default function FieldApp() {
             <section className="card notice" data-testid="device-onboarding">
               <h2>Device setup</h2>
               <p>{deviceState === "SUSPENDED" ? "This device is suspended. Contact your administrator." : deviceState === "REVOKED" ? "This device is no longer authorised. Contact your administrator." : "Your account is signed in. An administrator must activate this device before assignments can sync."}</p>
-              <p className="muted">No technical keys or device codes are required here.</p>
+                <p className="muted">No technical keys or device codes are required. Ask your organisation administrator to activate this device.</p>
             </section>
           )}
           {cases.length > 0 && (
@@ -218,7 +221,7 @@ export default function FieldApp() {
                 <p key={c.case_id}>
                   <strong>{c.conflict_type.replaceAll("_", " ")}</strong>
                   <br />
-                  <small>{c.entity_id}</small>
+                    <small>{friendlyConflict(c.conflict_type)} needs your attention. We will keep the rest of your work safe.</small>
                 </p>
               ))}
             </section>
@@ -248,10 +251,10 @@ export default function FieldApp() {
               />
             ))}
           </section>
-          <section className="card">
-            <h2>Sending</h2>
+          <section className="card sync-card">
+            <div className="section-head"><div><p className="eyebrow">Background sync</p><h2>Sync status</h2></div><span className="status-pill">{online ? "Connected" : "Offline safe"}</span></div>
             {outbox.length === 0 ? (
-              <p className="muted">Nothing waiting to send.</p>
+              <p className="muted">Everything is up to date. New work will appear when it is assigned to you.</p>
             ) : (
               <ul className="outbox" data-testid="outbox">
                 {outbox.map((o) => (
@@ -274,7 +277,7 @@ export default function FieldApp() {
                           : o.state === "RUNNING"
                             ? "In progress"
                             : "Will retry"}
-                    {o.last_error_code ? ` · ${o.last_error_code}` : ""}
+                    {o.state === "FAILED_FINAL" ? " · Please contact your administrator" : ""}
                   </li>
                 ))}
               </ul>
@@ -310,9 +313,9 @@ function Assignment({
           <h3>
             {subject.name ??
               subject.label ??
-              assignment.assignment_id.slice(0, 8)}
+              "Assigned field work"}
           </h3>
-          <p className="muted">Revision {assignment.authoritative_revision}</p>
+          <p className="muted">Jobsheet ready on this device</p>
         </div>
         <span data-testid="exec-status" className="status-pill">
           {status}
