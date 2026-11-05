@@ -179,6 +179,7 @@ export default function FieldApp() {
             Email
             <input
               data-testid="email"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="username"

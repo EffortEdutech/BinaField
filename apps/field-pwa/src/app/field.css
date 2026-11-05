@@ -6,6 +6,7 @@ button { min-height: 44px; border: 0; border-radius: 10px; padding: 10px 14px; b
 button.secondary { background: #e4eee8; color: #173027; }
 button.danger { background: #9b2c2c; }
 button:disabled { opacity: .5; cursor: not-allowed; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #d48a1f; outline-offset: 2px; }
 .field-shell { max-width: 760px; margin: 0 auto; padding: 16px; }
 .field-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .field-header h1 { margin: 0; font-size: 1.35rem; }
