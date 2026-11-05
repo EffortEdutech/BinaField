@@ -295,7 +295,7 @@ export default function SupervisorDashboardV2() {
             <a className="nav-item" href="#reports">◒ <span>Reports & exports</span></a>
             <a className="nav-item" href="#audit">◌ <span>Audit trail</span></a>
           </nav>
-          <div className="sidebar-foot"><span className="status-dot" /> Pilot workspace<br /><small>Protected session</small></div>
+          <div className="sidebar-foot"><span className="status-dot" /> Organisation workspace<br /><small>Administrator session</small></div>
         </aside>
         <div className="workspace">
       <header id="overview">
