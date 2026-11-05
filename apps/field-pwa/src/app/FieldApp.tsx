@@ -368,6 +368,7 @@ function Form({
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState(0);
   const file = useRef<HTMLInputElement>(null);
   const photoField = useRef("");
   useEffect(() => {
@@ -423,11 +424,19 @@ function Form({
     return String(payload[field.id] ?? "").trim().length > 0;
   }).length;
   const progress = requiredFields.length ? Math.round((completedRequired / requiredFields.length) * 100) : 100;
+  const stepSize = 4;
+  const steps = Array.from({ length: Math.max(1, Math.ceil(bp.fields.length / stepSize)) }, (_, index) => bp.fields.slice(index * stepSize, (index + 1) * stepSize));
+  const currentFields = steps[step] ?? steps[0];
+  const isLastStep = step === steps.length - 1;
   if (submitted) return <section className="submission-confirmation" data-testid="submission-confirmation" role="status"><span className="confirmation-icon">✓</span><h3>Jobsheet submitted</h3><p>Your work is safely saved. {navigator.onLine ? "It is being sent for review now." : "It will send automatically when you are back online."}</p><button type="button" className="secondary" onClick={onDone}>Back to my jobsheets</button></section>;
   return (
     <div data-testid="form">
       <div className="form-heading"><div><p className="eyebrow">Active jobsheet</p><h3>{bp.title}</h3></div><strong>{progress}%</strong></div>
       <div className="form-progress" aria-label={`${progress}% complete`}><span style={{ width: `${progress}%` }} /></div>
+      <div className="step-rail" aria-label={`Jobsheet step ${step + 1} of ${steps.length}`}>
+        {steps.map((_, index) => <button key={index} type="button" className={index === step ? "current" : index < step ? "complete" : ""} onClick={() => setStep(index)} aria-label={`Go to step ${index + 1}`}>{index < step ? "✓" : index + 1}</button>)}
+        <span>Step {step + 1} of {steps.length}</span>
+      </div>
       <p className="muted">
         Your answers save automatically. Complete the required fields, add evidence where requested, then submit for review.
       </p>
@@ -440,7 +449,7 @@ function Form({
         style={{ display: "none" }}
         onChange={onFile}
       />
-      {bp.fields.map((f) => (
+      {currentFields.map((f) => (
         <div className="field" key={f.id}>
           <label htmlFor={`f-${f.id}`}>
             {f.label}
@@ -537,14 +546,9 @@ function Form({
           {err}
         </p>
       )}
-      <div className="actions">
-        <button
-          data-testid="submit"
-          disabled={miss.length > 0 || busy}
-          onClick={send}
-        >
-          {busy ? "Saving…" : "Submit assignment"}
-        </button>
+      <div className="step-actions">
+        {step > 0 && <button type="button" className="secondary" onClick={() => setStep(step - 1)}>Back</button>}
+        {!isLastStep ? <button type="button" onClick={() => setStep(step + 1)}>Next step <span aria-hidden="true">→</span></button> : <button data-testid="submit" disabled={miss.length > 0 || busy} onClick={send}>{busy ? "Saving…" : "Review & submit"}</button>}
       </div>
     </div>
   );

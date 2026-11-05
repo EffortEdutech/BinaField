@@ -45,6 +45,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .form-heading > strong { color: #0f5132; font-size: 1.2rem; }
 .form-progress { height: 8px; background: #e4eee8; border-radius: 999px; overflow: hidden; margin: 10px 0 16px; }
 .form-progress span { display: block; height: 100%; background: #2f8063; border-radius: inherit; transition: width .2s ease; }
+.step-rail { display: flex; align-items: center; gap: 7px; margin: 12px 0 16px; }
+.step-rail button { width: 30px; min-height: 30px; padding: 0; border-radius: 50%; background: #e4eee8; color: #5b6c63; font-size: .78rem; }
+.step-rail button.current { background: #0f5132; color: #fff; box-shadow: 0 0 0 3px #d8ecdf; }
+.step-rail button.complete { background: #dff4e8; color: #17633d; }
+.step-rail span { margin-left: 4px; color: #5b6c63; font-size: .8rem; font-weight: 700; }
+.step-actions { display: flex; justify-content: space-between; gap: 8px; position: sticky; bottom: 8px; z-index: 3; margin: 20px 0 4px; padding: 8px; border: 1px solid #d7e2db; border-radius: 14px; background: #ffffffed; box-shadow: 0 8px 22px #1730271c; backdrop-filter: blur(10px); }
+.step-actions button { flex: 1; }
 .submission-confirmation { text-align: center; padding: 24px 8px 10px; }
 .confirmation-icon { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 50%; background: #dff4e8; color: #17633d; font-size: 1.5rem; font-weight: 800; }
 .submission-confirmation h3 { margin: 0 0 6px; }
