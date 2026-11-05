@@ -74,9 +74,9 @@ test('offline capture, reconnect, server has exactly one record', async ({ page 
   await page.getByRole('button', { name: 'Review submission' }).click();
   await expect(page.getByRole('heading', { name: 'Ready to send?' })).toBeVisible();
   await page.locator('[data-testid="submit"]:visible').click();
-  await expect(page.getByTestId('submission-confirmation')).toBeVisible();
+  await expect(page.getByTestId('sync-confirmation')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Jobsheet submitted' })).toBeVisible();
-  await page.getByRole('button', { name: 'Back to my jobsheets' }).click();
+  await page.getByRole('button', { name: 'Back to my work' }).click();
   await expect(page.getByTestId('exec-status')).toHaveText('Submitted — waiting to sync');
   expect(srv.attempts.size).toBe(0);
   expect(Number(await page.getByTestId('pending').innerText())).toBeGreaterThanOrEqual(4);
