@@ -50,7 +50,7 @@ export default function FieldApp() {
   const [cases, setCases] = useState<Row[]>([]);
   const [open, setOpen] = useState<string | null>(null);
   const [assignmentFilter, setAssignmentFilter] = useState<"ALL" | "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED">("ALL");
-  const [workspaceTab, setWorkspaceTab] = useState<"work" | "sync">("work");
+  const [workspaceTab, setWorkspaceTab] = useState<"work" | "sync">(() => location.hash === "#sync-status" ? "sync" : "work");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [deviceState, setDeviceState] = useState<"ACTIVE" | "PENDING" | "SUSPENDED" | "REVOKED" | "UNKNOWN">("UNKNOWN");
@@ -298,8 +298,8 @@ export default function FieldApp() {
             )}
           </section>}
           <nav className="mobile-nav" aria-label="Field workspace navigation">
-            <button className={workspaceTab === "work" ? "active" : ""} type="button" onClick={() => setWorkspaceTab("work")}><span aria-hidden="true">▣</span><small>My work</small></button>
-            <button className={workspaceTab === "sync" ? "active" : ""} type="button" onClick={() => setWorkspaceTab("sync")}><span aria-hidden="true">↻</span><small>Sync</small></button>
+            <button className={workspaceTab === "work" ? "active" : ""} type="button" onClick={() => { history.replaceState(null, "", "#assignments-heading"); setWorkspaceTab("work"); }}><span aria-hidden="true">▣</span><small>My work</small></button>
+            <button className={workspaceTab === "sync" ? "active" : ""} type="button" onClick={() => { history.replaceState(null, "", "#sync-status"); setWorkspaceTab("sync"); }}><span aria-hidden="true">↻</span><small>Sync</small></button>
             <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><span aria-hidden="true">↑</span><small>Top</small></button>
           </nav>
           </div>
