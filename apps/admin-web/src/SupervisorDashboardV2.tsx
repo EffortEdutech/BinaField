@@ -495,7 +495,7 @@ export default function SupervisorDashboardV2() {
                 <ul>
                   {assignments.slice(0, 20).map((a) => (
                     <li key={a.id}>
-                      {a.id.slice(0, 8)} · {a.lifecycle_state}{" "}
+                      <strong>{projectNameFor(a.project_id)}</strong> · {a.operational_subject_ref?.label ?? "Field assignment"} · {a.lifecycle_state}{" "}
                       <button
                         onClick={() =>
                           lifecycle(
@@ -642,7 +642,7 @@ export default function SupervisorDashboardV2() {
                         }
                         disabled={!s.submission_id || s.status !== "RECEIVED"}
                       />{" "}
-                      {s.attempt_id.slice(0, 8)} · {s.status}{" "}
+                      <strong>{projectNameFor(s.project_id)}</strong> · {s.status}{" "}
                       {canReview && (
                         <>
                           <button
