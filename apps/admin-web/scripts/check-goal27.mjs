@@ -25,6 +25,7 @@ const checks = [
   ['named assignment issuance', /issueAssignment/.test(source) && /Field worker/.test(source) && /Assignment project/.test(source)],
   ['review decisions and audit', /bulkReview/.test(source) && /review\(/.test(source) && /Recent audit events/.test(source)],
   ['report exports and print', /Download JSON/.test(source) && /Download CSV/.test(source) && /Print \/ Save PDF/.test(source) && /window\.print/.test(source)],
+  ['command-centre page routing', /activePage/.test(source) && /page-section/.test(source) && /page-administration/.test(source) && /page-review/.test(source) && /page-reports/.test(source) && /page-audit/.test(source) && /page-section\{display:none\}/.test(css)],
   ['responsive and accessible styling', /@media\(max-width:720px\)/.test(css) && /@media print/.test(css) && /focus-visible/.test(styles) && /aria-label/.test(source)],
   ['technical controls hidden from normal UI', !/aria-label="Bearer token"/.test(source) && !/aria-label="Organisation ID"/.test(source) && !/placeholder=".*token/i.test(source) && !/placeholder=".*UUID/i.test(source)],
   ['legacy technical UI removed', legacyPresent.length === 0],
