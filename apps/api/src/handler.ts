@@ -44,13 +44,6 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     let token; try { token = await deps.verify(bearer); } catch { return problem(401, 'AUTHENTICATION_REQUIRED', 'Token is invalid or expired', correlationId); }
     try {
       return await deps.db.tx(async (q) => {
-        // Bind the verified Supabase subject to the existing IAM email record.
-        // Invitations use an invite:* placeholder, while older seeded/admin
-        // records may have a stale or missing subject. Email is the verified
-        // login identity; membership state and role checks remain unchanged.
-        if (token.email) {
-          await q.query(`UPDATE iam.users SET identity_subject = $1, updated_at = now() WHERE lower(email) = lower($2) AND identity_subject IS DISTINCT FROM $1`, [token.sub, token.email]);
-        }
         const rows = await q.query(`SELECT * FROM iam.organizations_for_identity($1)`, [token.sub]);
         return json(200, { items: rows.rows, next_cursor: null }, { 'x-correlation-id': correlationId });
       });
