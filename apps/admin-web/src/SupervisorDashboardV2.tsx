@@ -70,6 +70,10 @@ export default function SupervisorDashboardV2() {
   };
   const signIn = async () => { try { const session = await login(email, password); setToken(session.accessToken); setPassword(""); const items = await loadOrganisations(session.accessToken); setMessage(items.length ? "Signed in. Choose an organisation to continue." : "Signed in, but no active organisation membership was found."); } catch (e) { setMessage(`Sign-in failed: ${String(e)}`); } };
   const signOut = () => { logout(); setToken(""); setContext(undefined); setOrganisations([]); setOrg(""); setMessage("Signed out."); };
+  useEffect(() => {
+    if (!token) return;
+    void loadOrganisations(token).catch((e) => setMessage(`Could not load organisations: ${String(e)}`));
+  }, [token]);
   useEffect(() => { const timer = window.setInterval(async () => { const session = loadSession(); if (!session) return; if (session.expiresAt - Date.now() < 120000) { try { const next = await refreshSession(session); setToken(next.accessToken); } catch { signOut(); setMessage("Your session expired. Please sign in again."); } } }, 60000); return () => window.clearInterval(timer); }, []);
   const read = async (r: Response) => {
     const b = await r.json();
