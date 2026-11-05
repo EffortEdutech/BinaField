@@ -35,7 +35,10 @@ const operationLabel: Record<string, string> = {
   SUBMISSION_ATTEMPT_SEND: "Field submission",
   SYNC_ACK: "Sync confirmation",
 };
-const friendlyConflict = (value: string) => value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, (x) => x.toUpperCase());
+const friendlyConflict = (value: string) => ({
+  BLUEPRINT_HASH_MISMATCH: "Assignment needs an update",
+  ASSIGNMENT_WITHDRAWN_WITH_LOCAL_WORK: "Assignment changed while you were working",
+}[value] ?? "Assignment needs attention");
 
 export default function FieldApp() {
   const [set] = useState<Settings>(loadSettings());
@@ -224,7 +227,7 @@ export default function FieldApp() {
               <h2>Needs your attention ({cases.length})</h2>
               {cases.map((c) => (
                 <p key={c.case_id}>
-                  <strong>{c.conflict_type.replaceAll("_", " ")}</strong>
+                  <strong>{friendlyConflict(c.conflict_type)}</strong>
                   <br />
                     <small>{friendlyConflict(c.conflict_type)} needs your attention. We will keep the rest of your work safe.</small>
                 </p>
@@ -275,10 +278,7 @@ export default function FieldApp() {
                     data-state={o.state}
                     data-type={o.operation_type}
                   >
-                    <strong>
-                      {operationLabel[o.operation_type] ??
-                        o.operation_type.replaceAll("_", " ")}
-                    </strong>{" "}
+                    <strong>{operationLabel[o.operation_type] ?? "Background update"}</strong>{" "}
                     ·{" "}
                     {o.state === "SUCCEEDED"
                       ? "Complete"
