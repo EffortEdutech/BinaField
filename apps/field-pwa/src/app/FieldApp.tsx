@@ -318,7 +318,7 @@ function Assignment({
   const subject = JSON.parse(assignment.subject_json);
   const status =
     statusLabel[assignment.local_execution_status] ??
-    assignment.local_execution_status;
+    "Ready to work";
   return (
     <article className="card" data-testid="assignment">
       <div className="assignment-head">
