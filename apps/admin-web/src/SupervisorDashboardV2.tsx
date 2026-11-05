@@ -51,6 +51,12 @@ export default function SupervisorDashboardV2() {
       "ORG_WIDE",
     ),
     [scopeProject, setScopeProject] = useState("");
+  const [memberEmail, setMemberEmail] = useState(""),
+    [memberName, setMemberName] = useState(""),
+    [projectCode, setProjectCode] = useState(""),
+    [projectName, setProjectName] = useState(""),
+    [assignmentProject, setAssignmentProject] = useState(""),
+    [assignmentMember, setAssignmentMember] = useState("");
   const h = () => ({ authorization: `Bearer ${token}` });
   const loadOrganisations = async (accessToken = token) => {
     const data = await read(await fetch(`${API}/organizations`, { headers: { authorization: `Bearer ${accessToken}` } }));
@@ -148,6 +154,28 @@ export default function SupervisorDashboardV2() {
     } catch (e) {
       setMessage(`Role assignment failed: ${String(e)}`);
     }
+  };
+  const inviteMember = async () => {
+    if (!memberEmail || !memberName) return setMessage("Enter the member name and email.");
+    try {
+      await read(await fetch(`${API}/organizations/${org}/memberships`, { method: "POST", headers: { ...h(), "content-type": "application/json", "idempotency-key": `admin-invite-${crypto.randomUUID()}` }, body: JSON.stringify({ email: memberEmail, display_name: memberName }) }));
+      setMemberEmail(""); setMemberName(""); setMessage("Invitation created. Activate the membership after the user accepts."); await refresh();
+    } catch (e) { setMessage(`Invitation failed: ${String(e)}`); }
+  };
+  const createProject = async () => {
+    if (!projectCode || !projectName) return setMessage("Enter the project code and name.");
+    try {
+      await read(await fetch(`${API}/organizations/${org}/projects`, { method: "POST", headers: { ...h(), "content-type": "application/json", "idempotency-key": `admin-project-${crypto.randomUUID()}` }, body: JSON.stringify({ project_code: projectCode, name: projectName }) }));
+      setProjectCode(""); setProjectName(""); setMessage("Project created as a draft."); await refresh();
+    } catch (e) { setMessage(`Project creation failed: ${String(e)}`); }
+  };
+  const issueAssignment = async () => {
+    const deployment = deployments.find((item) => item.lifecycle_state === "ACTIVE");
+    if (!assignmentProject || !assignmentMember || !deployment) return setMessage("Choose a project and field worker; an active published deployment is also required.");
+    try {
+      await read(await fetch(`${API}/organizations/${org}/assignments`, { method: "POST", headers: { ...h(), "content-type": "application/json", "idempotency-key": `admin-assignment-${crypto.randomUUID()}` }, body: JSON.stringify({ project_id: assignmentProject, deployment_id: deployment.id, template_version_id: deployment.template_version_id, assignee_membership_id: assignmentMember, operational_subject_ref: { label: "Field work assignment" }, priority: "NORMAL" }) }));
+      setAssignmentProject(""); setAssignmentMember(""); setMessage("Assignment issued to the field worker."); await refresh();
+    } catch (e) { setMessage(`Assignment failed: ${String(e)}`); }
   };
   const review = async (id: string, decision: "ACCEPT" | "REJECT") => {
     try {
@@ -265,7 +293,7 @@ export default function SupervisorDashboardV2() {
             The calm command centre for field operations
           </p>
         </div>
-        <div className="header-actions"><span className="live-pill"><span className="status-dot" /> Live workspace</span><span className="badge">Goal 15</span></div>
+        <div className="header-actions"><span className="live-pill"><span className="status-dot" /> Live workspace</span><span className="badge">Administrator</span></div>
       </header>
       <section className="card">
         <h2>Organisation context</h2>
@@ -306,13 +334,16 @@ export default function SupervisorDashboardV2() {
           <section className="card workspace-panel" id="workspace"><div className="section-heading"><div><p className="eyebrow">Operations workspace</p><h2>Assignments & submissions</h2><p className="muted">Search, filter, and move directly to the work record.</p></div></div><div className="workspace-filters"><input aria-label="Search assignments" placeholder="Search assignment ID or subject" value={assignmentSearch} onChange={(e) => { setAssignmentSearch(e.target.value); setAssignmentPage(0); }} /><select aria-label="Filter assignment state" value={assignmentState} onChange={(e) => { setAssignmentState(e.target.value); setAssignmentPage(0); }}><option>ALL</option><option>ASSIGNED</option><option>IN_PROGRESS</option><option>SUBMITTED</option><option>COMPLETED</option><option>CANCELLED</option></select><a href="#review">Review submissions →</a></div>{visibleAssignments.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Assignment</th><th>Project</th><th>Status</th><th>Updated</th><th /></tr></thead><tbody>{visibleAssignments.map((a) => <tr key={a.id}><td><strong>{a.id.slice(0, 8)}</strong><small>{a.operational_subject_ref?.label ?? "Field assignment"}</small></td><td>{a.project_id?.slice(0, 8) ?? "—"}</td><td><span className={`status-chip ${String(a.lifecycle_state).toLowerCase()}`}>{a.lifecycle_state}</span></td><td>{a.updated_at ? new Date(a.updated_at).toLocaleDateString() : "—"}</td><td><a href="#administration">Open →</a></td></tr>)}</tbody></table></div> : <div className="empty-state"><strong>No assignments match your filters</strong><span>Try clearing the search or selecting another status.</span></div>}<div className="timeline"><h3>Submission timeline</h3>{latestActivity.length ? latestActivity.slice(0, 3).map((s) => <div className="timeline-item" key={s.attempt_id}><span className="timeline-dot" /><span><strong>{s.status}</strong><small>{s.attempt_id.slice(0, 8)} · {s.received_at ? new Date(s.received_at).toLocaleString() : "time unavailable"}</small></span></div>) : <p className="muted">No submission events yet.</p>}</div></section>
           <section className="grid" id="administration">
             <section className="card">
-              <h2>Organisation administration</h2>
+              <p className="eyebrow">People & access</p><h2>Organisation administration</h2>
+              <p className="muted">Manage who can work in this organisation and what they are allowed to do.</p>
+              <div className="admin-form-grid"><label>Member name<input aria-label="New member name" placeholder="Liana" value={memberName} onChange={(e) => setMemberName(e.target.value)} /></label><label>Email address<input aria-label="New member email" type="email" placeholder="name@example.com" value={memberEmail} onChange={(e) => setMemberEmail(e.target.value)} /></label></div><button onClick={inviteMember}>Invite member</button>
               <p>
                 <strong>{projects.length}</strong> projects ·{" "}
                 <strong>{memberships.length}</strong> memberships ·{" "}
                 <strong>{devices.length}</strong> devices
               </p>
               <h3>Projects</h3>
+              <div className="admin-form-grid"><label>Project code<input aria-label="New project code" placeholder="KEBUNITI-2026" value={projectCode} onChange={(e) => setProjectCode(e.target.value)} /></label><label>Project name<input aria-label="New project name" placeholder="Kebuniti field programme" value={projectName} onChange={(e) => setProjectName(e.target.value)} /></label></div><button onClick={createProject}>Create project</button>
               {projects.length ? (
                 <ul>
                   {projects.map((p) => (
@@ -341,7 +372,7 @@ export default function SupervisorDashboardV2() {
                 <ul>
                   {memberships.map((m) => (
                     <li key={m.id}>
-                      {m.display_name ?? m.email} · {m.lifecycle_state}{" "}
+                      <strong>{m.display_name ?? m.email}</strong> · {m.email} · {m.lifecycle_state}{" "}
                       <button
                         onClick={() =>
                           lifecycle(
@@ -411,7 +442,7 @@ export default function SupervisorDashboardV2() {
                 <ul>
                   {devices.map((d) => (
                     <li key={d.id}>
-                      {d.platform} · {d.app_version ?? "unknown"} ·{" "}
+                      <strong>{memberships.find((m) => m.id === d.membership_id)?.display_name ?? "Assigned field user"}</strong> · {d.platform} · {d.app_version ?? "unknown"} ·{" "}
                       {d.lifecycle_state}{" "}
                       <button
                         onClick={() =>
@@ -435,6 +466,11 @@ export default function SupervisorDashboardV2() {
               )}
               <h2>Deployments</h2>
               {deployments.length ? <ul>{deployments.slice(0, 20).map((d) => <li key={d.id}>{d.name} · {d.lifecycle_state} <button onClick={() => lifecycle(`/organizations/${org}/deployments/${d.id}`, { lifecycle_state: d.lifecycle_state === "ACTIVE" ? "PAUSED" : "ACTIVE" })}>{d.lifecycle_state === "ACTIVE" ? "Pause" : "Activate"}</button></li>)}</ul> : <p className="muted">No deployments found.</p>}
+              <h2>Issue field work</h2>
+              <p className="muted">Select names from the organisation. Technical identifiers stay inside the workspace.</p>
+              <label>Project<select aria-label="Assignment project" value={assignmentProject} onChange={(e) => setAssignmentProject(e.target.value)}><option value="">Choose project</option>{projects.filter((p) => p.lifecycle_state !== "CLOSED").map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
+              <label>Field worker<select aria-label="Assignment field worker" value={assignmentMember} onChange={(e) => setAssignmentMember(e.target.value)}><option value="">Choose field worker</option>{memberships.filter((m) => m.lifecycle_state === "ACTIVE").map((m) => <option key={m.id} value={m.id}>{m.display_name ?? m.email}</option>)}</select></label>
+              <button onClick={issueAssignment}>Issue assignment</button>
               <h2>Assignments</h2>
               {assignments.length ? (
                 <ul>
