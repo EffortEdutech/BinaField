@@ -261,11 +261,7 @@ export default function FieldApp() {
                 onOpen={() =>
                   setOpen(open === a.assignment_id ? null : a.assignment_id)
                 }
-                onDone={async () => {
-                  setOpen(null);
-                  await refresh();
-                  void flush();
-                }}
+                onSubmitted={() => undefined}
               />
             ))}
             {!open && visibleAssignments.length > 3 && <button type="button" className="show-more" onClick={() => setShowAllAssignments((value) => !value)}>{showAllAssignments ? "Show fewer jobsheets" : `Show all ${visibleAssignments.length} jobsheets`}</button>}
@@ -303,7 +299,6 @@ export default function FieldApp() {
           <nav className="mobile-nav" aria-label="Field workspace navigation">
             <button className={workspaceTab === "work" ? "active" : ""} type="button" onClick={() => { history.replaceState(null, "", "#assignments-heading"); setWorkspaceTab("work"); }}><span aria-hidden="true">▣</span><small>My work</small></button>
             <button className={workspaceTab === "sync" ? "active" : ""} type="button" onClick={() => { history.replaceState(null, "", "#sync-status"); setWorkspaceTab("sync"); }}><span aria-hidden="true">↻</span><small>Sync</small></button>
-            <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><span aria-hidden="true">↑</span><small>Top</small></button>
           </nav>
           </div>
           {selectedAssignment && <FocusedWorkflow set={set} assignment={selectedAssignment} onBack={() => setOpen(null)} onDone={async () => { setOpen(null); await refresh(); void flush(); }} />}
@@ -318,13 +313,13 @@ function Assignment({
   assignment,
   open,
   onOpen,
-  onDone,
+  onSubmitted,
 }: {
   set: Settings;
   assignment: Row;
   open: boolean;
   onOpen: () => void;
-  onDone: () => void;
+  onSubmitted: () => void;
 }) {
   const subject = JSON.parse(assignment.subject_json);
   const status =
@@ -357,29 +352,43 @@ function Assignment({
           </button>
         </div>
       ) : null}
-      {open && <Form set={set} assignment={assignment} onDone={onDone} />}
+      {open && <Form set={set} assignment={assignment} onSubmitted={onSubmitted} />}
     </article>
   );
 }
 
 function FocusedWorkflow({ set, assignment, onBack, onDone }: { set: Settings; assignment: Row; onBack: () => void; onDone: () => void }) {
+  // Focused workflow keeps each field action on a dedicated screen.
   const [started, setStarted] = useState(false);
+  const [synced, setSynced] = useState(false);
   return <section className="workflow-screen" aria-label="Assignment workflow">
     <div className="workflow-top"><button type="button" className="back-link" onClick={onBack}>← My work</button><span className="workflow-label">Assignment workflow</span></div>
-    <div className="workflow-steps" aria-label="Assignment progress"><span className={!started ? "active" : "complete"}>1 Brief</span><span className={started ? "active" : ""}>2 Jobsheet</span><span>3 Review</span><span>4 Synced</span></div>
+    <div className="workflow-steps" aria-label="Assignment progress"><span className={!started ? "active" : "complete"}>1 Brief</span><span className={started && !synced ? "active" : started ? "complete" : ""}>2 Jobsheet</span><span className={synced ? "complete" : started ? "active" : ""}>3 Review</span><span className={synced ? "active" : ""}>4 Synced</span></div>
     {!started && <div className="briefing-copy"><p className="eyebrow">Assignment briefing</p><h2>Know the job before you start</h2><p className="muted">Check the assignment, then complete the jobsheet step by step. Your work saves automatically, even without a connection.</p><ul className="briefing-list"><li><strong>Capture the required details</strong><span>Complete each step in order.</span></li><li><strong>Add evidence where requested</strong><span>Photos and signatures stay with this job.</span></li><li><strong>Review before sending</strong><span>You can submit online or offline.</span></li></ul></div>}
-    <Assignment set={set} assignment={assignment} open={started} onOpen={() => setStarted(true)} onDone={onDone} />
+    {synced ? <SyncConfirmation onDone={onDone} /> : <Assignment set={set} assignment={assignment} open={started} onOpen={() => setStarted(true)} onSubmitted={() => setSynced(true)} />}
+  </section>;
+}
+
+function SyncConfirmation({ onDone }: { onDone: () => void }) {
+  const online = navigator.onLine;
+  return <section className="submission-confirmation sync-confirmation" data-testid="sync-confirmation" role="status">
+    <span className="confirmation-icon">✓</span>
+    <p className="eyebrow">Sync confirmation</p>
+    <h2>{online ? "Jobsheet saved and sent" : "Jobsheet saved safely"}</h2>
+    <p>{online ? "Your submission is now waiting for review." : "It is queued on this device and will sync automatically when you reconnect."}</p>
+    <div className="sync-confirmation-state"><strong>{online ? "Sent for review" : "Waiting to sync"}</strong><span>{online ? "The server has received your field work." : "Your answers and evidence remain safe offline."}</span></div>
+    <button type="button" className="secondary" onClick={onDone}>Back to my work</button>
   </section>;
 }
 
 function Form({
   set,
   assignment,
-  onDone,
+  onSubmitted,
 }: {
   set: Settings;
   assignment: Row;
-  onDone: () => void;
+  onSubmitted: () => void;
 }) {
   const [bp, setBp] = useState<Blueprint | null>(null);
   const [sid, setSid] = useState("");
@@ -419,7 +428,10 @@ function Form({
     try {
       const r = await submit(set, sid);
       if (r.missing.length) setErr(`Please complete: ${r.missing.join(", ")}`);
-      else setSubmitted(true);
+      else {
+        setSubmitted(true);
+        onSubmitted();
+      }
     } catch (e: any) {
       setErr(`Could not save submission: ${e.message}`);
     } finally {
@@ -447,7 +459,7 @@ function Form({
   const detailFields = bp.fields.filter((field) => field.type !== "photo" && field.type !== "signature");
   const evidenceFields = bp.fields.filter((field) => field.type === "photo" || field.type === "signature");
   const currentFields = phase === "details" ? detailFields : evidenceFields;
-  if (submitted) return <section className="submission-confirmation" data-testid="submission-confirmation" role="status"><span className="confirmation-icon">✓</span><h3>Jobsheet submitted</h3><p>Your work is safely saved. {navigator.onLine ? "It is being sent for review now." : "It will send automatically when you are back online."}</p><button type="button" className="secondary" onClick={onDone}>Back to my jobsheets</button></section>;
+  if (submitted) return null;
   return (
     <div data-testid="form">
       <div className="form-heading"><div><p className="eyebrow">Active jobsheet</p><h3>{bp.title}</h3></div><strong>{progress}%</strong></div>
