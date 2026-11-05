@@ -128,6 +128,11 @@ export default function SupervisorDashboardV2() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (token && org && organisations.length === 1 && !context && !loading) {
+      void refresh();
+    }
+  }, [token, org, organisations.length, context, loading]);
   const lifecycle = async (path: string, body: unknown) => {
     try {
       await read(
