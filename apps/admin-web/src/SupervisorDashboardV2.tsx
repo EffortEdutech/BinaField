@@ -61,7 +61,7 @@ export default function SupervisorDashboardV2() {
     [assignmentMember, setAssignmentMember] = useState(""),
     [templateName, setTemplateName] = useState(""),
     [templateKey, setTemplateKey] = useState("");
-  const h = () => ({ authorization: `Bearer ${token}` });
+  const h = (accessToken = token) => ({ authorization: `Bearer ${accessToken}` });
   const navigate = (page: string) => {
     window.location.hash = page;
     setActivePage(page);
@@ -75,7 +75,9 @@ export default function SupervisorDashboardV2() {
     const data = await read(await fetch(`${API}/organizations`, { headers: { authorization: `Bearer ${accessToken}` } }));
     const items = data.items ?? [];
     setOrganisations(items);
-    setOrg((current) => current && items.some((item: any) => item.id === current) ? current : items[0]?.id ?? "");
+    const nextOrg = items.find((item: any) => item.id === org)?.id ?? items[0]?.id ?? "";
+    setOrg((current) => current && items.some((item: any) => item.id === current) ? current : nextOrg);
+    if (items.length === 1 && nextOrg) void refresh(nextOrg, accessToken);
     return items;
   };
   const signIn = async () => { try { const session = await login(email, password); setToken(session.accessToken); setPassword(""); const items = await loadOrganisations(session.accessToken); setMessage(items.length ? "Signed in. Choose an organisation to continue." : "Signed in, but no active organisation membership was found."); } catch (e) { setMessage(`Sign-in failed: ${String(e)}`); } };
@@ -90,27 +92,27 @@ export default function SupervisorDashboardV2() {
     if (!r.ok) throw new Error(`${b.code ?? r.status}: ${b.detail ?? ""}`);
     return b;
   };
-  const refresh = async () => {
-    if (!org) { setMessage("Choose an organisation first."); return; }
+  const refresh = async (organisationId = org, accessToken = token) => {
+    if (!organisationId) { setMessage("Choose an organisation first."); return; }
     setLoading(true);
     setMessage("Loading organisation data…");
     try {
       const me = await read(
-        await fetch(`${API}/organizations/${org}/me`, { headers: h() }),
+        await fetch(`${API}/organizations/${organisationId}/me`, { headers: h(accessToken) }),
       );
       setContext(me);
       const [a, s, e, p, m, r, d, dp, t] = await Promise.all([
-        fetch(`${API}/organizations/${org}/assignments`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/submissions`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/audit-events?limit=100`, {
-          headers: h(),
+        fetch(`${API}/organizations/${organisationId}/assignments`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/submissions`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/audit-events?limit=100`, {
+          headers: h(accessToken),
         }),
-        fetch(`${API}/organizations/${org}/projects`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/memberships`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/roles`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/devices`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/deployments`, { headers: h() }),
-        fetch(`${API}/organizations/${org}/templates`, { headers: h() }),
+        fetch(`${API}/organizations/${organisationId}/projects`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/memberships`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/roles`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/devices`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/deployments`, { headers: h(accessToken) }),
+        fetch(`${API}/organizations/${organisationId}/templates`, { headers: h(accessToken) }),
       ]);
       setAssignments((await read(a)).items ?? []);
       setSubmissions((await read(s)).items ?? []);
@@ -128,11 +130,6 @@ export default function SupervisorDashboardV2() {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (token && org && organisations.length === 1 && !context && !loading) {
-      void refresh();
-    }
-  }, [token, org, organisations.length, context, loading]);
   const lifecycle = async (path: string, body: unknown) => {
     try {
       await read(
@@ -330,7 +327,7 @@ export default function SupervisorDashboardV2() {
       <section className="card">
         <h2>Organisation context</h2>
         {token && <p className="muted">Signed in as <strong>{email}</strong> · administrator session</p>}
-        {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><label>Organisation<select aria-label="Organisation" value={org} onChange={(e) => setOrg(e.target.value)}><option value="">Choose an organisation</option>{organisations.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button onClick={refresh} disabled={loading || !org}>{loading ? "Loading…" : "Open Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
+        {!token ? <><label>Email<input aria-label="Email" type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></label><label>Password<input aria-label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></label><button onClick={signIn} disabled={!email || !password}>Sign in</button></> : <><label>Organisation<select aria-label="Organisation" value={org} onChange={(e) => setOrg(e.target.value)}><option value="">Choose an organisation</option>{organisations.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><button onClick={() => refresh()} disabled={loading || !org}>{loading ? "Loading…" : "Open Admin Studio"}</button><button className="secondary" onClick={signOut}>Sign out</button></>}
         {message && (
           <p
             className={
