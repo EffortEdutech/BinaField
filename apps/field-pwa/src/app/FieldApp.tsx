@@ -365,6 +365,7 @@ function Form({
   const [photos, setPhotos] = useState<Row[]>([]);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const file = useRef<HTMLInputElement>(null);
   const photoField = useRef("");
   useEffect(() => {
@@ -395,7 +396,7 @@ function Form({
     try {
       const r = await submit(set, sid);
       if (r.missing.length) setErr(`Please complete: ${r.missing.join(", ")}`);
-      else onDone();
+      else setSubmitted(true);
     } catch (e: any) {
       setErr(`Could not save submission: ${e.message}`);
     } finally {
@@ -414,12 +415,19 @@ function Form({
     payload,
     photos.map((p) => p.field_id),
   );
+  const requiredFields = bp.fields.filter((field) => field.required);
+  const completedRequired = requiredFields.filter((field) => {
+    if (field.type === "photo") return photos.some((photo) => photo.field_id === field.id);
+    return String(payload[field.id] ?? "").trim().length > 0;
+  }).length;
+  const progress = requiredFields.length ? Math.round((completedRequired / requiredFields.length) * 100) : 100;
+  if (submitted) return <section className="submission-confirmation" data-testid="submission-confirmation" role="status"><span className="confirmation-icon">✓</span><h3>Jobsheet submitted</h3><p>Your work is safely saved. {navigator.onLine ? "It is being sent for review now." : "It will send automatically when you are back online."}</p><button type="button" className="secondary" onClick={onDone}>Back to my jobsheets</button></section>;
   return (
     <div data-testid="form">
-      <h3>{bp.title}</h3>
+      <div className="form-heading"><div><p className="eyebrow">Active jobsheet</p><h3>{bp.title}</h3></div><strong>{progress}%</strong></div>
+      <div className="form-progress" aria-label={`${progress}% complete`}><span style={{ width: `${progress}%` }} /></div>
       <p className="muted">
-        Your answers save automatically. You can submit when all required fields
-        are complete.
+        Your answers save automatically. Complete the required fields, add evidence where requested, then submit for review.
       </p>
       <input
         ref={file}

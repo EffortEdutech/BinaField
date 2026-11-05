@@ -39,6 +39,16 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .field { margin: 18px 0; }
 .field label { display: block; font-weight: 700; margin-bottom: 7px; }
+.form-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.form-heading h3 { margin: 0; }
+.form-heading > strong { color: #0f5132; font-size: 1.2rem; }
+.form-progress { height: 8px; background: #e4eee8; border-radius: 999px; overflow: hidden; margin: 10px 0 16px; }
+.form-progress span { display: block; height: 100%; background: #2f8063; border-radius: inherit; transition: width .2s ease; }
+.submission-confirmation { text-align: center; padding: 24px 8px 10px; }
+.confirmation-icon { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 50%; background: #dff4e8; color: #17633d; font-size: 1.5rem; font-weight: 800; }
+.submission-confirmation h3 { margin: 0 0 6px; }
+.submission-confirmation p { color: #5b6c63; }
+@media (prefers-reduced-motion: reduce) { .form-progress span { transition: none; } }
 .field input, .field select, .field textarea, .settings input { width: 100%; border: 1px solid #9db1a5; border-radius: 9px; padding: 10px; background: white; }
 .field textarea { min-height: 90px; resize: vertical; }
 .field-error { color: #8a1c1c; font-size: .9rem; margin: 6px 0 0; }
