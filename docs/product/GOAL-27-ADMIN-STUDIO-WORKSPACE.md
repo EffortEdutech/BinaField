@@ -99,5 +99,6 @@ The administrator is an authenticated organisation member with permission to man
 
 ## Current known blockers
 
-- The current deployed Admin Studio still contains the legacy technical workspace path in source and needs the identity-first workflow to become authoritative.
-- The named Liana pilot cannot proceed until her active membership and device are manageable through the administrator workflow.
+- The identity-first Admin Studio shell is deployed, including administrator identity, session restoration, authenticated organisation discovery, and named people/project/template/assignment controls.
+- The remaining gate is live browser acceptance after selecting **BinaField Demo**: verify the full administrator workspace and then run the Admin → PWA → review → final report path.
+- The named Liana pilot remains paused until that live acceptance gate is green.
