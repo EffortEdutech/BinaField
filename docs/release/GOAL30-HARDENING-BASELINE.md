@@ -1,7 +1,7 @@
 # Goal 30 hardening baseline
 
 Date: 2026-11-17  
-Status: **IN PROGRESS**
+Status: **BLOCKED — production database configuration is unavailable**
 
 This record starts the final product-hardening and release audit. It deliberately separates repository evidence, deployment evidence, and checks that require authenticated or network-enabled execution.
 
@@ -21,6 +21,7 @@ This record starts the final product-hardening and release audit. It deliberatel
 | API typecheck | PASS | `apps/api` `npm run typecheck` |
 | API tests | PASS | 7 files, 53 tests |
 | Field PWA build | PASS | `apps/field-pwa` `npm run build` |
+| Production API health | BLOCKED | `GET https://binafield-api.vercel.app/api/health` returns `503`, `database:false`, reason `XX000` |
 
 ## Evidence still required
 
@@ -28,6 +29,10 @@ This record starts the final product-hardening and release audit. It deliberatel
 - One reconciled Admin → PWA → sync → review → final-report run with linked IDs.
 - Current pilot execution log and release manifest updated from the 2026-10-29 freeze records.
 - Final risk review and release classification: `READY`, `CONDITIONAL`, or `NOT READY`.
+
+## Current release blocker
+
+The API deployment is READY, but its configured Supabase URL is `https://plpaixewllldutjrjljg.supabase.co`, whose hostname currently does not resolve. The connected Supabase account does not list that project. The available `gumlaaqfxxkdlwuusfhv` project is a WorkLedger database without BinaField schemas and must not be used for this tenant. Restore the BinaField Supabase project or provide the correct BinaField `SUPABASE_URL`, `DATABASE_URL`, and server-only storage configuration, then redeploy and rerun the authenticated workflow.
 
 ## Environment note
 
