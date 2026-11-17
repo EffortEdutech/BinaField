@@ -15,12 +15,16 @@ This record starts the final product-hardening and release audit. It deliberatel
 | Admin Studio build and type check | PASS | `apps/admin-web` `npm run build` |
 | Kebuniti contract checks | PASS | `apps/field-pwa` `npm run check:kebuniti` |
 | Field PWA production commit | PUSHED | `f5a34506119691dbc904734727a64de8a6997245` |
-| Field PWA deployment | READY | Vercel deployment `dpl_2JE55XhQmc4z4k3An2JezGYeQAkY`, commit `f5a3450` |
+| Field PWA deployment | READY | Vercel deployment `dpl_3GrtHvYgYyccdxFmrm3Px8txvZf2`, production alias `bina-field.vercel.app`, commit `1f6cb26` |
+| Admin Studio deployment | READY | Vercel deployment `dpl_ANsKY3fo6WuFZSooFWb8umqxNpM3`, production alias `binafield-admin-studio.vercel.app`, commit `1f6cb26` |
+| API deployment | READY | Vercel deployment `dpl_EacYWUYcHj7Frqyo9vruDiXTfJed`, production alias `binafield-api.vercel.app`, commit `1f6cb26` |
+| API typecheck | PASS | `apps/api` `npm run typecheck` |
+| API tests | PASS | 7 files, 53 tests |
+| Field PWA build | PASS | `apps/field-pwa` `npm run build` |
 
 ## Evidence still required
 
 - Authenticated API, Admin Studio, and Field PWA health/readiness probes from a network-enabled runner.
-- Current Admin Studio and API production deployment IDs and READY states.
 - One reconciled Admin → PWA → sync → review → final-report run with linked IDs.
 - Current pilot execution log and release manifest updated from the 2026-10-29 freeze records.
 - Final risk review and release classification: `READY`, `CONDITIONAL`, or `NOT READY`.
