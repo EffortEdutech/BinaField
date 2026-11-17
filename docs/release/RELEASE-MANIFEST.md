@@ -1,5 +1,15 @@
 # BinaField release manifest
 
+## Goal 30 hardening release record — 17 November 2026
+
+- Current commit: `9e0895d`
+- Decision at this audit point: **CONDITIONAL — hardening evidence still open**
+- Production deployments verified READY: Admin Studio `dpl_ANsKY3fo6WuFZSooFWb8umqxNpM3`; Field PWA `dpl_3GrtHvYgYyccdxFmrm3Px8txvZf2`; API `dpl_EacYWUYcHj7Frqyo9vruDiXTfJed`.
+- Repository gates verified: Admin source audit, Goals 17–20, Goal 24, Admin build, API typecheck, API tests (53/53), and Field PWA build.
+- Open evidence: authenticated production readiness probes, one linked current end-to-end reconciliation, and final risk/limitations sign-off.
+
+The original pilot freeze below is retained as historical evidence. This section is the current Goal 30 record.
+
 ## Identity
 
 - Release: `0.8.0-pilot.1`

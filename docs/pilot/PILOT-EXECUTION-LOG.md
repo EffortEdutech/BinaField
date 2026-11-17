@@ -70,3 +70,15 @@ The pilot owner reported that the real participant pilot completed with all acce
 ## Development-mode deferral
 
 Until the platform is declared ready for real pilot use, use `gate-evidence/SIMULATED-PILOT-20261030.md` for development validation. Do not mark the participant rows or release decision complete from simulated runs.
+
+## Goal 30 hardening reconciliation — 17 November 2026
+
+This section is the current release-audit record; the historical pilot records above are retained.
+
+- Current repository commit: `9e0895d`
+- Admin Studio deployment: READY, `dpl_ANsKY3fo6WuFZSooFWb8umqxNpM3`
+- Field PWA deployment: READY, `dpl_3GrtHvYgYyccdxFmrm3Px8txvZf2`
+- API deployment: READY, `dpl_EacYWUYcHj7Frqyo9vruDiXTfJed`
+- Automated repository evidence: Admin source audit PASS; Goals 17–20 PASS; Goal 24 PASS; API typecheck PASS; API tests 53/53 PASS; Admin build PASS; Field PWA build PASS.
+- Current decision: **CONDITIONAL**. Authenticated production probes and one linked current Admin → PWA → sync → review → final-report reconciliation remain open.
+- Real-device Android/iPhone compatibility remains deferred and is not claimed as verified.

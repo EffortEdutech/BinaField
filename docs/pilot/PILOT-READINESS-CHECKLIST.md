@@ -1,6 +1,15 @@
 # Pilot readiness checklist
 
-Date prepared: 2026-10-29
+Date prepared: 2026-10-29; Goal 30 audit update: 2026-11-17
+
+## Goal 30 audit update
+
+The original checklist remains the historical pilot entry record. Current repository and deployment evidence is indexed in `docs/release/GOAL30-HARDENING-BASELINE.md`.
+
+- Current source commit: `9e0895d`
+- Current Admin Studio, Field PWA, and API production deployments: READY
+- Current repository checks: Admin source audit, Goals 17–20, Goal 24, API typecheck/tests, Admin build, and Field PWA build all pass
+- Release state: **CONDITIONAL** pending authenticated production probes and a linked current reconciliation record
 
 ## Seeded data inventory
 
@@ -35,3 +44,5 @@ Date prepared: 2026-10-29
 - [ ] No unresolved P0/P1 incident remains.
 - [ ] Known limitations are acknowledged by pilot participants.
 - [ ] Evidence bundle is archived with deployment commit, timestamps, IDs, and screenshots/logs where applicable.
+
+The unchecked items above are not silently treated as complete by the Goal 30 audit. They require direct evidence or an explicit pilot-owner record before a READY classification.
