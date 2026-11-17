@@ -80,5 +80,5 @@ This section is the current release-audit record; the historical pilot records a
 - Field PWA deployment: READY, `dpl_3GrtHvYgYyccdxFmrm3Px8txvZf2`
 - API deployment: READY, `dpl_EacYWUYcHj7Frqyo9vruDiXTfJed`
 - Automated repository evidence: Admin source audit PASS; Goals 17–20 PASS; Goal 24 PASS; API typecheck PASS; API tests 53/53 PASS; Admin build PASS; Field PWA build PASS.
-- Current decision: **CONDITIONAL**. Authenticated production probes and one linked current Admin → PWA → sync → review → final-report reconciliation remain open.
+- Current decision: **CONDITIONAL**. Connected production API health is green and all three deployments are READY; authenticated production probes and one linked current Admin → PWA → sync → review → final-report reconciliation remain open.
 - Real-device Android/iPhone compatibility remains deferred and is not claimed as verified.

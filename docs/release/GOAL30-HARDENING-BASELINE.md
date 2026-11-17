@@ -1,7 +1,7 @@
 # Goal 30 hardening baseline
 
 Date: 2026-11-17  
-Status: **BLOCKED — production database configuration is unavailable**
+Status: **IN PROGRESS — production database restored; authenticated acceptance pending**
 
 This record starts the final product-hardening and release audit. It deliberately separates repository evidence, deployment evidence, and checks that require authenticated or network-enabled execution.
 
@@ -21,7 +21,10 @@ This record starts the final product-hardening and release audit. It deliberatel
 | API typecheck | PASS | `apps/api` `npm run typecheck` |
 | API tests | PASS | 7 files, 53 tests |
 | Field PWA build | PASS | `apps/field-pwa` `npm run build` |
-| Production API health | BLOCKED | `GET https://binafield-api.vercel.app/api/health` returns `503`, `database:false`, reason `XX000` |
+| Production API health | PASS | Connected production probe returned HTTP 200, `{\"status\":\"ok\",\"database\":true}` |
+| Current API deployment | READY | `dpl_2BGeVr7q1ag3rquEfAzViqPqsxtU`, commit `352b1d9` |
+| Current Admin Studio deployment | READY | `dpl_6uHq8kWcAGXzMw5NznHcfkm9CAaC`, commit `352b1d9` |
+| Current Field PWA deployment | READY | `dpl_2fXbDNJoGjtvL1MLotwVuqVzkT6y`, commit `352b1d9` |
 
 ## Evidence still required
 
@@ -30,9 +33,9 @@ This record starts the final product-hardening and release audit. It deliberatel
 - Current pilot execution log and release manifest updated from the 2026-10-29 freeze records.
 - Final risk review and release classification: `READY`, `CONDITIONAL`, or `NOT READY`.
 
-## Current release blocker
+## Previous blocker resolution
 
-The API deployment is READY, but its configured Supabase URL is `https://plpaixewllldutjrjljg.supabase.co`, whose hostname currently does not resolve. The connected Supabase account does not list that project. The available `gumlaaqfxxkdlwuusfhv` project is a WorkLedger database without BinaField schemas and must not be used for this tenant. Restore the BinaField Supabase project or provide the correct BinaField `SUPABASE_URL`, `DATABASE_URL`, and server-only storage configuration, then redeploy and rerun the authenticated workflow.
+The production API database outage recorded in commit `352b1d9` is resolved. The connected production probe now returns HTTP 200 with `database:true`. The remaining gate is authenticated workflow evidence: one linked Admin → PWA → sync → review → final-report run and the associated reconciliation/export checks.
 
 ## Environment note
 
