@@ -25,6 +25,14 @@ This record starts the final product-hardening and release audit. It deliberatel
 | Current API deployment | READY | `dpl_2BGeVr7q1ag3rquEfAzViqPqsxtU`, commit `352b1d9` |
 | Current Admin Studio deployment | READY | `dpl_6uHq8kWcAGXzMw5NznHcfkm9CAaC`, commit `352b1d9` |
 | Current Field PWA deployment | READY | `dpl_2fXbDNJoGjtvL1MLotwVuqVzkT6y`, commit `352b1d9` |
+| Goals 17–20 checks | PASS | 12/12 checks |
+| Goal 24 checks | PASS | 10/10 checks |
+| Goal 27 source audit | PASS | 15/15 checks; no legacy technical UI |
+| Admin Studio build | PASS | TypeScript and Vite production build |
+| Field PWA contract checks | PASS | 10/10 checks |
+| Field PWA build | PASS | TypeScript and Vite/PWA production build |
+| API tests | PASS | 7 files, 53 tests |
+| API typecheck | PASS | `npm run typecheck` |
 
 ## Evidence still required
 
