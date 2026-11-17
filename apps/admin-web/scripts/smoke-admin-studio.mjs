@@ -1,10 +1,26 @@
 const api = process.env.BINAFIELD_API ?? 'https://binafield-api.vercel.app/api';
-const token = process.env.BINAField_TOKEN;
+const supabaseUrl = process.env.BINAField_SUPABASE_URL ?? 'https://plpaixewllldutjrjljg.supabase.co';
+const anonKey = process.env.BINAField_ANON_KEY ?? 'sb_publishable_nwgPId71eV6WnxgZ91NtiA_N6VjGuKQ';
+let token = process.env.BINAField_TOKEN;
 const org = process.env.BINAFIELD_ORG ?? 'a0000000-0000-4000-8000-000000000001';
 const project = process.env.BINAFIELD_PROJECT ?? 'a0000000-0000-4000-8000-000000000010';
 const deployment = process.env.BINAFIELD_DEPLOYMENT ?? 'a0000000-0000-4000-8000-000000000016';
 const assignee = process.env.BINAFIELD_ASSIGNEE ?? 'a0000000-0000-4000-8000-000000000003';
-if (!token) throw new Error('Set BINAField_TOKEN in the local shell; the token is never printed.');
+async function resolveToken() {
+  if (token) return token;
+  const email = process.env.BINAField_EMAIL;
+  const password = process.env.BF_PASSWORD;
+  if (!email || !password) throw new Error('Set BINAField_EMAIL and BF_PASSWORD in the local shell; secrets are never printed.');
+  const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
+    method: 'POST',
+    headers: { apikey: anonKey, 'content-type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok || !body.access_token) throw new Error(`Email/password login failed: ${response.status} ${body.error ?? body.msg ?? ''}`.trim());
+  token = body.access_token;
+  return token;
+}
 const headers = () => ({ authorization: `Bearer ${token}` });
 async function call(path, init = {}) {
   const response = await fetch(`${api}${path}`, { ...init, headers: { ...headers(), ...(init.headers ?? {}) } });
@@ -16,6 +32,7 @@ const json = (body, key) => ({ 'content-type': 'application/json', 'idempotency-
 const blueprint = { schema: 'bf-blueprint/1.0', title: 'Admin Studio smoke inspection', fields: [{ id: 'status', type: 'select', label: 'Site status', options: ['OK', 'FAIL'], required: true }, { id: 'notes', type: 'text', label: 'Notes', required: false }] };
 const result = { pass: false, checks: [] };
 try {
+  await resolveToken();
   const me = await call(`/organizations/${org}/me`); result.checks.push({ name: 'organisation context', pass: me.organization_id === org });
   const [projects, memberships, roles, auditEvents] = await Promise.all([
     call(`/organizations/${org}/projects`),
