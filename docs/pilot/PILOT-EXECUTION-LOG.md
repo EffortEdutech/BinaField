@@ -82,3 +82,10 @@ This section is the current release-audit record; the historical pilot records a
 - Automated repository evidence: Admin source audit PASS; Goals 17–20 PASS; Goal 24 PASS; API typecheck PASS; API tests 53/53 PASS; Admin build PASS; Field PWA build PASS.
 - Current decision: **CONDITIONAL**. Connected production API health is green and all three deployments are READY; authenticated production probes and one linked current Admin → PWA → sync → review → final-report reconciliation remain open.
 - Real-device Android/iPhone compatibility remains deferred and is not claimed as verified.
+
+## Final Goal 30 acceptance — 20 November 2026
+
+- Admin authenticated smoke: **PASS** — organisation context, administration reads, exports, template/version lifecycle, assignment issuance, review queue, and supervisor outcome persistence.
+- Field PWA authenticated smoke: **PASS** — email/password login, organisation selection, role context, guided device state `ACTIVE`, and session refresh.
+- Kebuniti final verification: **PASS** — submission `653232a7-2492-482c-9e27-52863a80fee5`, status `ACCEPTED`, report ready, 2 evidence previews, calculations and provenance present.
+- Final Goal 30 classification: **CONDITIONAL** — release evidence is green; real-device Android/iPhone compatibility remains deferred.

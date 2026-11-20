@@ -1,7 +1,7 @@
 # Goal 30 hardening baseline
 
 Date: 2026-11-17  
-Status: **IN PROGRESS — production database restored; authenticated acceptance pending**
+Status: **COMPLETE — conditional release classification**
 
 This record starts the final product-hardening and release audit. It deliberately separates repository evidence, deployment evidence, and checks that require authenticated or network-enabled execution.
 
@@ -33,6 +33,9 @@ This record starts the final product-hardening and release audit. It deliberatel
 | Field PWA build | PASS | TypeScript and Vite/PWA production build |
 | API tests | PASS | 7 files, 53 tests |
 | API typecheck | PASS | `npm run typecheck` |
+| Admin authenticated smoke | PASS | Organisation, administration, exports, template/version, assignment, review, and outcome persistence |
+| Field PWA authenticated smoke | PASS | Email/password, organisation, role, device, and session refresh |
+| Kebuniti live verification | PASS | `ACCEPTED`; report ready; 2 evidence previews; calculations and provenance present |
 
 ## Evidence still required
 
@@ -43,7 +46,7 @@ This record starts the final product-hardening and release audit. It deliberatel
 
 ## Previous blocker resolution
 
-The production API database outage recorded in commit `352b1d9` is resolved. The connected production probe now returns HTTP 200 with `database:true`. The remaining gate is authenticated workflow evidence: one linked Admin → PWA → sync → review → final-report run and the associated reconciliation/export checks.
+The production API database outage recorded in commit `352b1d9` is resolved. The connected production probe returns HTTP 200 with `database:true`. Authenticated Admin and Field PWA smoke checks and the linked Kebuniti acceptance verification are green. The release remains CONDITIONAL only because the real-device Android/iPhone compatibility matrix is deferred.
 
 ## Environment note
 

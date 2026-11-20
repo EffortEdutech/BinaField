@@ -3,10 +3,11 @@
 ## Goal 30 hardening release record — 17 November 2026
 
 - Current commit: `9e0895d`
-- Decision at this audit point: **CONDITIONAL — production database restored; authenticated acceptance remains open**
+- Decision at this audit point: **CONDITIONAL — authenticated acceptance green; real-device compatibility remains deferred**
 - Production deployments verified READY: Admin Studio `dpl_ANsKY3fo6WuFZSooFWb8umqxNpM3`; Field PWA `dpl_3GrtHvYgYyccdxFmrm3Px8txvZf2`; API `dpl_EacYWUYcHj7Frqyo9vruDiXTfJed`.
 - Repository gates verified: Admin source audit, Goals 17–20, Goal 24, Admin build, API typecheck, API tests (53/53), and Field PWA build.
-- Open evidence: authenticated production readiness, one linked current end-to-end reconciliation, and final risk/limitations sign-off.
+- Acceptance evidence completed 20 November 2026: Admin smoke PASS; Field PWA Goal 22 smoke PASS; Kebuniti verification PASS with `ACCEPTED` report, 2 evidence previews, calculations, and provenance.
+- Remaining limitation: real-device Android/iPhone matrix is deferred and is not claimed as verified.
 
 The original pilot freeze below is retained as historical evidence. This section is the current Goal 30 record.
 
