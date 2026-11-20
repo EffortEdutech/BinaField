@@ -1,7 +1,9 @@
 const api = process.env.BINAFIELD_API ?? 'https://binafield-api.vercel.app/api';
 const supabaseUrl = process.env.BINAField_SUPABASE_URL ?? 'https://plpaixewllldutjrjljg.supabase.co';
 const anonKey = process.env.BINAField_ANON_KEY ?? 'sb_publishable_nwgPId71eV6WnxgZ91NtiA_N6VjGuKQ';
-let token = process.env.BINAField_TOKEN;
+// Prefer a fresh normal login whenever email/password are available. This prevents
+// an old manually supplied token in a long-lived shell from masking the login path.
+let token = process.env.BINAField_EMAIL && process.env.BF_PASSWORD ? undefined : process.env.BINAField_TOKEN;
 const org = process.env.BINAFIELD_ORG ?? 'a0000000-0000-4000-8000-000000000001';
 const project = process.env.BINAFIELD_PROJECT ?? 'a0000000-0000-4000-8000-000000000010';
 const deployment = process.env.BINAFIELD_DEPLOYMENT ?? 'a0000000-0000-4000-8000-000000000016';
